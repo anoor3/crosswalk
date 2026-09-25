@@ -1,0 +1,42 @@
+{
+  "$comment": "HIDDEN GROUND TRUTH — CHECKER §10. Correct mapping for the hard mock API. MUST NOT be served, imported by the app, or placed in any inference prompt. Scoring only.",
+  "api": "hard",
+  "api_title": "LegacyCore Case Endpoint (hard)",
+  "resource_endpoint": "/cases/{ref}",
+  "seed_version": "0.1.0",
+  "date_formats": {
+    "case.incident.occurred_at": "%Y/%m/%d",
+    "case.coverage.effFrom": "%Y/%m/%d",
+    "case.coverage.effTo": "%Y/%m/%d"
+  },
+  "status_enum_map": {
+    "1": "OPEN",
+    "2": "PENDING",
+    "3": "CLOSED",
+    "4": "REOPENED"
+  },
+  "party_role_map": {
+    "1": "claimant",
+    "2": "insured"
+  },
+  "field_mappings": [
+    { "external_path": "$.case.ref", "canonical_path": "claim.claim_id", "transform": "identity" },
+    { "external_path": "$.case.incident.occurred_at", "canonical_path": "claim.incident_date", "transform": "parse_date:%Y/%m/%d" },
+    { "external_path": "$.case.state", "canonical_path": "claim.status", "transform": "enum:status_enum_map" },
+    { "external_path": "$.case.involved[?(@.roleType==1)].given", "canonical_path": "claim.claimant.first_name", "transform": "identity" },
+    { "external_path": "$.case.involved[?(@.roleType==1)].family", "canonical_path": "claim.claimant.last_name", "transform": "identity" },
+    { "external_path": "$.case.involved[?(@.roleType==1)].id", "canonical_path": "claim.claimant.person_id", "transform": "identity" },
+    { "external_path": "$.case.involved[?(@.roleType==2)].given", "canonical_path": "claim.insured.first_name", "transform": "identity" },
+    { "external_path": "$.case.involved[?(@.roleType==2)].family", "canonical_path": "claim.insured.last_name", "transform": "identity" },
+    { "external_path": "$.case.involved[?(@.roleType==2)].id", "canonical_path": "claim.insured.person_id", "transform": "identity" },
+    { "external_path": "$.case.coverage.num", "canonical_path": "claim.policy.policy_number", "transform": "identity" },
+    { "external_path": "$.case.coverage.effFrom", "canonical_path": "claim.policy.effective_date", "transform": "parse_date:%Y/%m/%d" },
+    { "external_path": "$.case.coverage.effTo", "canonical_path": "claim.policy.expiration_date", "transform": "parse_date:%Y/%m/%d" },
+    { "external_path": "$.case.ledger.rsv", "canonical_path": "claim.financials.reserve", "transform": "decimal" },
+    { "external_path": "$.case.ledger.pd", "canonical_path": "claim.financials.payments", "transform": "decimal" },
+    { "external_path": "$.case.ledger.inc", "canonical_path": "claim.financials.total_incurred", "transform": "decimal" }
+  ],
+  "unmapped_external_fields": [
+    "$.case.involved[*].roleType"
+  ]
+}

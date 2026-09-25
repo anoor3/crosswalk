@@ -1,0 +1,102 @@
+[
+  {
+    "lossNo": "C-100",
+    "occDt": "09/04/26",
+    "stateCd": "OPN",
+    "partyInfo": [
+      {
+        "roleCd": "CLMT",
+        "firstNm": "John",
+        "lastNm": "Smith",
+        "partyRef": "P-882"
+      },
+      {
+        "roleCd": "INSD",
+        "firstNm": "Acme",
+        "lastNm": "Logistics",
+        "partyRef": "P-501"
+      }
+    ],
+    "polNum": "POL-99122",
+    "polEffDt": "01/01/26",
+    "polExpDt": "12/31/26",
+    "rsrvAmt": 10000.0,
+    "pdAmt": 4200.0,
+    "incurredAmt": 14200.0
+  },
+  {
+    "lossNo": "C-101",
+    "occDt": "07/15/26",
+    "stateCd": "PND",
+    "partyInfo": [
+      {
+        "roleCd": "CLMT",
+        "firstNm": "Maria",
+        "lastNm": "Garcia",
+        "partyRef": "P-883"
+      },
+      {
+        "roleCd": "INSD",
+        "firstNm": "Beacon",
+        "lastNm": "Retail",
+        "partyRef": "P-502"
+      }
+    ],
+    "polNum": "POL-99123",
+    "polEffDt": "03/01/26",
+    "polExpDt": "02/28/27",
+    "rsrvAmt": 5000.0,
+    "pdAmt": 0.0,
+    "incurredAmt": 5000.0
+  },
+  {
+    "lossNo": "C-102",
+    "occDt": "02/28/26",
+    "stateCd": "CLS",
+    "partyInfo": [
+      {
+        "roleCd": "CLMT",
+        "firstNm": "Wei",
+        "lastNm": "Chen",
+        "partyRef": "P-884"
+      },
+      {
+        "roleCd": "INSD",
+        "firstNm": "Cedar",
+        "lastNm": "Manufacturing",
+        "partyRef": "P-503"
+      }
+    ],
+    "polNum": "POL-99124",
+    "polEffDt": "06/01/25",
+    "polExpDt": "05/31/26",
+    "rsrvAmt": 0.0,
+    "pdAmt": 22750.5,
+    "incurredAmt": 22750.5
+  },
+  {
+    "lossNo": "C-103",
+    "occDt": "05/09/26",
+    "stateCd": "RPN",
+    "partyInfo": [
+      {
+        "roleCd": "CLMT",
+        "firstNm": "Amara",
+        "lastNm": "Okafor",
+        "partyRef": "P-885"
+      },
+      {
+        "roleCd": "INSD",
+        "firstNm": "Delta",
+        "lastNm": "Freight",
+        "partyRef": "P-504"
+      }
+    ],
+    "polNum": "POL-99125",
+    "polEffDt": "04/01/26",
+    "polExpDt": "03/31/27",
+    "rsrvAmt": 8000.0,
+    "pdAmt": 1500.0,
+    "incurredAmt": 9500.0
+  }
+]

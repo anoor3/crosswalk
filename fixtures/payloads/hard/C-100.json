@@ -1,0 +1,33 @@
+{
+  "case": {
+    "ref": "C-100",
+    "incident": {
+      "occurred_at": "2026/09/04"
+    },
+    "state": 1,
+    "involved": [
+      {
+        "id": "P-882",
+        "given": "John",
+        "family": "Smith",
+        "roleType": 1
+      },
+      {
+        "id": "P-501",
+        "given": "Acme",
+        "family": "Logistics",
+        "roleType": 2
+      }
+    ],
+    "coverage": {
+      "num": "POL-99122",
+      "effFrom": "2026/01/01",
+      "effTo": "2026/12/31"
+    },
+    "ledger": {
+      "rsv": "10000.00",
+      "pd": "4200.00",
+      "inc": "14200.00"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "lossNo": "C-100",
+  "occDt": "09/04/26",
+  "stateCd": "OPN",
+  "partyInfo": [
+    {
+      "roleCd": "CLMT",
+      "firstNm": "John",
+      "lastNm": "Smith",
+      "partyRef": "P-882"
+    },
+    {
+      "roleCd": "INSD",
+      "firstNm": "Acme",
+      "lastNm": "Logistics",
+      "partyRef": "P-501"
+    }
+  ],
+  "polNum": "POL-99122",
+  "polEffDt": "01/01/26",
+  "polExpDt": "12/31/26",
+  "rsrvAmt": 10000.0,
+  "pdAmt": 4200.0,
+  "incurredAmt": 14200.0
+}

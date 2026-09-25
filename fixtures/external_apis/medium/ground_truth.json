@@ -1,0 +1,42 @@
+{
+  "$comment": "HIDDEN GROUND TRUTH — CHECKER §10. Correct mapping for the medium mock API. MUST NOT be served, imported by the app, or placed in any inference prompt. Scoring only.",
+  "api": "medium",
+  "api_title": "Northstar Loss Service (medium)",
+  "resource_endpoint": "/losses/{loss_no}",
+  "seed_version": "0.1.0",
+  "date_formats": {
+    "occDt": "%m/%d/%y",
+    "polEffDt": "%m/%d/%y",
+    "polExpDt": "%m/%d/%y"
+  },
+  "status_enum_map": {
+    "OPN": "OPEN",
+    "PND": "PENDING",
+    "CLS": "CLOSED",
+    "RPN": "REOPENED"
+  },
+  "party_role_map": {
+    "CLMT": "claimant",
+    "INSD": "insured"
+  },
+  "field_mappings": [
+    { "external_path": "$.lossNo", "canonical_path": "claim.claim_id", "transform": "identity" },
+    { "external_path": "$.occDt", "canonical_path": "claim.incident_date", "transform": "parse_date:%m/%d/%y" },
+    { "external_path": "$.stateCd", "canonical_path": "claim.status", "transform": "enum:status_enum_map" },
+    { "external_path": "$.partyInfo[?(@.roleCd=='CLMT')].firstNm", "canonical_path": "claim.claimant.first_name", "transform": "identity" },
+    { "external_path": "$.partyInfo[?(@.roleCd=='CLMT')].lastNm", "canonical_path": "claim.claimant.last_name", "transform": "identity" },
+    { "external_path": "$.partyInfo[?(@.roleCd=='CLMT')].partyRef", "canonical_path": "claim.claimant.person_id", "transform": "identity" },
+    { "external_path": "$.partyInfo[?(@.roleCd=='INSD')].firstNm", "canonical_path": "claim.insured.first_name", "transform": "identity" },
+    { "external_path": "$.partyInfo[?(@.roleCd=='INSD')].lastNm", "canonical_path": "claim.insured.last_name", "transform": "identity" },
+    { "external_path": "$.partyInfo[?(@.roleCd=='INSD')].partyRef", "canonical_path": "claim.insured.person_id", "transform": "identity" },
+    { "external_path": "$.polNum", "canonical_path": "claim.policy.policy_number", "transform": "identity" },
+    { "external_path": "$.polEffDt", "canonical_path": "claim.policy.effective_date", "transform": "parse_date:%m/%d/%y" },
+    { "external_path": "$.polExpDt", "canonical_path": "claim.policy.expiration_date", "transform": "parse_date:%m/%d/%y" },
+    { "external_path": "$.rsrvAmt", "canonical_path": "claim.financials.reserve", "transform": "decimal" },
+    { "external_path": "$.pdAmt", "canonical_path": "claim.financials.payments", "transform": "decimal" },
+    { "external_path": "$.incurredAmt", "canonical_path": "claim.financials.total_incurred", "transform": "decimal" }
+  ],
+  "unmapped_external_fields": [
+    "$.partyInfo[*].roleCd"
+  ]
+}

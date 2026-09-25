@@ -1,0 +1,25 @@
+{
+  "lossNo": "C-103",
+  "occDt": "05/09/26",
+  "stateCd": "RPN",
+  "partyInfo": [
+    {
+      "roleCd": "CLMT",
+      "firstNm": "Amara",
+      "lastNm": "Okafor",
+      "partyRef": "P-885"
+    },
+    {
+      "roleCd": "INSD",
+      "firstNm": "Delta",
+      "lastNm": "Freight",
+      "partyRef": "P-504"
+    }
+  ],
+  "polNum": "POL-99125",
+  "polEffDt": "04/01/26",
+  "polExpDt": "03/31/27",
+  "rsrvAmt": 8000.0,
+  "pdAmt": 1500.0,
+  "incurredAmt": 9500.0
+}

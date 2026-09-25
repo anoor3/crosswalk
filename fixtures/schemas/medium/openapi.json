@@ -1,0 +1,272 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Northstar Loss Service (medium)",
+    "description": "Mock external loss service with abbreviated, coded fields.",
+    "version": "2.3.0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object",
+                  "title": "Response Health Health Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/losses": {
+      "get": {
+        "tags": [
+          "losses"
+        ],
+        "summary": "List Losses",
+        "description": "Return every loss in the medium shape.",
+        "operationId": "list_losses_losses_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/MediumClaim"
+                  },
+                  "type": "array",
+                  "title": "Response List Losses Losses Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/losses/{loss_no}": {
+      "get": {
+        "tags": [
+          "losses"
+        ],
+        "summary": "Get Loss",
+        "description": "Return a single loss by its loss number, or 404 if unknown.",
+        "operationId": "get_loss_losses__loss_no__get",
+        "parameters": [
+          {
+            "name": "loss_no",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Loss No"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MediumClaim"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "MediumClaim": {
+        "properties": {
+          "lossNo": {
+            "type": "string",
+            "title": "Lossno",
+            "description": "Loss/claim number."
+          },
+          "occDt": {
+            "type": "string",
+            "title": "Occdt",
+            "description": "Occurrence date, US format MM/DD/YY."
+          },
+          "stateCd": {
+            "type": "string",
+            "title": "Statecd",
+            "description": "Status code (OPN/PND/CLS/RPN)."
+          },
+          "partyInfo": {
+            "items": {
+              "$ref": "#/components/schemas/MediumParty"
+            },
+            "type": "array",
+            "title": "Partyinfo",
+            "description": "Parties with role codes."
+          },
+          "polNum": {
+            "type": "string",
+            "title": "Polnum"
+          },
+          "polEffDt": {
+            "type": "string",
+            "title": "Poleffdt"
+          },
+          "polExpDt": {
+            "type": "string",
+            "title": "Polexpdt"
+          },
+          "rsrvAmt": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rsrvamt"
+          },
+          "pdAmt": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pdamt"
+          },
+          "incurredAmt": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Incurredamt"
+          }
+        },
+        "type": "object",
+        "required": [
+          "lossNo",
+          "occDt",
+          "stateCd",
+          "partyInfo",
+          "polNum",
+          "polEffDt",
+          "polExpDt"
+        ],
+        "title": "MediumClaim",
+        "description": "Medium external claim shape: abbreviations, coded status, US dates."
+      },
+      "MediumParty": {
+        "properties": {
+          "roleCd": {
+            "type": "string",
+            "title": "Rolecd",
+            "description": "Role code: CLMT (claimant) or INSD (insured)."
+          },
+          "firstNm": {
+            "type": "string",
+            "title": "Firstnm"
+          },
+          "lastNm": {
+            "type": "string",
+            "title": "Lastnm"
+          },
+          "partyRef": {
+            "type": "string",
+            "title": "Partyref"
+          }
+        },
+        "type": "object",
+        "required": [
+          "roleCd",
+          "firstNm",
+          "lastNm",
+          "partyRef"
+        ],
+        "title": "MediumParty",
+        "description": "A party entry \u2014 abbreviated names, tagged with a role code."
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

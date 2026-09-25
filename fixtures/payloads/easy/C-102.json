@@ -1,0 +1,21 @@
+{
+  "claimNumber": "C-102",
+  "dateOfLoss": "2026-02-28",
+  "status": "CLOSED",
+  "claimant": {
+    "firstName": "Wei",
+    "lastName": "Chen",
+    "partyId": "P-884"
+  },
+  "insured": {
+    "firstName": "Cedar",
+    "lastName": "Manufacturing",
+    "partyId": "P-503"
+  },
+  "policyNumber": "POL-99124",
+  "policyEffectiveDate": "2025-06-01",
+  "policyExpirationDate": "2026-05-31",
+  "reserveAmount": "0.00",
+  "paidAmount": "22750.50",
+  "totalIncurred": "22750.50"
+}

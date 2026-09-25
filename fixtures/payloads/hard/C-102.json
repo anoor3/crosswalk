@@ -1,0 +1,33 @@
+{
+  "case": {
+    "ref": "C-102",
+    "incident": {
+      "occurred_at": "2026/02/28"
+    },
+    "state": 3,
+    "involved": [
+      {
+        "id": "P-884",
+        "given": "Wei",
+        "family": "Chen",
+        "roleType": 1
+      },
+      {
+        "id": "P-503",
+        "given": "Cedar",
+        "family": "Manufacturing",
+        "roleType": 2
+      }
+    ],
+    "coverage": {
+      "num": "POL-99124",
+      "effFrom": "2025/06/01",
+      "effTo": "2026/05/31"
+    },
+    "ledger": {
+      "rsv": "0.00",
+      "pd": "22750.50",
+      "inc": "22750.50"
+    }
+  }
+}

@@ -1,0 +1,321 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "LegacyCore Case Endpoint (hard)",
+    "description": "Mock legacy case endpoint with deep nesting and numeric codes.",
+    "version": "0.9.7"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object",
+                  "title": "Response Health Health Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cases": {
+      "get": {
+        "tags": [
+          "cases"
+        ],
+        "summary": "List Cases",
+        "description": "Return every case in the hard shape.",
+        "operationId": "list_cases_cases_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/HardEnvelope"
+                  },
+                  "type": "array",
+                  "title": "Response List Cases Cases Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cases/{ref}": {
+      "get": {
+        "tags": [
+          "cases"
+        ],
+        "summary": "Get Case",
+        "description": "Return a single case by reference, or 404 if unknown.",
+        "operationId": "get_case_cases__ref__get",
+        "parameters": [
+          {
+            "name": "ref",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ref"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HardEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HardCase": {
+        "properties": {
+          "ref": {
+            "type": "string",
+            "title": "Ref",
+            "description": "Case/claim reference."
+          },
+          "incident": {
+            "$ref": "#/components/schemas/HardIncident"
+          },
+          "state": {
+            "type": "integer",
+            "title": "State",
+            "description": "Numeric status code (1/2/3/4)."
+          },
+          "involved": {
+            "items": {
+              "$ref": "#/components/schemas/HardParty"
+            },
+            "type": "array",
+            "title": "Involved"
+          },
+          "coverage": {
+            "$ref": "#/components/schemas/HardCoverage"
+          },
+          "ledger": {
+            "$ref": "#/components/schemas/HardLedger"
+          }
+        },
+        "type": "object",
+        "required": [
+          "ref",
+          "incident",
+          "state",
+          "involved",
+          "coverage",
+          "ledger"
+        ],
+        "title": "HardCase",
+        "description": "The nested case object \u2014 the real payload lives here."
+      },
+      "HardCoverage": {
+        "properties": {
+          "num": {
+            "type": "string",
+            "title": "Num"
+          },
+          "effFrom": {
+            "type": "string",
+            "title": "Efffrom"
+          },
+          "effTo": {
+            "type": "string",
+            "title": "Effto"
+          }
+        },
+        "type": "object",
+        "required": [
+          "num",
+          "effFrom",
+          "effTo"
+        ],
+        "title": "HardCoverage",
+        "description": "Nested policy/coverage block."
+      },
+      "HardEnvelope": {
+        "properties": {
+          "case": {
+            "$ref": "#/components/schemas/HardCase"
+          }
+        },
+        "type": "object",
+        "required": [
+          "case"
+        ],
+        "title": "HardEnvelope",
+        "description": "Top-level envelope; everything of interest is under ``case``."
+      },
+      "HardIncident": {
+        "properties": {
+          "occurred_at": {
+            "type": "string",
+            "title": "Occurred At",
+            "description": "Incident date, slashed YYYY/MM/DD."
+          }
+        },
+        "type": "object",
+        "required": [
+          "occurred_at"
+        ],
+        "title": "HardIncident",
+        "description": "Nested incident block holding the slashed-format date."
+      },
+      "HardLedger": {
+        "properties": {
+          "rsv": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rsv"
+          },
+          "pd": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pd"
+          },
+          "inc": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Inc"
+          }
+        },
+        "type": "object",
+        "title": "HardLedger",
+        "description": "Terse money block; values as strings to avoid float precision loss."
+      },
+      "HardParty": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "given": {
+            "type": "string",
+            "title": "Given"
+          },
+          "family": {
+            "type": "string",
+            "title": "Family"
+          },
+          "roleType": {
+            "type": "integer",
+            "title": "Roletype",
+            "description": "1 = claimant, 2 = insured."
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "given",
+          "family",
+          "roleType"
+        ],
+        "title": "HardParty",
+        "description": "A nested involved-party with a numeric role type."
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

@@ -1,0 +1,265 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Acme Claims API (easy)",
+    "description": "Mock external claims API with an easy-to-map shape.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object",
+                  "title": "Response Health Health Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/claims": {
+      "get": {
+        "tags": [
+          "claims"
+        ],
+        "summary": "List Claims",
+        "description": "Return every claim in the easy shape.",
+        "operationId": "list_claims_claims_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/EasyClaim"
+                  },
+                  "type": "array",
+                  "title": "Response List Claims Claims Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/claims/{claim_number}": {
+      "get": {
+        "tags": [
+          "claims"
+        ],
+        "summary": "Get Claim",
+        "description": "Return a single claim by its claim number, or 404 if unknown.",
+        "operationId": "get_claim_claims__claim_number__get",
+        "parameters": [
+          {
+            "name": "claim_number",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Claim Number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EasyClaim"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "EasyClaim": {
+        "properties": {
+          "claimNumber": {
+            "type": "string",
+            "title": "Claimnumber",
+            "description": "Claim identifier."
+          },
+          "dateOfLoss": {
+            "type": "string",
+            "title": "Dateofloss",
+            "description": "Incident date, ISO-8601 (YYYY-MM-DD)."
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Claim status: OPEN, PENDING, CLOSED, REOPENED."
+          },
+          "claimant": {
+            "$ref": "#/components/schemas/EasyParty"
+          },
+          "insured": {
+            "$ref": "#/components/schemas/EasyParty"
+          },
+          "policyNumber": {
+            "type": "string",
+            "title": "Policynumber"
+          },
+          "policyEffectiveDate": {
+            "type": "string",
+            "title": "Policyeffectivedate"
+          },
+          "policyExpirationDate": {
+            "type": "string",
+            "title": "Policyexpirationdate"
+          },
+          "reserveAmount": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reserveamount"
+          },
+          "paidAmount": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Paidamount"
+          },
+          "totalIncurred": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Totalincurred"
+          }
+        },
+        "type": "object",
+        "required": [
+          "claimNumber",
+          "dateOfLoss",
+          "status",
+          "claimant",
+          "insured",
+          "policyNumber",
+          "policyEffectiveDate",
+          "policyExpirationDate"
+        ],
+        "title": "EasyClaim",
+        "description": "Easy external claim shape: obvious names, ISO dates, string status."
+      },
+      "EasyParty": {
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "title": "Firstname"
+          },
+          "lastName": {
+            "type": "string",
+            "title": "Lastname"
+          },
+          "partyId": {
+            "type": "string",
+            "title": "Partyid"
+          }
+        },
+        "type": "object",
+        "required": [
+          "firstName",
+          "lastName",
+          "partyId"
+        ],
+        "title": "EasyParty",
+        "description": "A person in the easy shape \u2014 clear, spelled-out names."
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

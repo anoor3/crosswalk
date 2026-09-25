@@ -1,0 +1,21 @@
+{
+  "claimNumber": "C-103",
+  "dateOfLoss": "2026-05-09",
+  "status": "REOPENED",
+  "claimant": {
+    "firstName": "Amara",
+    "lastName": "Okafor",
+    "partyId": "P-885"
+  },
+  "insured": {
+    "firstName": "Delta",
+    "lastName": "Freight",
+    "partyId": "P-504"
+  },
+  "policyNumber": "POL-99125",
+  "policyEffectiveDate": "2026-04-01",
+  "policyExpirationDate": "2027-03-31",
+  "reserveAmount": "8000.00",
+  "paidAmount": "1500.00",
+  "totalIncurred": "9500.00"
+}

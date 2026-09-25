@@ -1,0 +1,86 @@
+[
+  {
+    "claimNumber": "C-100",
+    "dateOfLoss": "2026-09-04",
+    "status": "OPEN",
+    "claimant": {
+      "firstName": "John",
+      "lastName": "Smith",
+      "partyId": "P-882"
+    },
+    "insured": {
+      "firstName": "Acme",
+      "lastName": "Logistics",
+      "partyId": "P-501"
+    },
+    "policyNumber": "POL-99122",
+    "policyEffectiveDate": "2026-01-01",
+    "policyExpirationDate": "2026-12-31",
+    "reserveAmount": "10000.00",
+    "paidAmount": "4200.00",
+    "totalIncurred": "14200.00"
+  },
+  {
+    "claimNumber": "C-101",
+    "dateOfLoss": "2026-07-15",
+    "status": "PENDING",
+    "claimant": {
+      "firstName": "Maria",
+      "lastName": "Garcia",
+      "partyId": "P-883"
+    },
+    "insured": {
+      "firstName": "Beacon",
+      "lastName": "Retail",
+      "partyId": "P-502"
+    },
+    "policyNumber": "POL-99123",
+    "policyEffectiveDate": "2026-03-01",
+    "policyExpirationDate": "2027-02-28",
+    "reserveAmount": "5000.00",
+    "paidAmount": "0.00",
+    "totalIncurred": "5000.00"
+  },
+  {
+    "claimNumber": "C-102",
+    "dateOfLoss": "2026-02-28",
+    "status": "CLOSED",
+    "claimant": {
+      "firstName": "Wei",
+      "lastName": "Chen",
+      "partyId": "P-884"
+    },
+    "insured": {
+      "firstName": "Cedar",
+      "lastName": "Manufacturing",
+      "partyId": "P-503"
+    },
+    "policyNumber": "POL-99124",
+    "policyEffectiveDate": "2025-06-01",
+    "policyExpirationDate": "2026-05-31",
+    "reserveAmount": "0.00",
+    "paidAmount": "22750.50",
+    "totalIncurred": "22750.50"
+  },
+  {
+    "claimNumber": "C-103",
+    "dateOfLoss": "2026-05-09",
+    "status": "REOPENED",
+    "claimant": {
+      "firstName": "Amara",
+      "lastName": "Okafor",
+      "partyId": "P-885"
+    },
+    "insured": {
+      "firstName": "Delta",
+      "lastName": "Freight",
+      "partyId": "P-504"
+    },
+    "policyNumber": "POL-99125",
+    "policyEffectiveDate": "2026-04-01",
+    "policyExpirationDate": "2027-03-31",
+    "reserveAmount": "8000.00",
+    "paidAmount": "1500.00",
+    "totalIncurred": "9500.00"
+  }
+]

@@ -1,0 +1,33 @@
+{
+  "case": {
+    "ref": "C-101",
+    "incident": {
+      "occurred_at": "2026/07/15"
+    },
+    "state": 2,
+    "involved": [
+      {
+        "id": "P-883",
+        "given": "Maria",
+        "family": "Garcia",
+        "roleType": 1
+      },
+      {
+        "id": "P-502",
+        "given": "Beacon",
+        "family": "Retail",
+        "roleType": 2
+      }
+    ],
+    "coverage": {
+      "num": "POL-99123",
+      "effFrom": "2026/03/01",
+      "effTo": "2027/02/28"
+    },
+    "ledger": {
+      "rsv": "5000.00",
+      "pd": "0.00",
+      "inc": "5000.00"
+    }
+  }
+}

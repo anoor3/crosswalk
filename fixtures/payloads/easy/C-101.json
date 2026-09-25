@@ -1,0 +1,21 @@
+{
+  "claimNumber": "C-101",
+  "dateOfLoss": "2026-07-15",
+  "status": "PENDING",
+  "claimant": {
+    "firstName": "Maria",
+    "lastName": "Garcia",
+    "partyId": "P-883"
+  },
+  "insured": {
+    "firstName": "Beacon",
+    "lastName": "Retail",
+    "partyId": "P-502"
+  },
+  "policyNumber": "POL-99123",
+  "policyEffectiveDate": "2026-03-01",
+  "policyExpirationDate": "2027-02-28",
+  "reserveAmount": "5000.00",
+  "paidAmount": "0.00",
+  "totalIncurred": "5000.00"
+}

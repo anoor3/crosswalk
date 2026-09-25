@@ -1,0 +1,33 @@
+{
+  "case": {
+    "ref": "C-103",
+    "incident": {
+      "occurred_at": "2026/05/09"
+    },
+    "state": 4,
+    "involved": [
+      {
+        "id": "P-885",
+        "given": "Amara",
+        "family": "Okafor",
+        "roleType": 1
+      },
+      {
+        "id": "P-504",
+        "given": "Delta",
+        "family": "Freight",
+        "roleType": 2
+      }
+    ],
+    "coverage": {
+      "num": "POL-99125",
+      "effFrom": "2026/04/01",
+      "effTo": "2027/03/31"
+    },
+    "ledger": {
+      "rsv": "8000.00",
+      "pd": "1500.00",
+      "inc": "9500.00"
+    }
+  }
+}

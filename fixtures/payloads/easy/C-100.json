@@ -1,0 +1,21 @@
+{
+  "claimNumber": "C-100",
+  "dateOfLoss": "2026-09-04",
+  "status": "OPEN",
+  "claimant": {
+    "firstName": "John",
+    "lastName": "Smith",
+    "partyId": "P-882"
+  },
+  "insured": {
+    "firstName": "Acme",
+    "lastName": "Logistics",
+    "partyId": "P-501"
+  },
+  "policyNumber": "POL-99122",
+  "policyEffectiveDate": "2026-01-01",
+  "policyExpirationDate": "2026-12-31",
+  "reserveAmount": "10000.00",
+  "paidAmount": "4200.00",
+  "totalIncurred": "14200.00"
+}

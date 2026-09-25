@@ -1,0 +1,25 @@
+{
+  "lossNo": "C-102",
+  "occDt": "02/28/26",
+  "stateCd": "CLS",
+  "partyInfo": [
+    {
+      "roleCd": "CLMT",
+      "firstNm": "Wei",
+      "lastNm": "Chen",
+      "partyRef": "P-884"
+    },
+    {
+      "roleCd": "INSD",
+      "firstNm": "Cedar",
+      "lastNm": "Manufacturing",
+      "partyRef": "P-503"
+    }
+  ],
+  "polNum": "POL-99124",
+  "polEffDt": "06/01/25",
+  "polExpDt": "05/31/26",
+  "rsrvAmt": 0.0,
+  "pdAmt": 22750.5,
+  "incurredAmt": 22750.5
+}

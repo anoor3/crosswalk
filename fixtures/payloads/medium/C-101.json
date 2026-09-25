@@ -1,0 +1,25 @@
+{
+  "lossNo": "C-101",
+  "occDt": "07/15/26",
+  "stateCd": "PND",
+  "partyInfo": [
+    {
+      "roleCd": "CLMT",
+      "firstNm": "Maria",
+      "lastNm": "Garcia",
+      "partyRef": "P-883"
+    },
+    {
+      "roleCd": "INSD",
+      "firstNm": "Beacon",
+      "lastNm": "Retail",
+      "partyRef": "P-502"
+    }
+  ],
+  "polNum": "POL-99123",
+  "polEffDt": "03/01/26",
+  "polExpDt": "02/28/27",
+  "rsrvAmt": 5000.0,
+  "pdAmt": 0.0,
+  "incurredAmt": 5000.0
+}

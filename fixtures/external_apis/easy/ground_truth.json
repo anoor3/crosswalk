@@ -1,0 +1,36 @@
+{
+  "$comment": "HIDDEN GROUND TRUTH — CHECKER §10. This is the correct mapping for the easy mock API. It MUST NOT be imported by, referenced in, or served from the mock API app, and MUST NOT be fed to any inference/LLM prompt. It exists only for scoring mapping accuracy after inference.",
+  "api": "easy",
+  "api_title": "Acme Claims API (easy)",
+  "resource_endpoint": "/claims/{claim_number}",
+  "seed_version": "0.1.0",
+  "date_formats": {
+    "dateOfLoss": "%Y-%m-%d",
+    "policyEffectiveDate": "%Y-%m-%d",
+    "policyExpirationDate": "%Y-%m-%d"
+  },
+  "status_enum_map": {
+    "OPEN": "OPEN",
+    "PENDING": "PENDING",
+    "CLOSED": "CLOSED",
+    "REOPENED": "REOPENED"
+  },
+  "field_mappings": [
+    { "external_path": "$.claimNumber", "canonical_path": "claim.claim_id", "transform": "identity" },
+    { "external_path": "$.dateOfLoss", "canonical_path": "claim.incident_date", "transform": "parse_date:%Y-%m-%d" },
+    { "external_path": "$.status", "canonical_path": "claim.status", "transform": "enum:status_enum_map" },
+    { "external_path": "$.claimant.firstName", "canonical_path": "claim.claimant.first_name", "transform": "identity" },
+    { "external_path": "$.claimant.lastName", "canonical_path": "claim.claimant.last_name", "transform": "identity" },
+    { "external_path": "$.claimant.partyId", "canonical_path": "claim.claimant.person_id", "transform": "identity" },
+    { "external_path": "$.insured.firstName", "canonical_path": "claim.insured.first_name", "transform": "identity" },
+    { "external_path": "$.insured.lastName", "canonical_path": "claim.insured.last_name", "transform": "identity" },
+    { "external_path": "$.insured.partyId", "canonical_path": "claim.insured.person_id", "transform": "identity" },
+    { "external_path": "$.policyNumber", "canonical_path": "claim.policy.policy_number", "transform": "identity" },
+    { "external_path": "$.policyEffectiveDate", "canonical_path": "claim.policy.effective_date", "transform": "parse_date:%Y-%m-%d" },
+    { "external_path": "$.policyExpirationDate", "canonical_path": "claim.policy.expiration_date", "transform": "parse_date:%Y-%m-%d" },
+    { "external_path": "$.reserveAmount", "canonical_path": "claim.financials.reserve", "transform": "decimal" },
+    { "external_path": "$.paidAmount", "canonical_path": "claim.financials.payments", "transform": "decimal" },
+    { "external_path": "$.totalIncurred", "canonical_path": "claim.financials.total_incurred", "transform": "decimal" }
+  ],
+  "unmapped_external_fields": []
+}
