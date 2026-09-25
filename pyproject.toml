@@ -114,9 +114,13 @@ no_implicit_optional = true
 plugins = ["pydantic.mypy"]
 
 [[tool.mypy.overrides]]
-# Test modules can be a little looser to keep fixtures ergonomic.
-module = "tests.*"
+# Test modules deliberately exercise invalid inputs and misuse, so they can be
+# a little looser: untyped defs are fine, and `type: ignore` comments used to
+# suppress the intentional-error call sites should not themselves error if a
+# given mypy/pydantic-plugin version happens not to need them.
+module = ["tests.*", "test_models", "test_ground_truth", "test_mock_apis", "conftest"]
 disallow_untyped_defs = false
+warn_unused_ignores = false
 
 # ---------------------------------------------------------------------------
 # pytest
