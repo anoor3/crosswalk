@@ -119,7 +119,7 @@ crosswalk/
 ├── packages/
 │   ├── canonical/          # the clean internal model (Claim/Person/Policy/Financials)
 │   ├── discovery/          # OpenAPI → normalized ApiCatalog (deterministic)
-│   ├── profiler/           # value profiling            (planned)
+│   ├── profiler/           # per-field value profiling (deterministic)
 │   ├── mapping/            # baseline field mapping      (planned)
 │   ├── agents/             # investigation agent         (planned)
 │   ├── adapters/           # adapter generation          (planned)
@@ -152,6 +152,13 @@ Turns an unfamiliar OpenAPI 3.0/3.1 document into a normalized, deterministic `A
 - **`flatten.py`** — flattens any schema into an ordered list of `ExternalField`s, each with a stable `json_path` (`$.claimant.firstName`, `$.partyInfo[*].roleCd`). Handles nested objects, arrays, `required`, enums, `format`, both nullable dialects (OpenAPI 3.0 `nullable: true` **and** 3.1 `type: [..., "null"]` / `anyOf` including null), and multi-type unions. Constructs it cannot fully model (`allOf`, genuine `oneOf`/`anyOf` unions, `$ref` cycles, open `additionalProperties` maps) are recorded **explicitly** as `UnsupportedConstruct` entries — nothing is dropped silently.
 - **`analyzer.py`** — `analyze_openapi(spec) → ApiCatalog`: validates the document, extracts endpoints (method, path, operation id, parameters, request/response fields, collection detection), authentication schemes, and pagination hints.
 - **`pagination.py`** — deterministic hints (cursor / offset+limit / page-number) derived from query-parameter names, always recording which parameters triggered the hint.
+
+#### `crosswalk-profiler` — per-field value profiling
+
+Computes deterministic per-field statistics from real sample payloads, addressed by the same `json_path`s discovery produces. Purely statistical — **no LLM** — and reusable independently of any AI.
+
+- **`extract.py`** — resolves a `json_path` (including `[*]` array fan-out) against a payload and returns every matched value, distinguishing an *absent* path from an explicit `null`, and never crashing on missing fields or mixed types.
+- **`engine.py`** — turns those values into a `FieldProfile`: sample/null counts and rates, distinct-value uniqueness, per-type numeric and string statistics, a capped set of example values (so a profile never dumps a whole dataset), a coarse structural pattern (`CLM-100` → `AAA-000`), a detected date format, and a heuristic `semantic_type` (identifier / date / currency / enum-candidate / boolean / number / free-text). Each heuristic is simple and explainable, and travels with the raw statistics that justify it.
 
 #### `crosswalk-mock-apis` — three mock external APIs
 
@@ -239,12 +246,13 @@ uv run mypy packages apps tests conftest.py      # strict type checking
 uv run pytest                                    # full test suite
 ```
 
-The suite currently contains **118 tests** across unit, integration, and contract layers:
+The suite currently contains **168 tests** across unit, integration, and contract layers:
 
 - **Canonical model** — construction, validation (blank IDs, unknown fields, bad enum, negative money), `Decimal`/date handling, immutability, JSON round-trip.
 - **Mock APIs** — every endpoint exercised in-process via `httpx.ASGITransport` (no network → not flaky), including 404 paths and confirmation that the same claim is served in three genuinely different shapes.
 - **Ground-truth correctness** — a harness applies each hidden mapping to real payloads and proves it reconstructs a valid canonical `Claim` equal to the seed, for all three APIs.
 - **Discovery** — `$ref` resolution and cycle detection, schema flattening across every branch, and `analyze_openapi` over both the real fixtures and synthetic edge specs (enums, OpenAPI 3.0 `nullable`, `oneOf` unions, circular refs, auth schemes, pagination styles, invalid specs).
+- **Profiling** — value extraction with `[*]` array fan-out and safe missing-path handling, every statistic and semantic-type heuristic (identifier / date / currency / enum-candidate), and an end-to-end discovery→profiler pass over the real fixtures.
 
 Tests avoid real network dependencies and use deterministic fixtures throughout.
 
@@ -259,7 +267,7 @@ Crosswalk is built phase-by-phase against [`PLANNER.md`](PLANNER.md), with each 
 | 0 | Product definition | ✅ Done |
 | 1 | Canonical model + three mock APIs + hidden ground truth | ✅ Done |
 | 2 | OpenAPI discovery → `ApiCatalog` | ✅ Done |
-| 3 | Value profiling | ⏳ Planned |
+| 3 | Value profiling | ✅ Done |
 | 4 | Baseline field mapping | ⏳ Planned |
 | 5 | Human review workspace | ⏳ Planned |
 | 6–10 | Enum mapping, relationships, agent, adapter + test generation (MVP) | ⏳ Planned |
@@ -269,13 +277,13 @@ Crosswalk is built phase-by-phase against [`PLANNER.md`](PLANNER.md), with each 
 
 ## Roadmap
 
-The near-term path to a minimum viable product:
+The near-term path to a minimum viable product (value profiling, item 0, is now implemented):
 
-1. **Value profiling** — compute per-field type, null rate, uniqueness, patterns, and identifier/currency/date detection from real samples, independent of any AI.
-2. **Baseline mapping** — an inspectable, non-agentic mapper combining name, description, type, and value-profile signals, benchmarked against the hidden ground truth.
-3. **Human review** — resolve ambiguity without editing JSON; reviewed mappings become evaluation examples.
-4. **Enum mapping & relationships** — translate enum codes and infer cross-endpoint references.
-5. **Adapter + test generation** — turn approved mappings into typed, tested, credential-free adapters (MVP boundary).
+0. **Value profiling** — per-field type, null rate, uniqueness, patterns, and identifier/currency/date/enum detection from real samples, independent of any AI. ✅ *Done.*
+1. **Baseline mapping** — an inspectable, non-agentic mapper combining name, description, type, and value-profile signals, benchmarked against the hidden ground truth.
+2. **Human review** — resolve ambiguity without editing JSON; reviewed mappings become evaluation examples.
+3. **Enum mapping & relationships** — translate enum codes and infer cross-endpoint references.
+4. **Adapter + test generation** — turn approved mappings into typed, tested, credential-free adapters (MVP boundary).
 
 Beyond MVP: a synthetic API generator and evaluation harness (to make quality measurable and reproducible), schema-drift detection, regression-tested repair proposals, a production integration runtime, database hardening, background jobs, cloud deployment, and observability.
 
@@ -296,7 +304,7 @@ Planned as the system grows: tenant isolation enforced in the backend, SSRF prot
 
 ## Honest limitations (today)
 
-- This is an in-progress project. Only Phases 0–2 are implemented; profiling, mapping, the agent, adapter/test generation, drift, and deployment are **not built yet**.
+- This is an in-progress project. Only Phases 0–3 are implemented; mapping, the agent, adapter/test generation, drift, and deployment are **not built yet**.
 - Discovery supports **local** OpenAPI references only; external-file/URL references are intentionally rejected with a clear error rather than partially supported.
 - The mock APIs are hand-written stand-ins, not real customer systems; the large synthetic benchmark (Phase 11) does not exist yet.
 - **No accuracy, speed, or "Nx faster" claims are made** because there is nothing measured to back them yet. Those numbers will appear only once the evaluation harness (Phase 12) can reproduce them.
