@@ -3,13 +3,14 @@
 Computes deterministic per-field statistics from real sample payloads. No LLM
 (PLANNER §16, CHECKER §15). Reusable independently of any AI system.
 
-Public API (grows over Phase 3)::
+Public API::
 
-    from crosswalk_profiler import FieldProfile, SemanticType
+    from crosswalk_profiler import profile_field, profile_fields, FieldProfile
 """
 
 from __future__ import annotations
 
+from .engine import profile_field, profile_fields, profile_values
 from .extract import ExtractedValue, extract_values
 from .profile import (
     FieldProfile,
@@ -30,4 +31,7 @@ __all__ = [
     "StringStats",
     "__version__",
     "extract_values",
+    "profile_field",
+    "profile_fields",
+    "profile_values",
 ]
