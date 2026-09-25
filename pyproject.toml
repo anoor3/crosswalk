@@ -81,6 +81,22 @@ ignore = [
 quote-style = "double"
 indent-style = "space"
 
+[tool.ruff.lint.isort]
+# Crosswalk's own packages are first-party, so ruff groups their imports
+# separately from third-party libraries.
+known-first-party = [
+    "crosswalk_canonical",
+    "crosswalk_discovery",
+    "crosswalk_profiler",
+    "crosswalk_mapping",
+    "crosswalk_agents",
+    "crosswalk_adapters",
+    "crosswalk_runtime",
+    "crosswalk_drift",
+    "crosswalk_evals",
+    "crosswalk_synthetic",
+]
+
 # ---------------------------------------------------------------------------
 # mypy — static type checking (strict; we write typed code from day one)
 # ---------------------------------------------------------------------------
