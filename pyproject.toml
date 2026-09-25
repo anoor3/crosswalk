@@ -120,7 +120,18 @@ plugins = ["pydantic.mypy"]
 # a little looser: untyped defs are fine, and `type: ignore` comments used to
 # suppress the intentional-error call sites should not themselves error if a
 # given mypy/pydantic-plugin version happens not to need them.
-module = ["tests.*", "test_models", "test_ground_truth", "test_mock_apis", "conftest"]
+module = [
+    "tests.*",
+    "test_models",
+    "test_ground_truth",
+    "test_mock_apis",
+    "test_catalog",
+    "test_refs",
+    "test_flatten",
+    "test_analyzer_edge",
+    "test_discovery",
+    "conftest",
+]
 disallow_untyped_defs = false
 warn_unused_ignores = false
 

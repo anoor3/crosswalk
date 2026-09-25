@@ -4,12 +4,14 @@ from __future__ import annotations
 
 from typing import Any
 
-from crosswalk_discovery.catalog import FieldType
+from crosswalk_discovery.catalog import ExternalField, FieldType, UnsupportedConstruct
 from crosswalk_discovery.flatten import flatten_schema
 from crosswalk_discovery.refs import RefResolver
 
 
-def _flatten(schema: dict[str, Any], document: dict[str, Any] | None = None):
+def _flatten(
+    schema: dict[str, Any], document: dict[str, Any] | None = None
+) -> tuple[tuple[ExternalField, ...], tuple[UnsupportedConstruct, ...]]:
     resolver = RefResolver(document or {})
     return flatten_schema(schema, resolver)
 
