@@ -1,0 +1,89 @@
+# ---------------------------------------------------------------------------
+# Crosswalk .gitignore
+# Security rule (PLANNER §32, CHECKER §21): secrets are NEVER committed.
+# ---------------------------------------------------------------------------
+
+# --- Secrets & credentials (highest priority) ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+credentials.json
+secrets.json
+service-account*.json
+.aws/
+*.tfvars
+!*.example.tfvars
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib60/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# --- Virtual environments ---
+.venv/
+venv/
+env/
+ENV/
+.uv/
+
+# --- Test / coverage / type-check caches ---
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+.tox/
+.nox/
+
+# --- Node / frontend (apps/web) ---
+node_modules/
+.next/
+out/
+.turbo/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# --- IDE / editor / OS ---
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# --- Logs & local runtime artifacts ---
+*.log
+logs/
+*.pid
+*.sqlite3
+*.db
+
+# --- Docker / infra local state ---
+.terraform/
+*.tfstate
+*.tfstate.*

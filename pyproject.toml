@@ -1,0 +1,113 @@
+# ===========================================================================
+# Crosswalk — root project & uv workspace configuration
+#
+# This is the workspace root. Individual packages live under `packages/*`
+# and apps under `apps/*`, each with its own pyproject.toml, and are wired
+# together through the [tool.uv.workspace] member globs below.
+#
+# Tooling (ruff, mypy, pytest) is configured once here and inherited by the
+# whole workspace so every package is linted, type-checked, and tested to
+# the same standard (CHECKER §37 architecture / §12 testing gates).
+# ===========================================================================
+
+[project]
+name = "crosswalk"
+version = "0.1.0"
+description = "Map an unfamiliar external API into a company's canonical data model: discover, profile, map, review, generate, test, monitor, and repair."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "anoor3" }]
+
+# The root package aggregates the workspace members as dependencies so that
+# `uv sync` installs every internal package (editable) into the shared env.
+# Concrete third-party deps live in the member packages/apps themselves.
+dependencies = [
+    "crosswalk-canonical",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.6.0",
+    "mypy>=1.11.0",
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.24.0",
+    "httpx>=0.27.0",       # async test client for FastAPI apps
+]
+
+# --- uv workspace: members are added here as each package/app comes online.
+# We list explicit members (rather than a `packages/*` glob) so that empty,
+# not-yet-implemented package directories don't break `uv sync`. Every new
+# package adds its path here in the phase that creates it.
+[tool.uv.workspace]
+members = ["packages/canonical"]
+
+[tool.uv.sources]
+# Internal packages are resolved from the workspace, not PyPI.
+crosswalk-canonical = { workspace = true }
+
+# ---------------------------------------------------------------------------
+# Ruff — linter + formatter (fast, replaces flake8/isort/black)
+# ---------------------------------------------------------------------------
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+src = ["packages", "apps", "tests"]
+
+[tool.ruff.lint]
+# A pragmatic-but-strict rule set for production backend code.
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort (import ordering)
+    "B",    # flake8-bugbear (likely bugs)
+    "C4",   # flake8-comprehensions
+    "UP",   # pyupgrade (modern syntax)
+    "SIM",  # flake8-simplify
+    "RUF",  # ruff-specific rules
+    "S",    # flake8-bandit (security)
+]
+ignore = [
+    "S101",  # assert usage — allowed in tests
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Tests may use assert freely and don't need docstrings.
+"**/tests/**" = ["S101", "S105", "S106"]
+"tests/**" = ["S101", "S105", "S106"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+# ---------------------------------------------------------------------------
+# mypy — static type checking (strict; we write typed code from day one)
+# ---------------------------------------------------------------------------
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unused_configs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+no_implicit_optional = true
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+# Test modules can be a little looser to keep fixtures ergonomic.
+module = "tests.*"
+disallow_untyped_defs = false
+
+# ---------------------------------------------------------------------------
+# pytest
+# ---------------------------------------------------------------------------
+[tool.pytest.ini_options]
+minversion = "8.0"
+asyncio_mode = "auto"
+testpaths = ["tests", "packages", "apps"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-ra --strict-markers"
