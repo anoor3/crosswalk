@@ -10,6 +10,7 @@ Public API (grows over Phase 3)::
 
 from __future__ import annotations
 
+from .extract import ExtractedValue, extract_values
 from .profile import (
     FieldProfile,
     NumericStats,
@@ -21,10 +22,12 @@ from .profile import (
 __version__ = "0.1.0"
 
 __all__ = [
+    "ExtractedValue",
     "FieldProfile",
     "NumericStats",
     "ObservedType",
     "SemanticType",
     "StringStats",
     "__version__",
+    "extract_values",
 ]
