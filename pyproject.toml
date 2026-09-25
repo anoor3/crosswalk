@@ -24,6 +24,7 @@ authors = [{ name = "anoor3" }]
 # Concrete third-party deps live in the member packages/apps themselves.
 dependencies = [
     "crosswalk-canonical",
+    "crosswalk-discovery",
     "crosswalk-mock-apis",
 ]
 
@@ -41,11 +42,12 @@ dev = [
 # not-yet-implemented package directories don't break `uv sync`. Every new
 # package adds its path here in the phase that creates it.
 [tool.uv.workspace]
-members = ["packages/canonical", "apps/mock_apis"]
+members = ["packages/canonical", "packages/discovery", "apps/mock_apis"]
 
 [tool.uv.sources]
 # Internal packages are resolved from the workspace, not PyPI.
 crosswalk-canonical = { workspace = true }
+crosswalk-discovery = { workspace = true }
 crosswalk-mock-apis = { workspace = true }
 
 # ---------------------------------------------------------------------------
