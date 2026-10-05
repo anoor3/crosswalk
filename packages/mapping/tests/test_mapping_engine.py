@@ -177,7 +177,12 @@ def test_required_nonnullable_parent_does_not_add_absence_risk() -> None:
         data_type=FieldType.STRING,
         required=True,
     )
-    result = map_fields([parent, child], targets=[target("first_name")])[1]
+    destination = CanonicalField(
+        path="claim.claimant.first_name",
+        name="first_name",
+        data_type=FieldType.STRING,
+    )
+    result = map_fields([parent, child], targets=[destination])[1]
     assert result.status == MappingStatus.HIGH_CONFIDENCE
 
 
