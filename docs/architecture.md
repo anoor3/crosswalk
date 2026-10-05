@@ -1,7 +1,7 @@
 # Crosswalk — Architecture
 
 > Deeper technical companion to the [README](../README.md). This document
-> describes the parts that exist today (Phases 0–2) in detail, and sketches how
+> describes the parts that exist today (Phases 0–4) in detail, and sketches how
 > the planned layers attach to them. It is kept honest: anything not yet built
 > is labeled *planned*.
 
@@ -191,8 +191,9 @@ All fixtures are deterministic; regenerating them produces no diff.
 - **Profiler** consumes an `ApiCatalog` plus sample payloads and produces
   per-`json_path` value profiles (type, null rate, uniqueness, patterns).
 - **Mapping** combines name/description/type/value-profile signals into
-  `mapping_candidates` with evidence and a status; benchmarked against the
-  hidden ground truth via the **evals** harness.
+  immutable `MappingCandidate` results with evidence, alternatives, and a
+  conservative status. Its fixed development-fixture benchmark is isolated
+  from hidden annotations until after all predictions are materialized.
 - **Adapters** turn approved mappings into typed, credential-free code plus
   generated tests; the **runtime** executes adapters with auth/retries/
   pagination; **drift** fingerprints schemas and classifies changes; repair
