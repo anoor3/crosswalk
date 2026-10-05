@@ -194,6 +194,10 @@ All fixtures are deterministic; regenerating them produces no diff.
   immutable `MappingCandidate` results with evidence, alternatives, and a
   conservative status. Its fixed development-fixture benchmark is isolated
   from hidden annotations until after all predictions are materialized.
+- **Review** wraps candidates in immutable, versioned review records. The
+  in-memory workspace enforces confirm/correct/reject/leave-unresolved state
+  transitions, optimistic concurrency, target-vocabulary validation, and
+  concise evaluation-example export. HTTP, persistence, and UI attach later.
 - **Adapters** turn approved mappings into typed, credential-free code plus
   generated tests; the **runtime** executes adapters with auth/retries/
   pagination; **drift** fingerprints schemas and classifies changes; repair

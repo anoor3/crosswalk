@@ -130,6 +130,7 @@ crosswalk/
 │   ├── discovery/          # OpenAPI → normalized ApiCatalog (deterministic)
 │   ├── profiler/           # per-field value profiling (deterministic)
 │   ├── mapping/            # deterministic baseline field mapping
+│   ├── review/             # versioned human review workflow
 │   ├── agents/             # investigation agent         (planned)
 │   ├── adapters/           # adapter generation          (planned)
 │   ├── runtime/            # production integration runtime (planned)
@@ -180,6 +181,14 @@ Scores are heuristic support values, not calibrated probabilities, and the
 mapper never reads hidden ground truth or calls a model. The offline benchmark
 and metric definitions live in
 [`docs/evaluation-methodology.md`](docs/evaluation-methodology.md).
+
+#### `crosswalk-review` — versioned human review workflow
+
+Provides an in-memory domain boundary for opening mapping reviews and recording
+confirm, correct, reject, or leave-unresolved decisions. Review records are
+immutable snapshots with optimistic version checks, concise rationale, and an
+audit trail. Confirmed and corrected decisions can be exported as structured
+evaluation examples; persistence, HTTP, and UI are intentionally deferred.
 
 #### `crosswalk-mock-apis` — three mock external APIs
 
@@ -267,13 +276,15 @@ uv run mypy packages apps tests conftest.py      # strict type checking
 uv run pytest                                    # full test suite
 ```
 
-The suite currently contains **168 tests** across unit, integration, and contract layers:
+The suite currently contains **287 tests** across unit, integration, contract,
+evaluation, mapping, and review layers:
 
 - **Canonical model** — construction, validation (blank IDs, unknown fields, bad enum, negative money), `Decimal`/date handling, immutability, JSON round-trip.
 - **Mock APIs** — every endpoint exercised in-process via `httpx.ASGITransport` (no network → not flaky), including 404 paths and confirmation that the same claim is served in three genuinely different shapes.
 - **Ground-truth correctness** — a harness applies each hidden mapping to real payloads and proves it reconstructs a valid canonical `Claim` equal to the seed, for all three APIs.
 - **Discovery** — `$ref` resolution and cycle detection, schema flattening across every branch, and `analyze_openapi` over both the real fixtures and synthetic edge specs (enums, OpenAPI 3.0 `nullable`, `oneOf` unions, circular refs, auth schemes, pagination styles, invalid specs).
 - **Profiling** — value extraction with `[*]` array fan-out and safe missing-path handling, every statistic and semantic-type heuristic (identifier / date / currency / enum-candidate), and an end-to-end discovery→profiler pass over the real fixtures.
+- **Mapping and review** — evidence arithmetic, deterministic candidate ranking, conservative ambiguity routing, optimistic review concurrency, immutable action history, corrections, rejection, unresolved decisions, and evaluation-example export.
 
 Tests avoid real network dependencies and use deterministic fixtures throughout.
 
@@ -290,7 +301,7 @@ Crosswalk is built phase-by-phase against [`PLANNER.md`](PLANNER.md), with each 
 | 2 | OpenAPI discovery → `ApiCatalog` | ✅ Done |
 | 3 | Value profiling | ✅ Done |
 | 4 | Baseline field mapping | ✅ Done |
-| 5 | Human review workspace | ⏳ Planned |
+| 5 | Human review workspace | ✅ Done |
 | 6–10 | Enum mapping, relationships, agent, adapter + test generation (MVP) | ⏳ Planned |
 | 11–24 | Synthetic benchmark, evaluation, drift, repair, runtime, DB, jobs, security, cloud, observability, real users, docs | ⏳ Planned |
 
@@ -302,7 +313,7 @@ The near-term path to a minimum viable product (value profiling, item 0, is now 
 
 0. **Value profiling** — per-field type, null rate, uniqueness, patterns, and identifier/currency/date/enum detection from real samples, independent of any AI. ✅ *Done.*
 1. **Baseline mapping** — an inspectable, non-agentic mapper combining name, description, type, and value-profile signals, benchmarked against the hidden ground truth. ✅ *Done.*
-2. **Human review** — resolve ambiguity without editing JSON; reviewed mappings become evaluation examples.
+2. **Human review** — resolve ambiguity without editing JSON; versioned decisions become evaluation examples. ✅ *Domain workflow done; UI and persistence remain planned.*
 3. **Enum mapping & relationships** — translate enum codes and infer cross-endpoint references.
 4. **Adapter + test generation** — turn approved mappings into typed, tested, credential-free adapters (MVP boundary).
 
@@ -325,7 +336,7 @@ Planned as the system grows: tenant isolation enforced in the backend, SSRF prot
 
 ## Honest limitations (today)
 
-- This is an in-progress project. Only Phases 0–4 are implemented; human review, enum/relationship workflows, the agent, adapter/test generation, drift, and deployment are **not built yet**.
+- This is an in-progress project. Only Phases 0–5 are implemented; enum/relationship workflows, the agent, adapter/test generation, drift, and deployment are **not built yet**. Phase 5 currently provides the tested review domain boundary; durable persistence and a UI are still planned.
 - Discovery supports **local** OpenAPI references only; external-file/URL references are intentionally rejected with a clear error rather than partially supported.
 - The mock APIs are hand-written stand-ins, not real customer systems; the large synthetic benchmark (Phase 11) does not exist yet.
 - **No accuracy, speed, or "Nx faster" claims are made** because there is nothing measured to back them yet. Those numbers will appear only once the evaluation harness (Phase 12) can reproduce them.
