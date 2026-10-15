@@ -20,6 +20,7 @@ members = [
     "crosswalk-jobs",
     "crosswalk-mapping",
     "crosswalk-mock-apis",
+    "crosswalk-multimodal",
     "crosswalk-observability",
     "crosswalk-profiler",
     "crosswalk-relationships",
@@ -171,6 +172,7 @@ dependencies = [
     { name = "crosswalk-jobs" },
     { name = "crosswalk-mapping" },
     { name = "crosswalk-mock-apis" },
+    { name = "crosswalk-multimodal" },
     { name = "crosswalk-observability" },
     { name = "crosswalk-profiler" },
     { name = "crosswalk-relationships" },
@@ -206,6 +208,7 @@ requires-dist = [
     { name = "crosswalk-jobs", editable = "packages/jobs" },
     { name = "crosswalk-mapping", editable = "packages/mapping" },
     { name = "crosswalk-mock-apis", editable = "apps/mock_apis" },
+    { name = "crosswalk-multimodal", editable = "packages/multimodal" },
     { name = "crosswalk-observability", editable = "packages/observability" },
     { name = "crosswalk-profiler", editable = "packages/profiler" },
     { name = "crosswalk-relationships", editable = "packages/relationships" },
@@ -374,6 +377,17 @@ requires-dist = [
     { name = "fastapi", specifier = ">=0.115.0" },
     { name = "uvicorn", specifier = ">=0.30.0" },
 ]
+
+[[package]]
+name = "crosswalk-multimodal"
+version = "0.1.0"
+source = { editable = "packages/multimodal" }
+dependencies = [
+    { name = "pydantic" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "pydantic", specifier = ">=2.8.0" }]
 
 [[package]]
 name = "crosswalk-observability"
