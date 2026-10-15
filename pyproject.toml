@@ -29,6 +29,7 @@ dependencies = [
     "crosswalk-mapping",
     "crosswalk-review",
     "crosswalk-enum-mapping",
+    "crosswalk-relationships",
     "crosswalk-mock-apis",
 ]
 
@@ -46,7 +47,7 @@ dev = [
 # not-yet-implemented package directories don't break `uv sync`. Every new
 # package adds its path here in the phase that creates it.
 [tool.uv.workspace]
-members = ["packages/canonical", "packages/discovery", "packages/profiler", "packages/mapping", "packages/review", "packages/enum_mapping", "apps/mock_apis"]
+members = ["packages/canonical", "packages/discovery", "packages/profiler", "packages/mapping", "packages/review", "packages/enum_mapping", "packages/relationships", "apps/mock_apis"]
 
 [tool.uv.sources]
 # Internal packages are resolved from the workspace, not PyPI.
@@ -56,6 +57,7 @@ crosswalk-profiler = { workspace = true }
 crosswalk-mapping = { workspace = true }
 crosswalk-review = { workspace = true }
 crosswalk-enum-mapping = { workspace = true }
+crosswalk-relationships = { workspace = true }
 crosswalk-mock-apis = { workspace = true }
 
 # ---------------------------------------------------------------------------
