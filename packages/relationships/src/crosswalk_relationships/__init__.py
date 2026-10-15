@@ -1,5 +1,6 @@
 """Phase 7 relationship discovery primitives."""
 
+from .discovery import discover_relationship
 from .errors import (
     DuplicateRelationshipError,
     InvalidRelationshipInputError,
@@ -39,6 +40,7 @@ __all__ = [
     "RelationshipStatus",
     "UnsupportedRelationshipError",
     "__version__",
+    "discover_relationship",
     "overlap_stats",
     "rank_relationships",
     "score_relationship",
