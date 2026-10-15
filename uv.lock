@@ -24,6 +24,7 @@ members = [
     "crosswalk-repair",
     "crosswalk-review",
     "crosswalk-runtime",
+    "crosswalk-security",
     "crosswalk-storage",
     "crosswalk-synthetic",
     "crosswalk-testgen",
@@ -171,6 +172,7 @@ dependencies = [
     { name = "crosswalk-repair" },
     { name = "crosswalk-review" },
     { name = "crosswalk-runtime" },
+    { name = "crosswalk-security" },
     { name = "crosswalk-storage" },
     { name = "crosswalk-synthetic" },
     { name = "crosswalk-testgen" },
@@ -202,6 +204,7 @@ requires-dist = [
     { name = "crosswalk-repair", editable = "packages/repair" },
     { name = "crosswalk-review", editable = "packages/review" },
     { name = "crosswalk-runtime", editable = "packages/runtime" },
+    { name = "crosswalk-security", editable = "packages/security" },
     { name = "crosswalk-storage", editable = "packages/storage" },
     { name = "crosswalk-synthetic", editable = "packages/synthetic" },
     { name = "crosswalk-testgen", editable = "packages/testgen" },
@@ -418,6 +421,17 @@ requires-dist = [
 name = "crosswalk-runtime"
 version = "0.1.0"
 source = { editable = "packages/runtime" }
+dependencies = [
+    { name = "pydantic" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "pydantic", specifier = ">=2.8.0" }]
+
+[[package]]
+name = "crosswalk-security"
+version = "0.1.0"
+source = { editable = "packages/security" }
 dependencies = [
     { name = "pydantic" },
 ]
