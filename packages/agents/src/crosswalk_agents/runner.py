@@ -15,6 +15,7 @@ from .models import (
     ToolCallRecord,
     ToolCallStatus,
 )
+from .safety import redact_summary
 from .tools import ToolRegistry
 
 
@@ -67,8 +68,8 @@ class InvestigationAgent:
                         iteration=iteration,
                         tool_name=invocation.tool_name,
                         status=ToolCallStatus.SUCCEEDED,
-                        request_summary=invocation.summary,
-                        response_summary=output.summary,
+                        request_summary=redact_summary(invocation.summary),
+                        response_summary=redact_summary(output.summary, 2000),
                         latency_ms=(time.monotonic() - before) * 1000,
                         estimated_tokens=output.estimated_tokens,
                         estimated_cost_usd=output.estimated_cost_usd,
@@ -88,8 +89,8 @@ class InvestigationAgent:
                         iteration=iteration,
                         tool_name=invocation.tool_name,
                         status=ToolCallStatus.DENIED,
-                        request_summary=invocation.summary,
-                        response_summary=str(exc)[:1000],
+                        request_summary=redact_summary(invocation.summary),
+                        response_summary=redact_summary(str(exc)),
                         latency_ms=0,
                     )
                 )
@@ -101,7 +102,7 @@ class InvestigationAgent:
                         iteration=iteration,
                         tool_name=invocation.tool_name,
                         status=ToolCallStatus.FAILED,
-                        request_summary=invocation.summary,
+                        request_summary=redact_summary(invocation.summary),
                         response_summary="tool execution failed",
                         latency_ms=0,
                     )

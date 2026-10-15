@@ -16,6 +16,7 @@ from .models import (
     ToolCallStatus,
 )
 from .runner import InvestigationAgent, ToolInvocation
+from .safety import redact_summary
 from .tools import RegisteredTool, ToolOutput, ToolRegistry, ToolSpec
 
 __version__ = "0.1.0"
@@ -39,5 +40,6 @@ __all__ = [
     "ToolRegistry",
     "ToolSpec",
     "__version__",
+    "redact_summary",
     "register_read_only_tools",
 ]
