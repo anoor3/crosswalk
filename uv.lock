@@ -12,6 +12,7 @@ members = [
     "crosswalk-adapters",
     "crosswalk-agents",
     "crosswalk-canonical",
+    "crosswalk-deploy",
     "crosswalk-discovery",
     "crosswalk-drift",
     "crosswalk-enum-mapping",
@@ -19,6 +20,7 @@ members = [
     "crosswalk-jobs",
     "crosswalk-mapping",
     "crosswalk-mock-apis",
+    "crosswalk-observability",
     "crosswalk-profiler",
     "crosswalk-relationships",
     "crosswalk-repair",
@@ -160,6 +162,7 @@ dependencies = [
     { name = "crosswalk-adapters" },
     { name = "crosswalk-agents" },
     { name = "crosswalk-canonical" },
+    { name = "crosswalk-deploy" },
     { name = "crosswalk-discovery" },
     { name = "crosswalk-drift" },
     { name = "crosswalk-enum-mapping" },
@@ -167,6 +170,7 @@ dependencies = [
     { name = "crosswalk-jobs" },
     { name = "crosswalk-mapping" },
     { name = "crosswalk-mock-apis" },
+    { name = "crosswalk-observability" },
     { name = "crosswalk-profiler" },
     { name = "crosswalk-relationships" },
     { name = "crosswalk-repair" },
@@ -192,6 +196,7 @@ requires-dist = [
     { name = "crosswalk-adapters", editable = "packages/adapters" },
     { name = "crosswalk-agents", editable = "packages/agents" },
     { name = "crosswalk-canonical", editable = "packages/canonical" },
+    { name = "crosswalk-deploy", editable = "packages/deploy" },
     { name = "crosswalk-discovery", editable = "packages/discovery" },
     { name = "crosswalk-drift", editable = "packages/drift" },
     { name = "crosswalk-enum-mapping", editable = "packages/enum_mapping" },
@@ -199,6 +204,7 @@ requires-dist = [
     { name = "crosswalk-jobs", editable = "packages/jobs" },
     { name = "crosswalk-mapping", editable = "packages/mapping" },
     { name = "crosswalk-mock-apis", editable = "apps/mock_apis" },
+    { name = "crosswalk-observability", editable = "packages/observability" },
     { name = "crosswalk-profiler", editable = "packages/profiler" },
     { name = "crosswalk-relationships", editable = "packages/relationships" },
     { name = "crosswalk-repair", editable = "packages/repair" },
@@ -253,6 +259,17 @@ requires-dist = [
 name = "crosswalk-canonical"
 version = "0.1.0"
 source = { editable = "packages/canonical" }
+dependencies = [
+    { name = "pydantic" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "pydantic", specifier = ">=2.8.0" }]
+
+[[package]]
+name = "crosswalk-deploy"
+version = "0.1.0"
+source = { editable = "packages/deploy" }
 dependencies = [
     { name = "pydantic" },
 ]
@@ -354,6 +371,17 @@ requires-dist = [
     { name = "fastapi", specifier = ">=0.115.0" },
     { name = "uvicorn", specifier = ">=0.30.0" },
 ]
+
+[[package]]
+name = "crosswalk-observability"
+version = "0.1.0"
+source = { editable = "packages/observability" }
+dependencies = [
+    { name = "pydantic" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "pydantic", specifier = ">=2.8.0" }]
 
 [[package]]
 name = "crosswalk-profiler"
