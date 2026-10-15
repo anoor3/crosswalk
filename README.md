@@ -141,7 +141,9 @@ crosswalk/
 │   ├── drift/              # schema drift events (Phase 13)
 │   ├── repair/             # human-approved repair proposals (Phase 14)
 │   ├── runtime/            # retry and typed failure policies (Phase 15)
-│   └── storage/            # tenant/version persistence seam (Phase 16)
+│   ├── storage/            # tenant/version persistence seam (Phase 16)
+│   ├── jobs/               # queue and worker seam (Phase 17)
+│   └── security/           # URL and audit safeguards (Phase 18)
 │   ├── adapters/           # adapter generation          (planned)
 │   ├── runtime/            # production integration runtime (planned)
 │   ├── drift/              # schema-drift detection      (planned)
@@ -294,7 +296,7 @@ uv run mypy packages apps tests conftest.py      # strict type checking
 uv run pytest                                    # full test suite
 ```
 
-The suite currently contains **351 tests** across unit, integration, contract,
+The suite currently contains **359 tests** across unit, integration, contract,
 evaluation, mapping, review, enum, and relationship layers:
 
 - **Canonical model** — construction, validation (blank IDs, unknown fields, bad enum, negative money), `Decimal`/date handling, immutability, JSON round-trip.
@@ -333,7 +335,9 @@ Crosswalk is built phase-by-phase against [`PLANNER.md`](PLANNER.md), with each 
 | 14 | Repair proposals | ✅ Baseline done |
 | 15 | Production runtime policies | ✅ Baseline done |
 | 16 | Database hardening seam | ✅ Baseline done |
-| 17–24 | Jobs, security, cloud, observability, real users, docs | ⏳ Planned |
+| 17 | Background jobs and queues | ✅ Baseline done |
+| 18 | Security baseline | ✅ Baseline done |
+| 19–24 | Cloud, observability, real users, docs, multimodal input, polish | ⏳ Planned |
 
 ---
 
@@ -367,7 +371,7 @@ Still to add: SSRF protection for user-supplied URLs, production secret manageme
 
 ## Current limits
 
-The repository contains deterministic foundations through Phase 16: discovery, profiling, mapping, review, enum and relationship analysis, bounded investigation, adapter and test generation, synthetic fixtures, evaluation primitives, drift events, repair proposals, runtime policies, and an in-memory versioned storage boundary.
+The repository contains deterministic foundations through Phase 18: discovery, profiling, mapping, review, enum and relationship analysis, bounded investigation, adapter and test generation, synthetic fixtures, evaluation primitives, drift events, repair proposals, runtime policies, an in-memory versioned storage boundary, queue and worker seams, and security safeguards.
 
 Several production pieces are still absent. OpenAPI discovery accepts local references only. The mock APIs are test fixtures, not customer integrations. The synthetic generator is a seeded fixture generator; the 100-API benchmark described in the plan has not been built. The evaluation package can score an explicit answer key, but this repository does not publish accuracy, latency, cost, or improvement claims. Provider-backed agent reasoning, real HTTP transports, migrations, jobs, deployment, observability, and a UI remain future work.
 
