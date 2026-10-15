@@ -30,6 +30,7 @@ members = [
     "crosswalk-storage",
     "crosswalk-synthetic",
     "crosswalk-testgen",
+    "crosswalk-validation",
 ]
 
 [[package]]
@@ -180,6 +181,7 @@ dependencies = [
     { name = "crosswalk-storage" },
     { name = "crosswalk-synthetic" },
     { name = "crosswalk-testgen" },
+    { name = "crosswalk-validation" },
 ]
 
 [package.dev-dependencies]
@@ -214,6 +216,7 @@ requires-dist = [
     { name = "crosswalk-storage", editable = "packages/storage" },
     { name = "crosswalk-synthetic", editable = "packages/synthetic" },
     { name = "crosswalk-testgen", editable = "packages/testgen" },
+    { name = "crosswalk-validation", editable = "packages/validation" },
 ]
 
 [package.metadata.requires-dev]
@@ -503,6 +506,17 @@ requires-dist = [
     { name = "crosswalk-adapters", editable = "packages/adapters" },
     { name = "pydantic", specifier = ">=2.8.0" },
 ]
+
+[[package]]
+name = "crosswalk-validation"
+version = "0.1.0"
+source = { editable = "packages/validation" }
+dependencies = [
+    { name = "pydantic" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "pydantic", specifier = ">=2.8.0" }]
 
 [[package]]
 name = "fastapi"
