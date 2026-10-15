@@ -348,7 +348,7 @@ The near-term path to a minimum viable product (value profiling, item 0, is now 
 4. **Bounded investigation agent** — run allowlisted read-only evidence tools with iteration, time, cost, and audit limits. ✅ *Baseline done.*
 5. **Adapter + test generation** — turn approved mappings into typed, tested, credential-free adapters (MVP boundary).
 
-Beyond MVP: a synthetic API generator and evaluation harness (to make quality measurable and reproducible), schema-drift detection, regression-tested repair proposals, a production integration runtime, database hardening, background jobs, cloud deployment, and observability.
+Beyond the current baseline: a larger synthetic benchmark, reproducible evaluation runs, real HTTP transports, database migrations, background jobs, cloud deployment, and observability.
 
 ---
 
@@ -361,29 +361,18 @@ Security is treated as a first-class concern from the first commit, not a later 
 - **Ground-truth isolation.** Benchmark answers live outside the code that is being evaluated and are never fed into any inference path.
 - **Typed failures over silent ones.** Discovery raises typed errors for unusable input and records anything it cannot model, rather than guessing.
 
-Planned as the system grows: tenant isolation enforced in the backend, SSRF protection for user-supplied URLs, read-only / sandbox-only agent defaults with audited tool calls, and secret management via a cloud secret manager. See [`PLANNER.md` §32](PLANNER.md) and [`CHECKER.md` §21–§24](CHECKER.md).
+Still to add: SSRF protection for user-supplied URLs, production secret management, and database-backed tenant enforcement. The agent baseline already defaults to allowlisted read-only tools with audited calls. See [`PLANNER.md` §32](PLANNER.md) and [`CHECKER.md` §21–§24](CHECKER.md).
 
 ---
 
-## Honest limitations (today)
+## Current limits
 
-- This is an in-progress project. Phases 0–16 now provide deterministic discovery, profiling, mapping, review, enum/relationship baselines, bounded investigation, adapter/test generation, synthetic fixtures, evaluation, drift events, repair proposals, runtime policies, and a tenant/version storage seam. Provider-backed reasoning, production database migrations, jobs, cloud deployment, and UI remain planned.
-- Discovery supports **local** OpenAPI references only; external-file/URL references are intentionally rejected with a clear error rather than partially supported.
-- The mock APIs are hand-written stand-ins, not real customer systems; the large synthetic benchmark (Phase 11) does not exist yet.
-- **No accuracy, speed, or "Nx faster" claims are made** because there is nothing measured to back them yet. Those numbers will appear only once the evaluation harness (Phase 12) can reproduce them.
+The repository contains deterministic foundations through Phase 16: discovery, profiling, mapping, review, enum and relationship analysis, bounded investigation, adapter and test generation, synthetic fixtures, evaluation primitives, drift events, repair proposals, runtime policies, and an in-memory versioned storage boundary.
+
+Several production pieces are still absent. OpenAPI discovery accepts local references only. The mock APIs are test fixtures, not customer integrations. The synthetic generator is a seeded fixture generator; the 100-API benchmark described in the plan has not been built. The evaluation package can score an explicit answer key, but this repository does not publish accuracy, latency, cost, or improvement claims. Provider-backed agent reasoning, real HTTP transports, migrations, jobs, deployment, observability, and a UI remain future work.
 
 ---
 
 ## Repository conventions
 
-- **Commits** are small and focused, each describing what changed and why, and reference the relevant `PLANNER`/`CHECKER` sections.
-- **Every phase** must satisfy the phase-exit checklist in [`CHECKER.md` §48](CHECKER.md): the feature works, has tests, handles failures, considers security, records honest metrics, and keeps the demo path working.
-- **Documentation** lives in `docs/`; [`docs/architecture.md`](docs/architecture.md) has the deeper technical walkthrough.
-
----
-
-<div align="center">
-
-Built to practice and demonstrate real end-to-end engineering — schema inference, statistical profiling, evidence-based mapping, agent design, evaluation, drift recovery, and production concerns — not to look impressive.
-
-</div>
+Changes are kept small and tested. Documentation lives in `docs/`, with the deeper walkthrough in [`docs/architecture.md`](docs/architecture.md). The phase checklist is in [`CHECKER.md`](CHECKER.md).
