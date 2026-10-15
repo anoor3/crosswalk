@@ -19,6 +19,7 @@ members = [
     "crosswalk-profiler",
     "crosswalk-relationships",
     "crosswalk-review",
+    "crosswalk-synthetic",
     "crosswalk-testgen",
 ]
 
@@ -159,6 +160,7 @@ dependencies = [
     { name = "crosswalk-profiler" },
     { name = "crosswalk-relationships" },
     { name = "crosswalk-review" },
+    { name = "crosswalk-synthetic" },
     { name = "crosswalk-testgen" },
 ]
 
@@ -183,6 +185,7 @@ requires-dist = [
     { name = "crosswalk-profiler", editable = "packages/profiler" },
     { name = "crosswalk-relationships", editable = "packages/relationships" },
     { name = "crosswalk-review", editable = "packages/review" },
+    { name = "crosswalk-synthetic", editable = "packages/synthetic" },
     { name = "crosswalk-testgen", editable = "packages/testgen" },
 ]
 
@@ -340,6 +343,17 @@ requires-dist = [
     { name = "crosswalk-mapping", editable = "packages/mapping" },
     { name = "pydantic", specifier = ">=2.8.0" },
 ]
+
+[[package]]
+name = "crosswalk-synthetic"
+version = "0.1.0"
+source = { editable = "packages/synthetic" }
+dependencies = [
+    { name = "pydantic" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "pydantic", specifier = ">=2.8.0" }]
 
 [[package]]
 name = "crosswalk-testgen"
