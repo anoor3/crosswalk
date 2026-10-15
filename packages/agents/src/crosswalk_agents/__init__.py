@@ -14,6 +14,7 @@ from .models import (
     ToolCallRecord,
     ToolCallStatus,
 )
+from .runner import InvestigationAgent, ToolInvocation
 from .tools import RegisteredTool, ToolOutput, ToolRegistry, ToolSpec
 
 __version__ = "0.1.0"
@@ -23,12 +24,14 @@ __all__ = [
     "AgentError",
     "DuplicateToolError",
     "InvalidToolRequestError",
+    "InvestigationAgent",
     "InvestigationResult",
     "InvestigationStatus",
     "RegisteredTool",
     "ToolCallRecord",
     "ToolCallStatus",
     "ToolDeniedError",
+    "ToolInvocation",
     "ToolNotFoundError",
     "ToolOutput",
     "ToolRegistry",
