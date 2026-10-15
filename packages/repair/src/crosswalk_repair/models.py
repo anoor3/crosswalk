@@ -22,3 +22,15 @@ class RepairProposal(BaseModel):
 
     def approve(self) -> "RepairProposal":
         return self.model_copy(update={"status": RepairStatus.APPROVED})
+
+
+def propose_replacement(
+    drift: DriftEvent, replacement_path: str, confidence: float
+) -> RepairProposal:
+    """Create a reviewable proposal without mutating mappings or production state."""
+    return RepairProposal(
+        drift=drift,
+        replacement_path=replacement_path,
+        confidence=confidence,
+        evidence=("replacement supplied by deterministic review workflow",),
+    )
