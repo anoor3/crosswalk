@@ -33,6 +33,7 @@ class FieldReference(BaseModel):
     endpoint: str = Field(min_length=1)
     json_path: str = Field(min_length=1)
     name: str = Field(min_length=1)
+    data_type: str | None = None
 
 
 class RelationshipEvidence(BaseModel):

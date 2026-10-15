@@ -18,6 +18,7 @@ from .models import (
     RelationshipStatus,
 )
 from .overlap import OverlapStats, overlap_stats
+from .scoring import score_relationship
 
 __version__ = "0.1.0"
 
@@ -38,4 +39,5 @@ __all__ = [
     "UnsupportedRelationshipError",
     "__version__",
     "overlap_stats",
+    "score_relationship",
 ]
