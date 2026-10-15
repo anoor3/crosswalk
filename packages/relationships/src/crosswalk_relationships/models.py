@@ -115,3 +115,25 @@ class RelationshipGraph(BaseModel):
         ):
             raise ValueError("relationship edges must reference graph nodes")
         return self
+
+    def has_cycle(self) -> bool:
+        """Return whether directed relationship edges contain a cycle."""
+        adjacency: dict[str, set[str]] = {}
+        for edge in self.edges:
+            adjacency.setdefault(edge.source_endpoint, set()).add(edge.target_endpoint)
+        visiting: set[str] = set()
+        visited: set[str] = set()
+
+        def visit(node: str) -> bool:
+            if node in visiting:
+                return True
+            if node in visited:
+                return False
+            visiting.add(node)
+            if any(visit(child) for child in adjacency.get(node, ())):
+                return True
+            visiting.remove(node)
+            visited.add(node)
+            return False
+
+        return any(visit(node.endpoint) for node in self.nodes)
