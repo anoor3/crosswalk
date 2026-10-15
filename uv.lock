@@ -13,6 +13,7 @@ members = [
     "crosswalk-agents",
     "crosswalk-canonical",
     "crosswalk-discovery",
+    "crosswalk-drift",
     "crosswalk-enum-mapping",
     "crosswalk-evaluation",
     "crosswalk-mapping",
@@ -155,6 +156,7 @@ dependencies = [
     { name = "crosswalk-agents" },
     { name = "crosswalk-canonical" },
     { name = "crosswalk-discovery" },
+    { name = "crosswalk-drift" },
     { name = "crosswalk-enum-mapping" },
     { name = "crosswalk-evaluation" },
     { name = "crosswalk-mapping" },
@@ -181,6 +183,7 @@ requires-dist = [
     { name = "crosswalk-agents", editable = "packages/agents" },
     { name = "crosswalk-canonical", editable = "packages/canonical" },
     { name = "crosswalk-discovery", editable = "packages/discovery" },
+    { name = "crosswalk-drift", editable = "packages/drift" },
     { name = "crosswalk-enum-mapping", editable = "packages/enum_mapping" },
     { name = "crosswalk-evaluation", editable = "packages/evaluation" },
     { name = "crosswalk-mapping", editable = "packages/mapping" },
@@ -246,6 +249,17 @@ requires-dist = [{ name = "pydantic", specifier = ">=2.8.0" }]
 name = "crosswalk-discovery"
 version = "0.1.0"
 source = { editable = "packages/discovery" }
+dependencies = [
+    { name = "pydantic" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "pydantic", specifier = ">=2.8.0" }]
+
+[[package]]
+name = "crosswalk-drift"
+version = "0.1.0"
+source = { editable = "packages/drift" }
 dependencies = [
     { name = "pydantic" },
 ]
