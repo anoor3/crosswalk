@@ -138,6 +138,10 @@ crosswalk/
 │   ├── testgen/            # contract-test generation (Phase 10)
 │   ├── synthetic/          # deterministic API fixtures (Phase 11)
 │   └── evaluation/         # mapping evaluation metrics (Phase 12)
+│   ├── drift/              # schema drift events (Phase 13)
+│   ├── repair/             # human-approved repair proposals (Phase 14)
+│   ├── runtime/            # retry and typed failure policies (Phase 15)
+│   └── storage/            # tenant/version persistence seam (Phase 16)
 │   ├── adapters/           # adapter generation          (planned)
 │   ├── runtime/            # production integration runtime (planned)
 │   ├── drift/              # schema-drift detection      (planned)
@@ -290,7 +294,7 @@ uv run mypy packages apps tests conftest.py      # strict type checking
 uv run pytest                                    # full test suite
 ```
 
-The suite currently contains **345 tests** across unit, integration, contract,
+The suite currently contains **351 tests** across unit, integration, contract,
 evaluation, mapping, review, enum, and relationship layers:
 
 - **Canonical model** — construction, validation (blank IDs, unknown fields, bad enum, negative money), `Decimal`/date handling, immutability, JSON round-trip.
@@ -325,7 +329,11 @@ Crosswalk is built phase-by-phase against [`PLANNER.md`](PLANNER.md), with each 
 | 10 | Contract-test generation | ✅ Baseline done |
 | 11 | Synthetic API generator | ✅ Baseline done |
 | 12 | Evaluation harness | ✅ Baseline done |
-| 13–24 | Drift, repair, runtime, DB, jobs, security, cloud, observability, real users, docs | ⏳ Planned |
+| 13 | Schema drift detection | ✅ Baseline done |
+| 14 | Repair proposals | ✅ Baseline done |
+| 15 | Production runtime policies | ✅ Baseline done |
+| 16 | Database hardening seam | ✅ Baseline done |
+| 17–24 | Jobs, security, cloud, observability, real users, docs | ⏳ Planned |
 
 ---
 
@@ -359,7 +367,7 @@ Planned as the system grows: tenant isolation enforced in the backend, SSRF prot
 
 ## Honest limitations (today)
 
-- This is an in-progress project. Phases 0–12 now provide deterministic discovery, profiling, mapping, review, enum/relationship baselines, bounded investigation, adapter/test generation, synthetic fixtures, and an explicit evaluation scorer. Provider-backed reasoning, drift, repair, runtime, and deployment remain planned. Durable persistence and a UI are still planned.
+- This is an in-progress project. Phases 0–16 now provide deterministic discovery, profiling, mapping, review, enum/relationship baselines, bounded investigation, adapter/test generation, synthetic fixtures, evaluation, drift events, repair proposals, runtime policies, and a tenant/version storage seam. Provider-backed reasoning, production database migrations, jobs, cloud deployment, and UI remain planned.
 - Discovery supports **local** OpenAPI references only; external-file/URL references are intentionally rejected with a clear error rather than partially supported.
 - The mock APIs are hand-written stand-ins, not real customer systems; the large synthetic benchmark (Phase 11) does not exist yet.
 - **No accuracy, speed, or "Nx faster" claims are made** because there is nothing measured to back them yet. Those numbers will appear only once the evaluation harness (Phase 12) can reproduce them.
