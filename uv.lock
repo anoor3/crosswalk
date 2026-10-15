@@ -20,6 +20,7 @@ members = [
     "crosswalk-mock-apis",
     "crosswalk-profiler",
     "crosswalk-relationships",
+    "crosswalk-repair",
     "crosswalk-review",
     "crosswalk-synthetic",
     "crosswalk-testgen",
@@ -163,6 +164,7 @@ dependencies = [
     { name = "crosswalk-mock-apis" },
     { name = "crosswalk-profiler" },
     { name = "crosswalk-relationships" },
+    { name = "crosswalk-repair" },
     { name = "crosswalk-review" },
     { name = "crosswalk-synthetic" },
     { name = "crosswalk-testgen" },
@@ -190,6 +192,7 @@ requires-dist = [
     { name = "crosswalk-mock-apis", editable = "apps/mock_apis" },
     { name = "crosswalk-profiler", editable = "packages/profiler" },
     { name = "crosswalk-relationships", editable = "packages/relationships" },
+    { name = "crosswalk-repair", editable = "packages/repair" },
     { name = "crosswalk-review", editable = "packages/review" },
     { name = "crosswalk-synthetic", editable = "packages/synthetic" },
     { name = "crosswalk-testgen", editable = "packages/testgen" },
@@ -358,6 +361,21 @@ dependencies = [
 requires-dist = [
     { name = "crosswalk-discovery", editable = "packages/discovery" },
     { name = "crosswalk-profiler", editable = "packages/profiler" },
+    { name = "pydantic", specifier = ">=2.8.0" },
+]
+
+[[package]]
+name = "crosswalk-repair"
+version = "0.1.0"
+source = { editable = "packages/repair" }
+dependencies = [
+    { name = "crosswalk-drift" },
+    { name = "pydantic" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "crosswalk-drift", editable = "packages/drift" },
     { name = "pydantic", specifier = ">=2.8.0" },
 ]
 
