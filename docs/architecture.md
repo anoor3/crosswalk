@@ -1,7 +1,7 @@
 # Crosswalk — Architecture
 
 > Deeper technical companion to the [README](../README.md). This document
-> describes the parts that exist today (Phases 0–4) in detail, and sketches how
+> describes the parts that exist today (Phases 0–7) in detail, and sketches how
 > the planned layers attach to them. It is kept honest: anything not yet built
 > is labeled *planned*.
 
@@ -198,6 +198,10 @@ All fixtures are deterministic; regenerating them produces no diff.
   in-memory workspace enforces confirm/correct/reject/leave-unresolved state
   transitions, optimistic concurrency, target-vocabulary validation, and
   concise evaluation-example export. HTTP, persistence, and UI attach later.
+- **Relationships** compares discovered JSON paths across payload sets using
+  aggregate value overlap, uniqueness, cardinality, name/type evidence, and
+  graph cycle detection. Raw identifiers are transient; candidates retain
+  evidence and alternatives rather than claiming identity from one match.
 - **Adapters** turn approved mappings into typed, credential-free code plus
   generated tests; the **runtime** executes adapters with auth/retries/
   pagination; **drift** fingerprints schemas and classifies changes; repair

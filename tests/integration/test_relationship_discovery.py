@@ -2,6 +2,7 @@
 
 import json
 from pathlib import Path
+from typing import cast
 
 from crosswalk_relationships import (
     FieldReference,
@@ -11,7 +12,8 @@ from crosswalk_relationships import (
 
 
 def _payloads(fixtures_dir: Path, api: str) -> list[object]:
-    return json.loads((fixtures_dir / "payloads" / api / "claims.json").read_text())
+    raw = json.loads((fixtures_dir / "payloads" / api / "claims.json").read_text())
+    return cast(list[object], raw)
 
 
 def test_party_ids_overlap_across_real_api_shapes(fixtures_dir: Path) -> None:

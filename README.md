@@ -132,6 +132,7 @@ crosswalk/
 │   ├── mapping/            # deterministic baseline field mapping
 │   ├── review/             # versioned human review workflow
 │   ├── enum_mapping/       # safe external-to-canonical enum mapping
+│   ├── relationships/       # evidence-based cross-endpoint relationships
 │   ├── agents/             # investigation agent         (planned)
 │   ├── adapters/           # adapter generation          (planned)
 │   ├── runtime/            # production integration runtime (planned)
@@ -285,8 +286,8 @@ uv run mypy packages apps tests conftest.py      # strict type checking
 uv run pytest                                    # full test suite
 ```
 
-The suite currently contains **287 tests** across unit, integration, contract,
-evaluation, mapping, and review layers:
+The suite currently contains **330 tests** across unit, integration, contract,
+evaluation, mapping, review, enum, and relationship layers:
 
 - **Canonical model** — construction, validation (blank IDs, unknown fields, bad enum, negative money), `Decimal`/date handling, immutability, JSON round-trip.
 - **Mock APIs** — every endpoint exercised in-process via `httpx.ASGITransport` (no network → not flaky), including 404 paths and confirmation that the same claim is served in three genuinely different shapes.
@@ -295,6 +296,7 @@ evaluation, mapping, and review layers:
 - **Profiling** — value extraction with `[*]` array fan-out and safe missing-path handling, every statistic and semantic-type heuristic (identifier / date / currency / enum-candidate), and an end-to-end discovery→profiler pass over the real fixtures.
 - **Mapping and review** — evidence arithmetic, deterministic candidate ranking, conservative ambiguity routing, optimistic review concurrency, immutable action history, corrections, rejection, unresolved decisions, and evaluation-example export.
 - **Enum mapping** — exact values, documented abbreviations, explicit numeric mappings, ambiguous descriptions, unseen runtime values, guarded translation, and all three fixture APIs.
+- **Relationships** — privacy-safe value overlap, cardinality, candidate ranking, alternatives, graph-cycle detection, profiler-path discovery, and fixture party identifiers.
 
 Tests avoid real network dependencies and use deterministic fixtures throughout.
 
@@ -313,7 +315,8 @@ Crosswalk is built phase-by-phase against [`PLANNER.md`](PLANNER.md), with each 
 | 4 | Baseline field mapping | ✅ Done |
 | 5 | Human review workspace | ✅ Done |
 | 6 | Enum mapping | ✅ Done |
-| 7–10 | Relationships, agent, adapter + test generation (MVP) | ⏳ Planned |
+| 7 | Relationship discovery | ✅ Done |
+| 8–10 | Investigation agent, adapter + test generation (MVP) | ⏳ Planned |
 | 11–24 | Synthetic benchmark, evaluation, drift, repair, runtime, DB, jobs, security, cloud, observability, real users, docs | ⏳ Planned |
 
 ---
@@ -325,7 +328,7 @@ The near-term path to a minimum viable product (value profiling, item 0, is now 
 0. **Value profiling** — per-field type, null rate, uniqueness, patterns, and identifier/currency/date/enum detection from real samples, independent of any AI. ✅ *Done.*
 1. **Baseline mapping** — an inspectable, non-agentic mapper combining name, description, type, and value-profile signals, benchmarked against the hidden ground truth. ✅ *Done.*
 2. **Human review** — resolve ambiguity without editing JSON; versioned decisions become evaluation examples. ✅ *Domain workflow done; UI and persistence remain planned.*
-3. **Enum mapping & relationships** — translate enum codes and infer cross-endpoint references. Enum mapping ✅ *Done; relationship discovery remains planned.*
+3. **Enum mapping & relationships** — translate enum codes and infer cross-endpoint references. Enum mapping ✅ *Done.* Relationship discovery ✅ *Baseline done; durable storage and review integration remain planned.*
 4. **Adapter + test generation** — turn approved mappings into typed, tested, credential-free adapters (MVP boundary).
 
 Beyond MVP: a synthetic API generator and evaluation harness (to make quality measurable and reproducible), schema-drift detection, regression-tested repair proposals, a production integration runtime, database hardening, background jobs, cloud deployment, and observability.
@@ -347,7 +350,7 @@ Planned as the system grows: tenant isolation enforced in the backend, SSRF prot
 
 ## Honest limitations (today)
 
-- This is an in-progress project. Phases 0–6 are implemented; relationship workflows, the agent, adapter/test generation, drift, and deployment are **not built yet**. Phase 5 provides the tested review domain boundary; durable persistence and a UI are still planned. Phase 6 provides safe enum hypotheses and guarded translation; production enum approval remains a review concern.
+- This is an in-progress project. Phases 0–7 are implemented; the agent, adapter/test generation, drift, and deployment are **not built yet**. Phase 5 provides the tested review domain boundary; durable persistence and a UI are still planned. Phase 6 provides safe enum hypotheses and guarded translation. Phase 7 provides a deterministic relationship baseline; durable graph storage and review integration remain planned.
 - Discovery supports **local** OpenAPI references only; external-file/URL references are intentionally rejected with a clear error rather than partially supported.
 - The mock APIs are hand-written stand-ins, not real customer systems; the large synthetic benchmark (Phase 11) does not exist yet.
 - **No accuracy, speed, or "Nx faster" claims are made** because there is nothing measured to back them yet. Those numbers will appear only once the evaluation harness (Phase 12) can reproduce them.
