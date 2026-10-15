@@ -37,6 +37,7 @@ dependencies = [
     "crosswalk-evaluation",
     "crosswalk-drift",
     "crosswalk-repair",
+    "crosswalk-runtime",
     "crosswalk-mock-apis",
 ]
 
@@ -54,7 +55,7 @@ dev = [
 # not-yet-implemented package directories don't break `uv sync`. Every new
 # package adds its path here in the phase that creates it.
 [tool.uv.workspace]
-members = ["packages/canonical", "packages/discovery", "packages/profiler", "packages/mapping", "packages/review", "packages/enum_mapping", "packages/relationships", "packages/agents", "packages/adapters", "packages/testgen", "packages/synthetic", "packages/evaluation", "packages/drift", "packages/repair", "apps/mock_apis"]
+members = ["packages/canonical", "packages/discovery", "packages/profiler", "packages/mapping", "packages/review", "packages/enum_mapping", "packages/relationships", "packages/agents", "packages/adapters", "packages/testgen", "packages/synthetic", "packages/evaluation", "packages/drift", "packages/repair", "packages/runtime", "apps/mock_apis"]
 
 [tool.uv.sources]
 # Internal packages are resolved from the workspace, not PyPI.
@@ -72,6 +73,7 @@ crosswalk-synthetic = { workspace = true }
 crosswalk-evaluation = { workspace = true }
 crosswalk-drift = { workspace = true }
 crosswalk-repair = { workspace = true }
+crosswalk-runtime = { workspace = true }
 crosswalk-mock-apis = { workspace = true }
 
 # ---------------------------------------------------------------------------
