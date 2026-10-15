@@ -17,6 +17,7 @@ from .models import (
     RelationshipNode,
     RelationshipStatus,
 )
+from .overlap import OverlapStats, overlap_stats
 
 __version__ = "0.1.0"
 
@@ -25,6 +26,7 @@ __all__ = [
     "DuplicateRelationshipError",
     "FieldReference",
     "InvalidRelationshipInputError",
+    "OverlapStats",
     "RelationshipAlternative",
     "RelationshipCandidate",
     "RelationshipEdge",
@@ -35,4 +37,5 @@ __all__ = [
     "RelationshipStatus",
     "UnsupportedRelationshipError",
     "__version__",
+    "overlap_stats",
 ]
