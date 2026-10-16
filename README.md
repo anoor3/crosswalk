@@ -296,7 +296,7 @@ uv run mypy packages apps tests conftest.py      # strict type checking
 uv run pytest                                    # full test suite
 ```
 
-The suite currently contains **374 tests** across unit, integration, contract,
+The suite currently contains **384 tests** across unit, integration, contract,
 evaluation, mapping, review, enum, and relationship layers:
 
 - **Canonical model** — construction, validation (blank IDs, unknown fields, bad enum, negative money), `Decimal`/date handling, immutability, JSON round-trip.
@@ -343,6 +343,7 @@ Crosswalk is built phase-by-phase against [`PLANNER.md`](PLANNER.md), with each 
 | 22 | FDE deployment playbook | ✅ Baseline done |
 | 23 | Multimodal input contracts | ✅ Baseline done |
 | 24 | Final repository polish | ✅ Baseline done |
+| 25 | MVP hardening | ✅ Baseline done |
 
 ---
 
@@ -376,7 +377,7 @@ Still to add: SSRF protection for user-supplied URLs, production secret manageme
 
 ## Current limits
 
-The repository contains deterministic foundations through Phase 24: discovery, profiling, mapping, review, enum and relationship analysis, bounded investigation, adapter and test generation, synthetic fixtures, evaluation primitives, drift events, repair proposals, runtime policies, storage, jobs, security, deployment configuration, observability, validation feedback, a deployment playbook, multimodal input contracts, and repository guidance.
+The repository contains deterministic foundations through Phase 25: discovery, profiling, mapping, review, enum and relationship analysis, bounded investigation, adapter and test generation, synthetic fixtures, evaluation primitives, drift events, repair proposals, runtime policies, storage, jobs, security, deployment configuration, observability, validation feedback, a deployment playbook, multimodal input contracts, shared transport contracts, a local CLI, and repository hardening checks.
 
 Several production pieces are still absent. OpenAPI discovery accepts local references only. The mock APIs are test fixtures, not customer integrations. The synthetic generator is a seeded fixture generator; the 100-API benchmark described in the plan has not been built. The evaluation package can score an explicit answer key, but this repository does not publish accuracy, latency, cost, or improvement claims. Provider-backed agent reasoning, real HTTP transports, migrations, durable queues, cloud resources, telemetry exporters, and a UI remain future work.
 
