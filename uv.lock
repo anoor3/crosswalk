@@ -12,6 +12,8 @@ members = [
     "crosswalk-adapters",
     "crosswalk-agents",
     "crosswalk-canonical",
+    "crosswalk-cli",
+    "crosswalk-contracts",
     "crosswalk-deploy",
     "crosswalk-discovery",
     "crosswalk-drift",
@@ -164,6 +166,8 @@ dependencies = [
     { name = "crosswalk-adapters" },
     { name = "crosswalk-agents" },
     { name = "crosswalk-canonical" },
+    { name = "crosswalk-cli" },
+    { name = "crosswalk-contracts" },
     { name = "crosswalk-deploy" },
     { name = "crosswalk-discovery" },
     { name = "crosswalk-drift" },
@@ -200,6 +204,8 @@ requires-dist = [
     { name = "crosswalk-adapters", editable = "packages/adapters" },
     { name = "crosswalk-agents", editable = "packages/agents" },
     { name = "crosswalk-canonical", editable = "packages/canonical" },
+    { name = "crosswalk-cli", editable = "packages/cli" },
+    { name = "crosswalk-contracts", editable = "packages/contracts" },
     { name = "crosswalk-deploy", editable = "packages/deploy" },
     { name = "crosswalk-discovery", editable = "packages/discovery" },
     { name = "crosswalk-drift", editable = "packages/drift" },
@@ -265,6 +271,28 @@ requires-dist = [
 name = "crosswalk-canonical"
 version = "0.1.0"
 source = { editable = "packages/canonical" }
+dependencies = [
+    { name = "pydantic" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "pydantic", specifier = ">=2.8.0" }]
+
+[[package]]
+name = "crosswalk-cli"
+version = "0.1.0"
+source = { editable = "packages/cli" }
+dependencies = [
+    { name = "crosswalk-contracts" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "crosswalk-contracts", editable = "packages/contracts" }]
+
+[[package]]
+name = "crosswalk-contracts"
+version = "0.1.0"
+source = { editable = "packages/contracts" }
 dependencies = [
     { name = "pydantic" },
 ]
