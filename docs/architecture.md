@@ -208,3 +208,6 @@ All fixtures are deterministic; regenerating them produces no diff.
   proposes regression-tested patches for human approval.
 
 Each attaches to the deterministic core without weakening the constraints in §1.
+## Hardening boundaries
+
+The contracts, CLI, job, security, observability, and validation packages are intentionally small seams. They can be replaced by hosted transports or providers later without changing the deterministic mapping and review packages.
