@@ -82,6 +82,11 @@ logs/
 *.pid
 *.sqlite3
 *.db
+coverage.xml
+.coverage
+htmlcov/
+.pytest_cache/
+.mypy_cache/
 
 # --- Docker / infra local state ---
 .terraform/
