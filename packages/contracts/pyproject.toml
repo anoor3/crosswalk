@@ -1,0 +1,13 @@
+[project]
+name = "crosswalk-contracts"
+version = "0.1.0"
+description = "Stable API and pagination contracts shared by Crosswalk packages."
+requires-python = ">=3.12"
+dependencies = ["pydantic>=2.8.0"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/crosswalk_contracts"]
