@@ -1,0 +1,19 @@
+[project]
+name = "crosswalk-cli"
+version = "0.1.0"
+description = "Local inspection commands for Crosswalk artifacts."
+requires-python = ">=3.12"
+dependencies = ["crosswalk-contracts"]
+
+[project.scripts]
+crosswalk-inspect = "crosswalk_cli.main:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/crosswalk_cli"]
+
+[tool.uv.sources]
+crosswalk-contracts = { workspace = true }
