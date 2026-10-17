@@ -5,3 +5,5 @@ The local API exposes `/health`, `/ready`, `/version`, and `/info` using the sha
 `/info` reports the service name, configured version, and environment. The application defaults to the local environment and accepts explicit values during composition.
 
 Every response receives an `X-Trace-Id` header. Callers may provide that header; otherwise the API generates a request-local identifier.
+
+Invalid job payloads are rejected at the HTTP boundary with a 422 response. Shared Pydantic contracts reject missing, blank, and unknown fields before service execution.
