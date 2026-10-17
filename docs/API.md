@@ -9,3 +9,5 @@ Every response receives an `X-Trace-Id` header. Callers may provide that header;
 Invalid job payloads are rejected at the HTTP boundary with a 422 response. Shared Pydantic contracts reject missing, blank, and unknown fields before service execution.
 
 The composition details are documented in [`service-boundary.md`](service-boundary.md).
+
+Focused API checks are available with `make test-api`, `make types-api`, and `make lint-api`.
