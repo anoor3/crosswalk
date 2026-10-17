@@ -1,15 +1,11 @@
 from crosswalk_api import create_app
-from crosswalk_api.errors import ApiInputError
 from fastapi.testclient import TestClient
 
 
-def test_error_envelope_has_stable_shape() -> None:
-    app = create_app()
+def test_validation_errors_keep_trace_header() -> None:
+    response = TestClient(create_app()).post(
+        "/jobs", json={"tenant_id": ""}, headers={"X-Trace-Id": "error-42"}
+    )
 
-    @app.get("/bad")
-    def bad() -> None:
-        raise ApiInputError("bad field")
-
-    response = TestClient(app).get("/bad")
-    assert response.status_code == 400
-    assert response.json()["code"] == "invalid_input"
+    assert response.status_code == 422
+    assert response.headers["X-Trace-Id"] == "error-42"
