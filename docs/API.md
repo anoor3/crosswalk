@@ -7,3 +7,5 @@ The local API exposes `/health`, `/ready`, `/version`, and `/info` using the sha
 Every response receives an `X-Trace-Id` header. Callers may provide that header; otherwise the API generates a request-local identifier.
 
 Invalid job payloads are rejected at the HTTP boundary with a 422 response. Shared Pydantic contracts reject missing, blank, and unknown fields before service execution.
+
+The composition details are documented in [`service-boundary.md`](service-boundary.md).
