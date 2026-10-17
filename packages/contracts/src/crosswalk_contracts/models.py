@@ -28,6 +28,13 @@ class JobResponse(BaseModel):
     progress: int = Field(ge=0, le=100)
 
 
+class CreateJobRequest(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    tenant_id: str = Field(min_length=1)
+    kind: str = Field(min_length=1)
+
+
 class Page[T](BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
