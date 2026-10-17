@@ -20,6 +20,4 @@ def update_mapping(
 ) -> MappingRecord:
     """Update a mapping while preserving optimistic version checks."""
 
-    return context.store.update(
-        tenant_id, record_id, expected_version, mapping_json
-    )
+    return context.store.update(tenant_id, record_id, expected_version, mapping_json)
