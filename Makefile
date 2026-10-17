@@ -1,4 +1,4 @@
-.PHONY: verify test lint types test-api test-service
+.PHONY: verify test lint types test-api test-service types-api types-service
 
 verify:
 	sh scripts/verify.sh
@@ -17,3 +17,9 @@ test-api:
 
 test-service:
 	.venv/bin/pytest packages/service/tests -q
+
+types-api:
+	.venv/bin/mypy apps/api
+
+types-service:
+	.venv/bin/mypy packages/service
