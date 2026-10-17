@@ -382,6 +382,8 @@ The repository contains deterministic foundations through Phase 28: discovery, p
 
 The service boundary walkthrough lives in [`docs/service-boundary.md`](docs/service-boundary.md), with local API behavior in [`docs/API.md`](docs/API.md).
 
+Phase 28 release notes are in [`docs/releases/phase28.md`](docs/releases/phase28.md).
+
 Several production pieces are still absent. OpenAPI discovery accepts local references only. The mock APIs are test fixtures, not customer integrations. The synthetic generator is a seeded fixture generator; the 100-API benchmark described in the plan has not been built. The evaluation package can score an explicit answer key, but this repository does not publish accuracy, latency, cost, or improvement claims. Provider-backed agent reasoning, real HTTP transports, migrations, durable queues, cloud resources, telemetry exporters, and a UI remain future work. Phase 27's HTTP service is intentionally local and in-memory; its trace header and service context establish seams for those later integrations.
 
 ---
