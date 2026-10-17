@@ -2,6 +2,7 @@
 
 from .app import create_app
 from .auth import AuthPolicy
+from .cors import CorsPolicy
 from .settings import ApiSettings
 
-__all__ = ["ApiSettings", "AuthPolicy", "create_app"]
+__all__ = ["ApiSettings", "AuthPolicy", "CorsPolicy", "create_app"]
