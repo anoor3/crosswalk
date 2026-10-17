@@ -7,3 +7,5 @@ The service configuration is immutable and rejects blank values or unknown field
 The HTTP boundary propagates caller trace identifiers and generates one when absent.
 
 Tenant-owned mapping records remain isolated and use optimistic version checks through the service context.
+
+The full repository gate remains the source of truth for release readiness; no hosted deployment is implied by this phase.
