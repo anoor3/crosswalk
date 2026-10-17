@@ -5,10 +5,12 @@ from fastapi import FastAPI
 
 from .errors import ApiInputError, input_error_handler
 from .routes import router
+from .trace import add_trace_header
 
 
 def create_app(version: str = "development") -> FastAPI:
     app = FastAPI(title="Crosswalk API", version=version)
+    app.middleware("http")(add_trace_header)
     app.add_exception_handler(ApiInputError, input_error_handler)
     app.include_router(router)
 
