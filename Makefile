@@ -1,4 +1,4 @@
-.PHONY: verify test lint types test-api test-service types-api types-service
+.PHONY: verify test lint types test-api test-service types-api types-service lint-api lint-service
 
 verify:
 	sh scripts/verify.sh
@@ -23,3 +23,9 @@ types-api:
 
 types-service:
 	.venv/bin/mypy packages/service
+
+lint-api:
+	.venv/bin/ruff check apps/api
+
+lint-service:
+	.venv/bin/ruff check packages/service
