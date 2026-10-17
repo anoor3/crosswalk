@@ -20,6 +20,14 @@ class HealthResponse(BaseModel):
     version: str = Field(min_length=1)
 
 
+class JobResponse(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    id: str = Field(min_length=1)
+    status: str = Field(min_length=1)
+    progress: int = Field(ge=0, le=100)
+
+
 class Page[T](BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
