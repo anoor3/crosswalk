@@ -35,6 +35,14 @@ class CreateJobRequest(BaseModel):
     kind: str = Field(min_length=1)
 
 
+class ServiceInfoResponse(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    name: str = Field(min_length=1)
+    version: str = Field(min_length=1)
+    environment: str = Field(min_length=1)
+
+
 class Page[T](BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
