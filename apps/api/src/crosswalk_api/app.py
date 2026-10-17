@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from crosswalk_contracts import HealthResponse
+from crosswalk_contracts import HealthResponse, ServiceInfoResponse
 from fastapi import FastAPI
 
 from .errors import ApiInputError, input_error_handler
@@ -17,5 +17,9 @@ def create_app(version: str = "development") -> FastAPI:
     @app.get("/health", response_model=HealthResponse)
     def health() -> HealthResponse:
         return HealthResponse(status="ok", version=version)
+
+    @app.get("/info", response_model=ServiceInfoResponse)
+    def info() -> ServiceInfoResponse:
+        return ServiceInfoResponse(name="crosswalk-api", version=version, environment="local")
 
     return app
