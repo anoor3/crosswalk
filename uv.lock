@@ -11,6 +11,7 @@ members = [
     "crosswalk",
     "crosswalk-adapters",
     "crosswalk-agents",
+    "crosswalk-api",
     "crosswalk-canonical",
     "crosswalk-cli",
     "crosswalk-contracts",
@@ -165,6 +166,7 @@ source = { virtual = "." }
 dependencies = [
     { name = "crosswalk-adapters" },
     { name = "crosswalk-agents" },
+    { name = "crosswalk-api" },
     { name = "crosswalk-canonical" },
     { name = "crosswalk-cli" },
     { name = "crosswalk-contracts" },
@@ -203,6 +205,7 @@ dev = [
 requires-dist = [
     { name = "crosswalk-adapters", editable = "packages/adapters" },
     { name = "crosswalk-agents", editable = "packages/agents" },
+    { name = "crosswalk-api", editable = "apps/api" },
     { name = "crosswalk-canonical", editable = "packages/canonical" },
     { name = "crosswalk-cli", editable = "packages/cli" },
     { name = "crosswalk-contracts", editable = "packages/contracts" },
@@ -265,6 +268,23 @@ dependencies = [
 requires-dist = [
     { name = "crosswalk-mapping", editable = "packages/mapping" },
     { name = "pydantic", specifier = ">=2.8.0" },
+]
+
+[[package]]
+name = "crosswalk-api"
+version = "0.1.0"
+source = { editable = "apps/api" }
+dependencies = [
+    { name = "crosswalk-contracts" },
+    { name = "crosswalk-jobs" },
+    { name = "fastapi" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "crosswalk-contracts", editable = "packages/contracts" },
+    { name = "crosswalk-jobs", editable = "packages/jobs" },
+    { name = "fastapi", specifier = ">=0.115.0" },
 ]
 
 [[package]]
