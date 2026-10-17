@@ -1,6 +1,5 @@
-from fastapi.testclient import TestClient
-
 from crosswalk_api import create_app
+from fastapi.testclient import TestClient
 
 
 def test_create_job_requires_tenant_id() -> None:
