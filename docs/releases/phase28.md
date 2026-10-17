@@ -5,3 +5,5 @@ Phase 28 hardens the local service boundary with immutable runtime configuration
 The service configuration is immutable and rejects blank values or unknown fields.
 
 The HTTP boundary propagates caller trace identifiers and generates one when absent.
+
+Tenant-owned mapping records remain isolated and use optimistic version checks through the service context.
