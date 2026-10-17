@@ -1,5 +1,4 @@
 import pytest
-
 from crosswalk_service import ServiceContext, create_mapping, update_mapping
 from crosswalk_storage import ConflictError
 

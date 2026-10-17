@@ -1,9 +1,14 @@
 from datetime import UTC, datetime
 
-from crosswalk_service import ServiceContext, enqueue_job
+from crosswalk_jobs import InMemoryQueue, JobStatus
+from crosswalk_service import enqueue_job, run_job
 
 
-def test_enqueue_job_uses_context_queue() -> None:
-    context = ServiceContext()
-    job = enqueue_job(context.queue, "tenant", "discover", datetime.now(UTC))
-    assert context.queue.dequeue() == job
+def test_run_job_delegates_to_lifecycle() -> None:
+    queue = InMemoryQueue()
+    enqueue_job(queue, "tenant-a", "discover", datetime.now(UTC))
+
+    result = run_job(queue, lambda job: None, datetime.now(UTC))
+
+    assert result is not None
+    assert result.status is JobStatus.SUCCEEDED
