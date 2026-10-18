@@ -5,8 +5,8 @@ from crosswalk_service import ServiceConfig
 from fastapi import FastAPI
 
 from .errors import ApiInputError, input_error_handler
-from .routes import router
 from .request_limits import enforce_request_limit
+from .routes import router
 from .security_headers import add_security_headers
 from .trace import add_trace_header
 
