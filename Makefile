@@ -1,4 +1,4 @@
-.PHONY: verify test lint types test-api test-service types-api types-service lint-api lint-service
+.PHONY: verify test lint types test-api test-service types-api types-service lint-api lint-service test-security
 
 verify:
 	sh scripts/verify.sh
@@ -29,3 +29,6 @@ lint-api:
 
 lint-service:
 	.venv/bin/ruff check packages/service
+
+test-security:
+	.venv/bin/pytest apps/api/tests/test_security_*.py apps/api/tests/test_request_limit*.py -q
