@@ -5,3 +5,5 @@
 The local API composes this boundary with immutable `ServiceConfig`. Persistence and queue implementations remain replaceable for later hosted deployment.
 
 Focused checks are available with `make test-service`, `make types-service`, and `make lint-service`.
+
+The HTTP boundary applies security headers and a one MiB request limit before invoking service routes.
