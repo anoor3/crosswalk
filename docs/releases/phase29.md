@@ -7,3 +7,5 @@ The request limit is one mebibyte and rejects malformed size metadata conservati
 Security middleware runs for successful, not-found, validation-error, and oversized responses.
 
 The focused `make test-security` target exercises the middleware without running unrelated packages.
+
+Security policy constants are exported from `crosswalk_api` so adapters can share the same boundary contract.
