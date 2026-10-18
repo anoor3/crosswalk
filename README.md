@@ -378,7 +378,7 @@ Still to add: SSRF protection for user-supplied URLs, production secret manageme
 
 ## Current limits
 
-The repository contains deterministic foundations through Phase 28: discovery, profiling, mapping, review, enum and relationship analysis, bounded investigation, adapter and test generation, synthetic fixtures, evaluation primitives, drift events, repair proposals, runtime policies, storage, jobs, security, deployment configuration, observability, validation feedback, a deployment playbook, multimodal input contracts, shared transport contracts, a local CLI, repository hardening checks, and a local HTTP service boundary with trace propagation and service orchestration seams.
+The repository contains deterministic foundations through Phase 29: discovery, profiling, mapping, review, enum and relationship analysis, bounded investigation, adapter and test generation, synthetic fixtures, evaluation primitives, drift events, repair proposals, runtime policies, storage, jobs, security, deployment configuration, observability, validation feedback, a deployment playbook, multimodal input contracts, shared transport contracts, a local CLI, repository hardening checks, and a local HTTP service boundary with trace propagation, request limits, security headers, and service orchestration seams.
 
 The service boundary walkthrough lives in [`docs/service-boundary.md`](docs/service-boundary.md), with local API behavior in [`docs/API.md`](docs/API.md).
 
