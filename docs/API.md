@@ -12,4 +12,6 @@ The composition details are documented in [`service-boundary.md`](service-bounda
 
 Focused API checks are available with `make test-api`, `make types-api`, and `make lint-api`.
 
+Security-focused middleware checks are available with `make test-security`.
+
 Responses include `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, and `Referrer-Policy: no-referrer`. Requests larger than 1 MiB are rejected before route parsing.
