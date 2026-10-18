@@ -9,3 +9,5 @@ Security middleware runs for successful, not-found, validation-error, and oversi
 The focused `make test-security` target exercises the middleware without running unrelated packages.
 
 Security policy constants are exported from `crosswalk_api` so adapters can share the same boundary contract.
+
+Phase 29 is complete when the full repository gate passes alongside the focused security checks.
