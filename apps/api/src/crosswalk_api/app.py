@@ -6,6 +6,7 @@ from fastapi import FastAPI
 
 from .errors import ApiInputError, input_error_handler
 from .routes import router
+from .security_headers import add_security_headers
 from .trace import add_trace_header
 
 
@@ -13,6 +14,7 @@ def create_app(version: str = "development", environment: str = "local") -> Fast
     config = ServiceConfig(version=version, environment=environment)
     app = FastAPI(title="Crosswalk API", version=config.version)
     app.middleware("http")(add_trace_header)
+    app.middleware("http")(add_security_headers)
     app.add_exception_handler(ApiInputError, input_error_handler)
     app.include_router(router)
 
