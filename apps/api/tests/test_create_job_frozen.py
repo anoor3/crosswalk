@@ -7,4 +7,4 @@ def test_create_job_contract_is_frozen() -> None:
     request = CreateJobRequest(tenant_id="t1", kind="discover")
 
     with pytest.raises(ValidationError):
-        setattr(request, "kind", "x")
+        request.kind = "x"  # type: ignore[misc]
