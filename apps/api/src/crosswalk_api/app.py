@@ -1,21 +1,35 @@
 from __future__ import annotations
 
+from collections.abc import Awaitable, Callable
+
 from crosswalk_contracts import HealthResponse, ServiceInfoResponse
 from crosswalk_service import ServiceConfig
-from fastapi import FastAPI
+from fastapi import FastAPI, Request, Response
 
 from .errors import ApiInputError, input_error_handler
+from .metrics import Metrics
 from .request_limits import enforce_request_limit
 from .routes import router
 from .security_headers import add_security_headers
 from .trace import add_trace_header
 
 
-def create_app(version: str = "development", environment: str = "local") -> FastAPI:
+def create_app(
+    version: str = "development", environment: str = "local", metrics: Metrics | None = None
+) -> FastAPI:
     config = ServiceConfig(version=version, environment=environment)
+    registry = metrics or Metrics()
     app = FastAPI(title="Crosswalk API", version=config.version)
     app.middleware("http")(add_trace_header)
     app.middleware("http")(enforce_request_limit)
+
+    @app.middleware("http")
+    async def count_requests(
+        request: Request, call_next: Callable[[Request], Awaitable[Response]]
+    ) -> Response:
+        registry.increment("requests.total")
+        return await call_next(request)
+
     app.middleware("http")(add_security_headers)
     app.add_exception_handler(ApiInputError, input_error_handler)
     app.include_router(router)
@@ -29,5 +43,9 @@ def create_app(version: str = "development", environment: str = "local") -> Fast
         return ServiceInfoResponse(
             name=config.name, version=config.version, environment=config.environment
         )
+
+    @app.get("/metrics")
+    def metrics_endpoint() -> dict[str, int]:
+        return registry.snapshot()
 
     return app
