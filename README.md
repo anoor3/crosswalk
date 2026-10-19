@@ -382,6 +382,8 @@ The repository contains deterministic foundations through Phase 29: discovery, p
 
 The local API hardening behavior is documented in [`docs/API.md`](docs/API.md) and [`docs/releases/phase29.md`](docs/releases/phase29.md).
 
+Local observability behavior is covered by the metrics registry, readiness seam, and `make test-observability` target.
+
 The service boundary walkthrough lives in [`docs/service-boundary.md`](docs/service-boundary.md), with local API behavior in [`docs/API.md`](docs/API.md).
 
 Phase 28 release notes are in [`docs/releases/phase28.md`](docs/releases/phase28.md).
