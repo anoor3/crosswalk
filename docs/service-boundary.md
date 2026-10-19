@@ -9,3 +9,5 @@ Focused checks are available with `make test-service`, `make types-service`, and
 The HTTP boundary applies security headers and a one MiB request limit before invoking service routes.
 
 The local metrics registry and readiness value are explicit seams for later telemetry exporters and dependency probes.
+
+Use `make test-observability` to verify these local seams in isolation.
