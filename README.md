@@ -386,6 +386,8 @@ Local observability behavior is covered by the metrics registry, readiness seam,
 
 The metrics registry is intentionally process-local until a durable telemetry backend is selected.
 
+Readiness is modeled explicitly while remaining local and dependency-free.
+
 The service boundary walkthrough lives in [`docs/service-boundary.md`](docs/service-boundary.md), with local API behavior in [`docs/API.md`](docs/API.md).
 
 Phase 28 release notes are in [`docs/releases/phase28.md`](docs/releases/phase28.md).
