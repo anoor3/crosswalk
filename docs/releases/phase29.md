@@ -19,3 +19,5 @@ The focused `make test-observability` target covers counters, snapshots, and rea
 The API factory accepts an injected metrics registry so tests and future adapters can own lifecycle and export decisions.
 
 Readiness remains a pure local value until dependency probes are wired into the service context.
+
+No hosted metrics, alerting, or dependency discovery is implied by these local seams.
