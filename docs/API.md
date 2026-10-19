@@ -22,4 +22,6 @@ Focused observability checks are available with `make test-observability`.
 
 The app factory accepts an optional `Metrics` instance, which keeps request counters explicit and testable.
 
+`Readiness` is exported as a small immutable value object for future dependency-aware checks.
+
 Responses include `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, and `Referrer-Policy: no-referrer`. Requests larger than 1 MiB are rejected before route parsing.
