@@ -15,3 +15,5 @@ Phase 29 is complete when the full repository gate passes alongside the focused 
 The next operational slice adds local metrics and an explicit readiness value without claiming hosted telemetry.
 
 The focused `make test-observability` target covers counters, snapshots, and readiness seams.
+
+The API factory accepts an injected metrics registry so tests and future adapters can own lifecycle and export decisions.
