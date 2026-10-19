@@ -11,3 +11,5 @@ The HTTP boundary applies security headers and a one MiB request limit before in
 The local metrics registry and readiness value are explicit seams for later telemetry exporters and dependency probes.
 
 Use `make test-observability` to verify these local seams in isolation.
+
+Request counts are local process state and are not presented as production telemetry.
