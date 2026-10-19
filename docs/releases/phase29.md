@@ -17,3 +17,5 @@ The next operational slice adds local metrics and an explicit readiness value wi
 The focused `make test-observability` target covers counters, snapshots, and readiness seams.
 
 The API factory accepts an injected metrics registry so tests and future adapters can own lifecycle and export decisions.
+
+Readiness remains a pure local value until dependency probes are wired into the service context.
