@@ -7,3 +7,5 @@ The local API composes this boundary with immutable `ServiceConfig`. Persistence
 Focused checks are available with `make test-service`, `make types-service`, and `make lint-service`.
 
 The HTTP boundary applies security headers and a one MiB request limit before invoking service routes.
+
+The local metrics registry and readiness value are explicit seams for later telemetry exporters and dependency probes.
