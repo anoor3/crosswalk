@@ -11,3 +11,5 @@ The focused `make test-security` target exercises the middleware without running
 Security policy constants are exported from `crosswalk_api` so adapters can share the same boundary contract.
 
 Phase 29 is complete when the full repository gate passes alongside the focused security checks.
+
+The next operational slice adds local metrics and an explicit readiness value without claiming hosted telemetry.
