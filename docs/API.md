@@ -16,4 +16,6 @@ Security-focused middleware checks are available with `make test-security`.
 
 The public API package exports the security header policy and request-size limit for integration tests and deployment adapters.
 
+`GET /metrics` returns a local request counter snapshot. `Readiness` models the future dependency-aware readiness check while defaulting to ready locally.
+
 Responses include `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, and `Referrer-Policy: no-referrer`. Requests larger than 1 MiB are rejected before route parsing.
