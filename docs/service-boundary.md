@@ -15,3 +15,5 @@ Use `make test-observability` to verify these local seams in isolation.
 Request counts are local process state and are not presented as production telemetry.
 
 Structured request events are local process state as well; a durable log sink remains a future adapter concern.
+
+Use `make test-events` to verify the event collector and HTTP event boundary.
