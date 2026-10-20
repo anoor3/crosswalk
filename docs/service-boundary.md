@@ -17,3 +17,5 @@ Request counts are local process state and are not presented as production telem
 Structured request events are local process state as well; a durable log sink remains a future adapter concern.
 
 Use `make test-events` to verify the event collector and HTTP event boundary.
+
+The shared event contract keeps the HTTP representation stable while allowing additive fields.
