@@ -43,6 +43,12 @@ class ServiceInfoResponse(BaseModel):
     environment: str = Field(min_length=1)
 
 
+class EventResponse(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="allow")
+
+    event: str = Field(min_length=1)
+
+
 class Page[T](BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
