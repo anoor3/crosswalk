@@ -1,4 +1,4 @@
-.PHONY: verify test lint types test-api test-service types-api types-service lint-api lint-service test-security test-observability
+.PHONY: verify test lint types test-api test-service types-api types-service lint-api lint-service test-security test-observability test-events
 
 verify:
 	sh scripts/verify.sh
@@ -35,3 +35,6 @@ test-security:
 
 test-observability:
 	.venv/bin/pytest apps/api/tests/test_metrics_*.py apps/api/tests/test_readiness_*.py -q
+
+test-events:
+	.venv/bin/pytest apps/api/tests/test_event_log*.py apps/api/tests/test_events_*.py -q
