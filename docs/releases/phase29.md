@@ -23,3 +23,5 @@ Readiness remains a pure local value until dependency probes are wired into the 
 No hosted metrics, alerting, or dependency discovery is implied by these local seams.
 
 The local API now exposes both request counters and structured request events for deterministic inspection.
+
+The focused `make test-events` target covers the collector and HTTP boundary.
