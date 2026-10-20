@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Awaitable, Callable
 
-from crosswalk_contracts import HealthResponse, ServiceInfoResponse
+from crosswalk_contracts import EventResponse, HealthResponse, ServiceInfoResponse
 from crosswalk_service import ServiceConfig
 from fastapi import FastAPI, Request, Response
 
@@ -54,7 +54,7 @@ def create_app(
     def metrics_endpoint() -> dict[str, int]:
         return registry.snapshot()
 
-    @app.get("/events")
+    @app.get("/events", response_model=tuple[EventResponse, ...])
     def events_endpoint() -> tuple[dict[str, str], ...]:
         return event_log.snapshot()
 
