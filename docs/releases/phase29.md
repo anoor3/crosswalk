@@ -27,3 +27,5 @@ The local API now exposes both request counters and structured request events fo
 The focused `make test-events` target covers the collector and HTTP boundary.
 
 Event responses are validated through the shared transport contract.
+
+The initial events response is deterministic because the request itself is recorded before route execution.
