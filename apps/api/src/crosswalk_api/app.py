@@ -7,6 +7,7 @@ from crosswalk_service import ServiceConfig
 from fastapi import FastAPI, Request, Response
 
 from .errors import ApiInputError, input_error_handler
+from .logging import EventLog
 from .metrics import Metrics
 from .request_limits import enforce_request_limit
 from .routes import router
@@ -15,10 +16,14 @@ from .trace import add_trace_header
 
 
 def create_app(
-    version: str = "development", environment: str = "local", metrics: Metrics | None = None
+    version: str = "development",
+    environment: str = "local",
+    metrics: Metrics | None = None,
+    events: EventLog | None = None,
 ) -> FastAPI:
     config = ServiceConfig(version=version, environment=environment)
     registry = metrics or Metrics()
+    event_log = events or EventLog()
     app = FastAPI(title="Crosswalk API", version=config.version)
     app.middleware("http")(add_trace_header)
     app.middleware("http")(enforce_request_limit)
@@ -28,6 +33,7 @@ def create_app(
         request: Request, call_next: Callable[[Request], Awaitable[Response]]
     ) -> Response:
         registry.increment("requests.total")
+        event_log.record("request.received", {"path": request.url.path})
         return await call_next(request)
 
     app.middleware("http")(add_security_headers)
@@ -47,5 +53,9 @@ def create_app(
     @app.get("/metrics")
     def metrics_endpoint() -> dict[str, int]:
         return registry.snapshot()
+
+    @app.get("/events")
+    def events_endpoint() -> tuple[dict[str, str], ...]:
+        return event_log.snapshot()
 
     return app
