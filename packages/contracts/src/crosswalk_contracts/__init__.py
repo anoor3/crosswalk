@@ -3,6 +3,7 @@
 from .models import (
     CreateJobRequest,
     ErrorEnvelope,
+    EventResponse,
     HealthResponse,
     JobResponse,
     Page,
@@ -12,6 +13,7 @@ from .models import (
 __all__ = [
     "CreateJobRequest",
     "ErrorEnvelope",
+    "EventResponse",
     "HealthResponse",
     "JobResponse",
     "Page",
