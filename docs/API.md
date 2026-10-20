@@ -26,4 +26,6 @@ The app factory accepts an optional `Metrics` instance, which keeps request coun
 
 `Readiness` is exported as a small immutable value object for future dependency-aware checks.
 
+Focused event checks are available with `make test-events`.
+
 Responses include `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, and `Referrer-Policy: no-referrer`. Requests larger than 1 MiB are rejected before route parsing.
