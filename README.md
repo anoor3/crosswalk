@@ -388,6 +388,8 @@ The metrics registry is intentionally process-local until a durable telemetry ba
 
 The local API also exposes structured request events for deterministic debugging.
 
+Structured events use the shared transport contract and remain process-local by design.
+
 Readiness is modeled explicitly while remaining local and dependency-free.
 
 The service boundary walkthrough lives in [`docs/service-boundary.md`](docs/service-boundary.md), with local API behavior in [`docs/API.md`](docs/API.md).
