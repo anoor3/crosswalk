@@ -30,4 +30,6 @@ Event payloads use the shared `EventResponse` contract and preserve additional e
 
 Focused event checks are available with `make test-events`.
 
+The event route includes its own request event, so an initial call returns one deterministic event.
+
 Responses include `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, and `Referrer-Policy: no-referrer`. Requests larger than 1 MiB are rejected before route parsing.
