@@ -390,6 +390,8 @@ The local API also exposes structured request events for deterministic debugging
 
 Structured events use the shared transport contract and remain process-local by design.
 
+The events endpoint records each request before returning the current event snapshot.
+
 Readiness is modeled explicitly while remaining local and dependency-free.
 
 The service boundary walkthrough lives in [`docs/service-boundary.md`](docs/service-boundary.md), with local API behavior in [`docs/API.md`](docs/API.md).
