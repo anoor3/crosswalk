@@ -25,3 +25,5 @@ No hosted metrics, alerting, or dependency discovery is implied by these local s
 The local API now exposes both request counters and structured request events for deterministic inspection.
 
 The focused `make test-events` target covers the collector and HTTP boundary.
+
+Event responses are validated through the shared transport contract.
