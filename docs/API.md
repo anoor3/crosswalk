@@ -24,6 +24,8 @@ The app factory accepts an optional `Metrics` instance, which keeps request coun
 
 `GET /events` returns process-local structured request events and accepts an optional injected `EventLog` for tests and adapters.
 
+Event payloads use the shared `EventResponse` contract and preserve additional event fields such as request paths.
+
 `Readiness` is exported as a small immutable value object for future dependency-aware checks.
 
 Focused event checks are available with `make test-events`.
