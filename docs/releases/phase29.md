@@ -21,3 +21,5 @@ The API factory accepts an injected metrics registry so tests and future adapter
 Readiness remains a pure local value until dependency probes are wired into the service context.
 
 No hosted metrics, alerting, or dependency discovery is implied by these local seams.
+
+The local API now exposes both request counters and structured request events for deterministic inspection.
