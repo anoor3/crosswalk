@@ -1,5 +1,4 @@
 from crosswalk_jobs import Job, JobStatus
-
 from crosswalk_service import JobRegistry
 
 
