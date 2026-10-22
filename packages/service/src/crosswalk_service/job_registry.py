@@ -11,6 +11,12 @@ class JobRegistry:
         self._jobs[job.id] = job
         return job
 
+    def update(self, job: Job) -> Job:
+        if job.id not in self._jobs:
+            raise KeyError(job.id)
+        self._jobs[job.id] = job
+        return job
+
     def get(self, job_id: str) -> Job | None:
         return self._jobs.get(job_id)
 
