@@ -6,6 +6,7 @@ from .models import (
     EventResponse,
     HealthResponse,
     JobResponse,
+    JobStatusResponse,
     Page,
     ServiceInfoResponse,
 )
@@ -16,6 +17,7 @@ __all__ = [
     "EventResponse",
     "HealthResponse",
     "JobResponse",
+    "JobStatusResponse",
     "Page",
     "ServiceInfoResponse",
 ]
