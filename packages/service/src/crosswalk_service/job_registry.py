@@ -47,6 +47,12 @@ class JobRegistry:
     def kinds_for_tenant(self, tenant_id: str) -> tuple[str, ...]:
         return tuple(job.kind for job in self.snapshot_for_tenant(tenant_id))
 
+    def find_by_status(self, status: JobStatus) -> tuple[Job, ...]:
+        return tuple(job for job in self._jobs.values() if job.status is status)
+
+    def find_by_kind(self, kind: str) -> tuple[Job, ...]:
+        return tuple(job for job in self._jobs.values() if job.kind == kind)
+
     def snapshot_for_tenant(self, tenant_id: str) -> tuple[Job, ...]:
         return tuple(job for job in self._jobs.values() if job.tenant_id == tenant_id)
 
