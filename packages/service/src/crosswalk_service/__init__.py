@@ -2,14 +2,14 @@
 
 from .config import ServiceConfig
 from .context import ServiceContext
-from .jobs import enqueue_job, run_job
 from .job_registry import JobRegistry
+from .jobs import enqueue_job, run_job
 from .records import create_mapping, update_mapping
 
 __all__ = [
+    "JobRegistry",
     "ServiceConfig",
     "ServiceContext",
-    "JobRegistry",
     "create_mapping",
     "enqueue_job",
     "run_job",

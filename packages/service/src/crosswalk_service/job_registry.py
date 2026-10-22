@@ -17,3 +17,9 @@ class JobRegistry:
     def status(self, job_id: str) -> JobStatus | None:
         job = self.get(job_id)
         return job.status if job else None
+
+    def count(self) -> int:
+        return len(self._jobs)
+
+    def snapshot(self) -> tuple[Job, ...]:
+        return tuple(self._jobs.values())
