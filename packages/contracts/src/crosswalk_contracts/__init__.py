@@ -9,6 +9,7 @@ from .models import (
     JobStatusResponse,
     Page,
     ServiceInfoResponse,
+    TenantJobLookup,
 )
 
 __all__ = [
@@ -20,4 +21,5 @@ __all__ = [
     "JobStatusResponse",
     "Page",
     "ServiceInfoResponse",
+    "TenantJobLookup",
 ]
