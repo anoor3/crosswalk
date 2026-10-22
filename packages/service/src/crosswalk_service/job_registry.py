@@ -20,6 +20,9 @@ class JobRegistry:
     def get(self, job_id: str) -> Job | None:
         return self._jobs.get(job_id)
 
+    def has(self, job_id: str) -> bool:
+        return job_id in self._jobs
+
     def get_for_tenant(self, tenant_id: str, job_id: str) -> Job | None:
         job = self.get(job_id)
         return job if job and job.tenant_id == tenant_id else None
