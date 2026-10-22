@@ -26,6 +26,8 @@ The app factory accepts an optional `Metrics` instance, which keeps request coun
 
 Event payloads use the shared `EventResponse` contract and preserve additional event fields such as request paths.
 
+The local service registry is the in-memory seam behind future durable job persistence.
+
 `Readiness` is exported as a small immutable value object for future dependency-aware checks.
 
 Focused event checks are available with `make test-events`.
