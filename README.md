@@ -390,6 +390,8 @@ The local API also exposes structured request events for deterministic debugging
 
 Structured events use the shared transport contract and remain process-local by design.
 
+The service package now has a deterministic in-memory job registry for local lifecycle work.
+
 The events endpoint records each request before returning the current event snapshot.
 
 Readiness is modeled explicitly while remaining local and dependency-free.
