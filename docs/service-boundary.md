@@ -21,3 +21,5 @@ Use `make test-events` to verify the event collector and HTTP event boundary.
 The shared event contract keeps the HTTP representation stable while allowing additive fields.
 
 The service job registry provides deterministic add, update, status, snapshot, remove, and clear operations for local orchestration.
+
+Use `make test-jobs` to verify registry lifecycle behavior and the typed HTTP job state route.
