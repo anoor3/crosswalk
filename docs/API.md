@@ -30,6 +30,8 @@ The local service registry is the in-memory seam behind future durable job persi
 
 Focused job lifecycle checks are available with `make test-jobs`.
 
+Job state requests participate in the same trace, security, request-limit, metrics, and event boundaries as the other API routes.
+
 `Readiness` is exported as a small immutable value object for future dependency-aware checks.
 
 Focused event checks are available with `make test-events`.
