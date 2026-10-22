@@ -35,6 +35,13 @@ class JobStatusResponse(BaseModel):
     status: str = Field(min_length=1)
 
 
+class TenantJobLookup(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    tenant_id: str = Field(min_length=1)
+    job_id: str = Field(min_length=1)
+
+
 class CreateJobRequest(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
