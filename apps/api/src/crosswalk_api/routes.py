@@ -1,4 +1,4 @@
-from crosswalk_contracts import CreateJobRequest, HealthResponse, JobResponse
+from crosswalk_contracts import CreateJobRequest, HealthResponse, JobResponse, JobStatusResponse
 from fastapi import APIRouter
 
 router = APIRouter()
@@ -17,6 +17,11 @@ def version() -> HealthResponse:
 @router.get("/jobs/{job_id}", response_model=JobResponse)
 def job_status(job_id: str) -> JobResponse:
     return JobResponse(id=job_id, status="queued", progress=0)
+
+
+@router.get("/jobs/{job_id}/state", response_model=JobStatusResponse)
+def job_state(job_id: str) -> JobStatusResponse:
+    return JobStatusResponse(id=job_id, status="QUEUED")
 
 
 @router.post("/jobs", response_model=JobResponse, status_code=201)
