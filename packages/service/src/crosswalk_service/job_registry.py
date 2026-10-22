@@ -47,6 +47,12 @@ class JobRegistry:
     def snapshot(self) -> tuple[Job, ...]:
         return tuple(self._jobs.values())
 
+    def ids(self) -> tuple[str, ...]:
+        return tuple(self._jobs)
+
+    def ids_for_tenant(self, tenant_id: str) -> tuple[str, ...]:
+        return tuple(job.id for job in self.snapshot_for_tenant(tenant_id))
+
     def remove(self, job_id: str) -> Job | None:
         return self._jobs.pop(job_id, None)
 
