@@ -59,5 +59,9 @@ class JobRegistry:
     def remove(self, job_id: str) -> Job | None:
         return self._jobs.pop(job_id, None)
 
+    def remove_for_tenant(self, tenant_id: str, job_id: str) -> Job | None:
+        job = self.get_for_tenant(tenant_id, job_id)
+        return self.remove(job_id) if job else None
+
     def clear(self) -> None:
         self._jobs.clear()
