@@ -17,6 +17,12 @@ class JobRegistry:
         self._jobs[job.id] = job
         return job
 
+    def update_for_tenant(self, tenant_id: str, job: Job) -> Job:
+        current = self.get_for_tenant(tenant_id, job.id)
+        if current is None:
+            raise KeyError(job.id)
+        return self.update(job)
+
     def get(self, job_id: str) -> Job | None:
         return self._jobs.get(job_id)
 
