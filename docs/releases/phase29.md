@@ -29,3 +29,5 @@ The focused `make test-events` target covers the collector and HTTP boundary.
 Event responses are validated through the shared transport contract.
 
 The initial events response is deterministic because the request itself is recorded before route execution.
+
+The next job lifecycle slice remains in-memory and deterministic; durable queues and hosted persistence are still future work.
