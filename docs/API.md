@@ -28,6 +28,8 @@ Event payloads use the shared `EventResponse` contract and preserve additional e
 
 The local service registry is the in-memory seam behind future durable job persistence.
 
+Focused job lifecycle checks are available with `make test-jobs`.
+
 `Readiness` is exported as a small immutable value object for future dependency-aware checks.
 
 Focused event checks are available with `make test-events`.
