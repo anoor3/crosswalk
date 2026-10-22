@@ -20,8 +20,16 @@ class JobRegistry:
     def get(self, job_id: str) -> Job | None:
         return self._jobs.get(job_id)
 
+    def get_for_tenant(self, tenant_id: str, job_id: str) -> Job | None:
+        job = self.get(job_id)
+        return job if job and job.tenant_id == tenant_id else None
+
     def status(self, job_id: str) -> JobStatus | None:
         job = self.get(job_id)
+        return job.status if job else None
+
+    def status_for_tenant(self, tenant_id: str, job_id: str) -> JobStatus | None:
+        job = self.get_for_tenant(tenant_id, job_id)
         return job.status if job else None
 
     def count(self) -> int:
