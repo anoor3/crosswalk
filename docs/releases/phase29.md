@@ -33,3 +33,5 @@ The initial events response is deterministic because the request itself is recor
 The next job lifecycle slice remains in-memory and deterministic; durable queues and hosted persistence are still future work.
 
 The focused `make test-jobs` target covers registry operations and the typed job state endpoint.
+
+The typed job state route is a local observability seam; it does not claim durable job execution.
