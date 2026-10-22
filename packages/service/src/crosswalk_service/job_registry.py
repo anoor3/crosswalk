@@ -32,6 +32,9 @@ class JobRegistry:
         job = self.get_for_tenant(tenant_id, job_id)
         return job.status if job else None
 
+    def snapshot_for_tenant(self, tenant_id: str) -> tuple[Job, ...]:
+        return tuple(job for job in self._jobs.values() if job.tenant_id == tenant_id)
+
     def count(self) -> int:
         return len(self._jobs)
 
