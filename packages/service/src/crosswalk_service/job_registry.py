@@ -71,3 +71,9 @@ class JobRegistry:
 
     def clear(self) -> None:
         self._jobs.clear()
+
+    def clear_for_tenant(self, tenant_id: str) -> int:
+        ids = self.ids_for_tenant(tenant_id)
+        for job_id in ids:
+            self._jobs.pop(job_id, None)
+        return len(ids)
