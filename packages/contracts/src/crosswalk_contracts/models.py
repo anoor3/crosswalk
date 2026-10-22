@@ -28,6 +28,13 @@ class JobResponse(BaseModel):
     progress: int = Field(ge=0, le=100)
 
 
+class JobStatusResponse(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    id: str = Field(min_length=1)
+    status: str = Field(min_length=1)
+
+
 class CreateJobRequest(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
