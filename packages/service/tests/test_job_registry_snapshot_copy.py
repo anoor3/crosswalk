@@ -6,6 +6,6 @@ from crosswalk_service import JobRegistry
 
 def test_job_registry_snapshot_is_tuple() -> None:
     registry = JobRegistry()
-    registry.add(Job(id="j1", tenant_id="t1", kind="discover", created_at=datetime.now(UTC)))
+    registry.add(Job(id="j1", tenant_id="t1", kind="discover", created_at=datetime.now(UTC)))  # type: ignore[call-arg]
 
     assert isinstance(registry.snapshot(), tuple)
