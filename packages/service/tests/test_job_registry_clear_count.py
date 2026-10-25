@@ -6,7 +6,7 @@ from crosswalk_service import JobRegistry
 
 def test_job_registry_clear_resets_count() -> None:
     registry = JobRegistry()
-    registry.add(Job(id="j1", tenant_id="t1", kind="discover", created_at=datetime.now(UTC)))  # type: ignore[call-arg]
+    registry.add(Job(id="j1", tenant_id="t1", kind="discover", created_at=datetime.now(UTC)))
     registry.clear()
 
     assert registry.count() == 0
