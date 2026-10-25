@@ -11,4 +11,4 @@ def test_queue_preserves_progress() -> None:
     item = job().model_copy(update={"progress": 25})
     queue = InMemoryQueue()
     queue.enqueue(item)
-    assert queue.dequeue().progress == 25
+    assert queue.dequeue().progress == 25  # type: ignore[union-attr]

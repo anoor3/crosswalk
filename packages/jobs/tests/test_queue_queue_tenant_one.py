@@ -11,4 +11,4 @@ def test_queue_keeps_tenant_on_job() -> None:
     item = job()
     queue = InMemoryQueue()
     queue.enqueue(item)
-    assert queue.dequeue().tenant_id == "t"
+    assert queue.dequeue().tenant_id == "t"  # type: ignore[union-attr]

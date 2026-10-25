@@ -11,4 +11,4 @@ def test_queue_keeps_job_kind() -> None:
     item = job()
     queue = InMemoryQueue()
     queue.enqueue(item)
-    assert queue.dequeue().kind == "sync"
+    assert queue.dequeue().kind == "sync"  # type: ignore[union-attr]

@@ -11,4 +11,4 @@ def test_queue_keeps_job_status() -> None:
     item = job()
     queue = InMemoryQueue()
     queue.enqueue(item)
-    assert queue.dequeue().status is JobStatus.QUEUED
+    assert queue.dequeue().status is JobStatus.QUEUED  # type: ignore[union-attr]

@@ -5,4 +5,4 @@ from pydantic import ValidationError
 
 def test_job_rejects_extra_fields() -> None:
     with pytest.raises(ValidationError):
-        Job(id="j", tenant_id="t", kind="k", unknown="x")
+        Job(id="j", tenant_id="t", kind="k", unknown="x")  # type: ignore[call-arg]

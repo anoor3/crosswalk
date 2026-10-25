@@ -13,4 +13,4 @@ def test_queue_preserves_different_tenants() -> None:
     second = job("b", "t2")
     queue.enqueue(first)
     queue.enqueue(second)
-    assert queue.dequeue().tenant_id == "t1" and queue.dequeue().tenant_id == "t2"
+    assert queue.dequeue().tenant_id == "t1" and queue.dequeue().tenant_id == "t2"  # type: ignore[union-attr]
