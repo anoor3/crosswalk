@@ -1,6 +1,7 @@
 import pytest
+from crosswalk_jobs import Job
 from pydantic import ValidationError
-from crosswalk_jobs import Job, JobStatus
+
 
 def test_job_rejects_progress_over_hundred() -> None:
     with pytest.raises(ValidationError):

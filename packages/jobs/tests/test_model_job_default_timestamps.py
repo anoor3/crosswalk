@@ -1,6 +1,5 @@
-import pytest
-from pydantic import ValidationError
-from crosswalk_jobs import Job, JobStatus
+from crosswalk_jobs import Job
+
 
 def test_job_defaults_optional_timestamps_to_none() -> None:
     job = Job(id="j", tenant_id="t", kind="k")
