@@ -21,7 +21,7 @@ class Job(BaseModel):
     status: JobStatus = JobStatus.QUEUED
     attempt_count: int = Field(default=0, ge=0)
     progress: int = Field(default=0, ge=0, le=100)
-    created_at: datetime
+    created_at: datetime = Field(default_factory=datetime.now)
     started_at: datetime | None = None
     completed_at: datetime | None = None
     error: str | None = None
