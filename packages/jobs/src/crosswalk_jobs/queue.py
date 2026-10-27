@@ -50,5 +50,8 @@ class InMemoryQueue:
     def requeue(self, job: Job) -> None:
         self._items.appendleft(job)
 
+    def is_empty(self) -> bool:
+        return not self._items
+
     def __len__(self) -> int:
         return len(self._items)
