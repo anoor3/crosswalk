@@ -28,5 +28,8 @@ class InMemoryQueue:
     def snapshot(self) -> tuple[Job, ...]:
         return tuple(self._items)
 
+    def contains(self, job_id: str) -> bool:
+        return any(job.id == job_id for job in self._items)
+
     def __len__(self) -> int:
         return len(self._items)
