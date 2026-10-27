@@ -40,5 +40,12 @@ class InMemoryQueue:
     def count_for_tenant(self, tenant_id: str) -> int:
         return sum(job.tenant_id == tenant_id for job in self._items)
 
+    def remove(self, job_id: str) -> Job | None:
+        for index, job in enumerate(self._items):
+            if job.id == job_id:
+                del self._items[index]
+                return job
+        return None
+
     def __len__(self) -> int:
         return len(self._items)
