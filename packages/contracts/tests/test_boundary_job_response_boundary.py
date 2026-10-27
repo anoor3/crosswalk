@@ -1,6 +1,5 @@
-import pytest
-from pydantic import ValidationError
-from crosswalk_contracts import CreateJobRequest, ErrorEnvelope, HealthResponse, JobResponse, Page
+from crosswalk_contracts import JobResponse
+
 
 def test_job_response_accepts_progress_boundaries() -> None:
     assert JobResponse(id="j", status="queued", progress=0).progress == 0
