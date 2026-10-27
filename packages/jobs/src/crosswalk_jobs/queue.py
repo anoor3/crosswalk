@@ -20,5 +20,10 @@ class InMemoryQueue:
     def peek(self) -> Job | None:
         return self._items[0] if self._items else None
 
+    def clear(self) -> int:
+        count = len(self._items)
+        self._items.clear()
+        return count
+
     def __len__(self) -> int:
         return len(self._items)
