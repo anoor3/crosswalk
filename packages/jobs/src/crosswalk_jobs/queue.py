@@ -25,5 +25,8 @@ class InMemoryQueue:
         self._items.clear()
         return count
 
+    def snapshot(self) -> tuple[Job, ...]:
+        return tuple(self._items)
+
     def __len__(self) -> int:
         return len(self._items)
