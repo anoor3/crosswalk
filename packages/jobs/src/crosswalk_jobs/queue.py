@@ -17,5 +17,8 @@ class InMemoryQueue:
     def dequeue(self) -> Job | None:
         return self._items.popleft() if self._items else None
 
+    def peek(self) -> Job | None:
+        return self._items[0] if self._items else None
+
     def __len__(self) -> int:
         return len(self._items)
