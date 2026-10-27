@@ -31,5 +31,8 @@ class InMemoryQueue:
     def contains(self, job_id: str) -> bool:
         return any(job.id == job_id for job in self._items)
 
+    def ids(self) -> tuple[str, ...]:
+        return tuple(job.id for job in self._items)
+
     def __len__(self) -> int:
         return len(self._items)
