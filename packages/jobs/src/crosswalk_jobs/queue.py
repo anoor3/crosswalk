@@ -34,5 +34,8 @@ class InMemoryQueue:
     def ids(self) -> tuple[str, ...]:
         return tuple(job.id for job in self._items)
 
+    def for_tenant(self, tenant_id: str) -> tuple[Job, ...]:
+        return tuple(job for job in self._items if job.tenant_id == tenant_id)
+
     def __len__(self) -> int:
         return len(self._items)
