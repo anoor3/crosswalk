@@ -47,5 +47,8 @@ class InMemoryQueue:
                 return job
         return None
 
+    def requeue(self, job: Job) -> None:
+        self._items.appendleft(job)
+
     def __len__(self) -> int:
         return len(self._items)
