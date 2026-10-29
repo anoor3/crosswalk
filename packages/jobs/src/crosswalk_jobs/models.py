@@ -37,3 +37,7 @@ class Job(BaseModel):
     @property
     def is_queued(self) -> bool:
         return self.status is JobStatus.QUEUED
+
+    @property
+    def is_failed(self) -> bool:
+        return self.status is JobStatus.FAILED
