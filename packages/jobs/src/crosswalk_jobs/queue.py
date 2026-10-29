@@ -14,6 +14,9 @@ class InMemoryQueue:
     def enqueue(self, job: Job) -> None:
         self._items.append(job)
 
+    def enqueue_many(self, jobs: tuple[Job, ...]) -> None:
+        self._items.extend(jobs)
+
     def dequeue(self) -> Job | None:
         return self._items.popleft() if self._items else None
 
