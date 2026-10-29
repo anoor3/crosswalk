@@ -1,4 +1,4 @@
-"""Typed job records for future queue backends."""
+"""Typed job records and deterministic queue lifecycle helpers."""
 
 from .models import Job, JobStatus
 from .queue import InMemoryQueue
