@@ -33,3 +33,7 @@ class Job(BaseModel):
     @property
     def is_active(self) -> bool:
         return self.status is JobStatus.RUNNING
+
+    @property
+    def is_queued(self) -> bool:
+        return self.status is JobStatus.QUEUED
