@@ -6,7 +6,7 @@ from crosswalk_service import JobRegistry
 now = datetime(2026, 1, 1, tzinfo=UTC)
 
 
-def make(identifier="j", tenant="t", status=JobStatus.QUEUED) -> Job:
+def make(identifier: str = "j", tenant: str = "t", status: JobStatus = JobStatus.QUEUED) -> Job:
     return Job(id=identifier, tenant_id=tenant, kind="sync", status=status, created_at=now)
 
 
