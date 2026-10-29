@@ -91,6 +91,9 @@ class JobRegistry:
     def clear(self) -> None:
         self._jobs.clear()
 
+    def terminal_for_tenant(self, tenant_id: str) -> tuple[Job, ...]:
+        return tuple(job for job in self.snapshot_for_tenant(tenant_id) if job.is_terminal)
+
     def clear_for_tenant(self, tenant_id: str) -> int:
         ids = self.ids_for_tenant(tenant_id)
         for job_id in ids:
