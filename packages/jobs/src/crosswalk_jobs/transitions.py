@@ -13,6 +13,10 @@ _ALLOWED: dict[JobStatus, frozenset[JobStatus]] = {
 }
 
 
+def can_transition(job: Job, status: JobStatus) -> bool:
+    return status in _ALLOWED[job.status]
+
+
 def transition(job: Job, status: JobStatus, now: datetime, error: str | None = None) -> Job:
     """Apply one legal lifecycle transition and stamp relevant timestamps."""
     if status not in _ALLOWED[job.status]:
