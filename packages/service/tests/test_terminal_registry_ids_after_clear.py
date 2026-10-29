@@ -1,11 +1,17 @@
 from datetime import UTC, datetime
+
 from crosswalk_jobs import Job, JobStatus
 from crosswalk_service import JobRegistry
 
-now=datetime(2026,1,1,tzinfo=UTC)
+now = datetime(2026, 1, 1, tzinfo=UTC)
+
+
 def make(identifier="j", tenant="t", status=JobStatus.QUEUED) -> Job:
     return Job(id=identifier, tenant_id=tenant, kind="sync", status=status, created_at=now)
 
+
 def test_ids_empty_after_clear() -> None:
-    r=JobRegistry(); r.add(make()); r.clear()
+    r = JobRegistry()
+    r.add(make())
+    r.clear()
     assert r.ids() == ()
