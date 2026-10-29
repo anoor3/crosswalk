@@ -20,6 +20,11 @@ class InMemoryQueue:
     def dequeue(self) -> Job | None:
         return self._items.popleft() if self._items else None
 
+    def dequeue_many(self, limit: int) -> tuple[Job, ...]:
+        if limit < 0:
+            raise ValueError("limit must be non-negative")
+        return tuple(self._items.popleft() for _ in range(min(limit, len(self._items))))
+
     def peek(self) -> Job | None:
         return self._items[0] if self._items else None
 
