@@ -29,3 +29,7 @@ class Job(BaseModel):
     @property
     def is_terminal(self) -> bool:
         return self.status in (JobStatus.SUCCEEDED, JobStatus.FAILED, JobStatus.CANCELLED)
+
+    @property
+    def is_active(self) -> bool:
+        return self.status is JobStatus.RUNNING
