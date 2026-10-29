@@ -25,3 +25,7 @@ class Job(BaseModel):
     started_at: datetime | None = None
     completed_at: datetime | None = None
     error: str | None = None
+
+    @property
+    def is_terminal(self) -> bool:
+        return self.status in (JobStatus.SUCCEEDED, JobStatus.FAILED, JobStatus.CANCELLED)
