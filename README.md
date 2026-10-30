@@ -345,6 +345,7 @@ Crosswalk is built phase-by-phase against [`PLANNER.md`](PLANNER.md), with each 
 | 24 | Final repository polish | ✅ Baseline done |
 | 25 | MVP hardening | ✅ Baseline done |
 | 26 | Local service boundary | ✅ Baseline done |
+| 30 | Service orchestration and real job lifecycle | ✅ Baseline done |
 
 ---
 
@@ -360,6 +361,8 @@ The near-term path to a minimum viable product (value profiling, item 0, is now 
 5. **Adapter + test generation** — turn approved mappings into typed, tested, credential-free adapters (MVP boundary).
 
 Beyond the current baseline: a larger synthetic benchmark, reproducible evaluation runs, real HTTP transports, database migrations, background jobs, cloud deployment, and observability.
+
+Phase 30 now connects the local HTTP routes to the in-memory service context for job submission, registry-backed status reads, and tenant-scoped cancellation. See [`docs/releases/phase30.md`](docs/releases/phase30.md).
 
 ---
 
