@@ -10,8 +10,10 @@ from crosswalk_contracts import (
     JobStatusResponse,
     MappingResponse,
     Page,
+    UpdateMappingRequest,
 )
-from crosswalk_service import ServiceContext, cancel_job, create_mapping, submit_job
+from crosswalk_storage import ConflictError
+from crosswalk_service import ServiceContext, cancel_job, create_mapping, submit_job, update_mapping
 from fastapi import APIRouter, HTTPException, Query, Request
 
 router = APIRouter()
@@ -96,6 +98,30 @@ def get_mapping_route(record_id: str, tenant_id: str, http_request: Request) -> 
         record = _context(http_request).store.get(tenant_id, record_id)
     except KeyError as error:
         raise HTTPException(status_code=404, detail="mapping not found") from error
+    return MappingResponse(
+        id=record.id,
+        tenant_id=record.tenant_id,
+        mapping=record.mapping_json,
+        version=record.version,
+    )
+
+
+@router.put("/mappings/{record_id}", response_model=MappingResponse)
+def update_mapping_route(
+    record_id: str, request: UpdateMappingRequest, http_request: Request
+) -> MappingResponse:
+    try:
+        record = update_mapping(
+            _context(http_request),
+            request.tenant_id,
+            record_id,
+            request.expected_version,
+            request.mapping,
+        )
+    except KeyError as error:
+        raise HTTPException(status_code=404, detail="mapping not found") from error
+    except ConflictError as error:
+        raise HTTPException(status_code=409, detail="stale mapping version") from error
     return MappingResponse(
         id=record.id,
         tenant_id=record.tenant_id,
