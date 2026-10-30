@@ -1,4 +1,5 @@
 from datetime import UTC, datetime
+from typing import cast
 
 from crosswalk_contracts import (
     CancelJobRequest,
@@ -14,7 +15,7 @@ router = APIRouter()
 
 
 def _context(request: Request) -> ServiceContext:
-    return request.app.state.service_context
+    return cast(ServiceContext, request.app.state.service_context)
 
 
 @router.get("/ready", response_model=HealthResponse)
