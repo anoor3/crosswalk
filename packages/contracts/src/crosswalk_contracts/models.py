@@ -55,6 +55,22 @@ class CancelJobRequest(BaseModel):
     tenant_id: str = Field(min_length=1)
 
 
+class CreateMappingRequest(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    tenant_id: str = Field(min_length=1)
+    mapping: dict[str, object]
+
+
+class MappingResponse(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    id: str = Field(min_length=1)
+    tenant_id: str = Field(min_length=1)
+    mapping: dict[str, object]
+    version: int = Field(ge=1)
+
+
 class ServiceInfoResponse(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 

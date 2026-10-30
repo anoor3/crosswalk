@@ -2,12 +2,14 @@
 
 from .models import (
     CancelJobRequest,
+    CreateMappingRequest,
     CreateJobRequest,
     ErrorEnvelope,
     EventResponse,
     HealthResponse,
     JobResponse,
     JobStatusResponse,
+    MappingResponse,
     Page,
     ServiceInfoResponse,
     TenantJobLookup,
@@ -16,11 +18,13 @@ from .models import (
 __all__ = [
     "CancelJobRequest",
     "CreateJobRequest",
+    "CreateMappingRequest",
     "ErrorEnvelope",
     "EventResponse",
     "HealthResponse",
     "JobResponse",
     "JobStatusResponse",
+    "MappingResponse",
     "Page",
     "ServiceInfoResponse",
     "TenantJobLookup",
