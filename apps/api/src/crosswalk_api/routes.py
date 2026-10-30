@@ -7,6 +7,7 @@ from crosswalk_contracts import (
     HealthResponse,
     JobResponse,
     JobStatusResponse,
+    Page,
 )
 from crosswalk_service import ServiceContext, cancel_job, submit_job
 from fastapi import APIRouter, Request
@@ -35,6 +36,19 @@ def job_status(request: Request, job_id: str) -> JobResponse:
         id=job_id,
         status=job.status.value.lower() if job else "queued",
         progress=job.progress if job else 0,
+    )
+
+
+@router.get("/jobs", response_model=Page[JobResponse])
+def list_jobs(
+    request: Request, tenant_id: str, limit: int = 100
+) -> Page[JobResponse]:
+    jobs = _context(request).jobs.snapshot_for_tenant(tenant_id)[:limit]
+    return Page(
+        items=tuple(
+            JobResponse(id=job.id, status=job.status.value.lower(), progress=job.progress)
+            for job in jobs
+        )
     )
 
 
