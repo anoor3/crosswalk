@@ -1,6 +1,7 @@
 """Stable transport contracts for local and future hosted boundaries."""
 
 from .models import (
+    CancelJobRequest,
     CreateJobRequest,
     ErrorEnvelope,
     EventResponse,
@@ -13,6 +14,7 @@ from .models import (
 )
 
 __all__ = [
+    "CancelJobRequest",
     "CreateJobRequest",
     "ErrorEnvelope",
     "EventResponse",

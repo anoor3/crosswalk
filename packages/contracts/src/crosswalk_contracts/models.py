@@ -49,6 +49,12 @@ class CreateJobRequest(BaseModel):
     kind: str = Field(min_length=1)
 
 
+class CancelJobRequest(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    tenant_id: str = Field(min_length=1)
+
+
 class ServiceInfoResponse(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
