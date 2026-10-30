@@ -4,13 +4,15 @@ from typing import cast
 from crosswalk_contracts import (
     CancelJobRequest,
     CreateJobRequest,
+    CreateMappingRequest,
     HealthResponse,
     JobResponse,
     JobStatusResponse,
+    MappingResponse,
     Page,
 )
-from crosswalk_service import ServiceContext, cancel_job, submit_job
-from fastapi import APIRouter, Query, Request
+from crosswalk_service import ServiceContext, cancel_job, create_mapping, submit_job
+from fastapi import APIRouter, HTTPException, Query, Request
 
 router = APIRouter()
 
@@ -75,3 +77,28 @@ def cancel_job_route(job_id: str, request: CancelJobRequest, http_request: Reque
             progress=current.progress if current else 0,
         )
     return JobResponse(id=job.id, status=job.status.value.lower(), progress=job.progress)
+
+
+@router.post("/mappings", response_model=MappingResponse, status_code=201)
+def create_mapping_route(request: CreateMappingRequest, http_request: Request) -> MappingResponse:
+    record = create_mapping(_context(http_request), request.tenant_id, request.mapping)
+    return MappingResponse(
+        id=record.id,
+        tenant_id=record.tenant_id,
+        mapping=record.mapping_json,
+        version=record.version,
+    )
+
+
+@router.get("/mappings/{record_id}", response_model=MappingResponse)
+def get_mapping_route(record_id: str, tenant_id: str, http_request: Request) -> MappingResponse:
+    try:
+        record = _context(http_request).store.get(tenant_id, record_id)
+    except KeyError as error:
+        raise HTTPException(status_code=404, detail="mapping not found") from error
+    return MappingResponse(
+        id=record.id,
+        tenant_id=record.tenant_id,
+        mapping=record.mapping_json,
+        version=record.version,
+    )
