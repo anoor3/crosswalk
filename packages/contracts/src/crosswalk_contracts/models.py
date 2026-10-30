@@ -71,6 +71,14 @@ class MappingResponse(BaseModel):
     version: int = Field(ge=1)
 
 
+class UpdateMappingRequest(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    tenant_id: str = Field(min_length=1)
+    expected_version: int = Field(ge=1)
+    mapping: dict[str, object]
+
+
 class ServiceInfoResponse(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 

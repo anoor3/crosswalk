@@ -13,6 +13,7 @@ from .models import (
     Page,
     ServiceInfoResponse,
     TenantJobLookup,
+    UpdateMappingRequest,
 )
 
 __all__ = [
@@ -28,4 +29,5 @@ __all__ = [
     "Page",
     "ServiceInfoResponse",
     "TenantJobLookup",
+    "UpdateMappingRequest",
 ]
