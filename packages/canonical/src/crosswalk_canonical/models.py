@@ -76,11 +76,15 @@ class Policy(BaseModel):
 
     model_config = _CANONICAL_CONFIG
 
-    policy_number: str = Field(..., min_length=1, description="Human-readable policy identifier.")
+    policy_number: str = Field(
+        ..., min_length=1, description="Human-readable policy identifier."
+    )
     effective_date: date | None = Field(
         default=None, description="Date the policy coverage begins."
     )
-    expiration_date: date | None = Field(default=None, description="Date the policy coverage ends.")
+    expiration_date: date | None = Field(
+        default=None, description="Date the policy coverage ends."
+    )
 
     @field_validator("policy_number")
     @classmethod
@@ -123,8 +127,12 @@ class Claim(BaseModel):
 
     model_config = _CANONICAL_CONFIG
 
-    claim_id: str = Field(..., min_length=1, description="Unique identifier for the claim.")
-    incident_date: date = Field(..., description="Calendar date the underlying incident occurred.")
+    claim_id: str = Field(
+        ..., min_length=1, description="Unique identifier for the claim."
+    )
+    incident_date: date = Field(
+        ..., description="Calendar date the underlying incident occurred."
+    )
     status: ClaimStatus = Field(..., description="Canonical lifecycle status.")
     claimant: Person = Field(..., description="The party making the claim.")
     insured: Person = Field(..., description="The party covered by the policy.")

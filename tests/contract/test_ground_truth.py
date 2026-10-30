@@ -216,7 +216,9 @@ def _load_payload(fixtures_dir: Path, difficulty: str, claim_id: str) -> Any:
 
 @pytest.mark.parametrize("difficulty", _DIFFICULTIES)
 class TestGroundTruthCorrectness:
-    def test_every_seed_maps_to_expected_claim(self, fixtures_dir: Path, difficulty: str) -> None:
+    def test_every_seed_maps_to_expected_claim(
+        self, fixtures_dir: Path, difficulty: str
+    ) -> None:
         """Applying the ground truth to each payload yields the seed's Claim."""
         gt = _load_ground_truth(fixtures_dir, difficulty)
         for seed in SEED_CLAIMS:
@@ -245,7 +247,9 @@ class TestGroundTruthCorrectness:
         missing = required - canonical_targets
         assert not missing, f"{difficulty} ground truth missing: {missing}"
 
-    def test_status_enum_values_are_canonical(self, fixtures_dir: Path, difficulty: str) -> None:
+    def test_status_enum_values_are_canonical(
+        self, fixtures_dir: Path, difficulty: str
+    ) -> None:
         """Every status the enum map targets must be a real ClaimStatus."""
         gt = _load_ground_truth(fixtures_dir, difficulty)
         for canonical_status in gt["status_enum_map"].values():

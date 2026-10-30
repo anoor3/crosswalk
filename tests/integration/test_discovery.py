@@ -112,7 +112,9 @@ class TestHardFixture:
 
 class TestUnsupportedIsMinimalAndExplicit:
     @pytest.mark.parametrize("difficulty", ["easy", "medium", "hard"])
-    def test_only_health_additional_properties(self, fixtures_dir: Path, difficulty: str) -> None:
+    def test_only_health_additional_properties(
+        self, fixtures_dir: Path, difficulty: str
+    ) -> None:
         cat = _catalog(fixtures_dir, difficulty)
         # The only thing the parser can't fully model in these specs is the
         # /health dynamic-map response — and it is recorded explicitly.

@@ -138,14 +138,12 @@ class TestSemanticHeuristics:
         assert p.semantic_type is SemanticType.CURRENCY
 
     def test_free_text(self) -> None:
-        p = _pv(
-            [
-                "The quick brown fox",
-                "jumps over the lazy dog",
-                "another distinct sentence here",
-                "and one more different phrase",
-            ]
-        )
+        p = _pv([
+            "The quick brown fox",
+            "jumps over the lazy dog",
+            "another distinct sentence here",
+            "and one more different phrase",
+        ])
         assert p.semantic_type is SemanticType.FREE_TEXT
 
 
