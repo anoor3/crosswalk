@@ -1,7 +1,7 @@
 from datetime import UTC, datetime
 
 from crosswalk_contracts import CreateJobRequest, HealthResponse, JobResponse, JobStatusResponse
-from crosswalk_service import ServiceContext, enqueue_job
+from crosswalk_service import ServiceContext, submit_job
 from fastapi import APIRouter, Request
 
 router = APIRouter()
@@ -39,8 +39,5 @@ def job_state(request: Request, job_id: str) -> JobStatusResponse:
 
 @router.post("/jobs", response_model=JobResponse, status_code=201)
 def create_job(request: CreateJobRequest, http_request: Request) -> JobResponse:
-    job = enqueue_job(
-        _context(http_request).queue, request.tenant_id, request.kind, datetime.now(UTC)
-    )
-    _context(http_request).jobs.add(job)
+    job = submit_job(_context(http_request), request.tenant_id, request.kind, datetime.now(UTC))
     return JobResponse(id=job.id, status=job.status.value.lower(), progress=job.progress)
