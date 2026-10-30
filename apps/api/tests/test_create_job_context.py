@@ -1,7 +1,6 @@
-from fastapi.testclient import TestClient
-
 from crosswalk_api import create_app
 from crosswalk_service import ServiceContext
+from fastapi.testclient import TestClient
 
 
 def test_create_job_registers_and_queues_job() -> None:

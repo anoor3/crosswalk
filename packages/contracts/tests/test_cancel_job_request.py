@@ -1,7 +1,6 @@
 import pytest
-from pydantic import ValidationError
-
 from crosswalk_contracts import CancelJobRequest
+from pydantic import ValidationError
 
 
 def test_cancel_job_request_requires_tenant() -> None:
