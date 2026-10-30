@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections.abc import Awaitable, Callable
 
 from crosswalk_contracts import EventResponse, HealthResponse, ServiceInfoResponse
-from crosswalk_service import ServiceConfig
+from crosswalk_service import ServiceConfig, ServiceContext
 from fastapi import FastAPI, Request, Response
 
 from .errors import ApiInputError, input_error_handler
@@ -20,11 +20,13 @@ def create_app(
     environment: str = "local",
     metrics: Metrics | None = None,
     events: EventLog | None = None,
+    context: ServiceContext | None = None,
 ) -> FastAPI:
     config = ServiceConfig(version=version, environment=environment)
     registry = metrics or Metrics()
     event_log = events or EventLog()
     app = FastAPI(title="Crosswalk API", version=config.version)
+    app.state.service_context = context or ServiceContext()
     app.middleware("http")(add_trace_header)
     app.middleware("http")(enforce_request_limit)
 
