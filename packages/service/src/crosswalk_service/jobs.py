@@ -33,3 +33,12 @@ def run_job(queue: InMemoryQueue, handler: Callable[[Job], None], now: datetime)
     """Run one queued job through the shared lifecycle implementation."""
 
     return run_once(queue, handler, now)
+
+
+def run_next_job(
+    context: ServiceContext, handler: Callable[[Job], None], now: datetime
+) -> Job | None:
+    result = run_job(context.queue, handler, now)
+    if result is not None:
+        context.jobs.update(result)
+    return result
