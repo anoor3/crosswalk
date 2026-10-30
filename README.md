@@ -347,6 +347,7 @@ Crosswalk is built phase-by-phase against [`PLANNER.md`](PLANNER.md), with each 
 | 26 | Local service boundary | ✅ Baseline done |
 | 30 | Service orchestration and real job lifecycle | ✅ Baseline done |
 | 31 | Tenant job listing and worker synchronization | ✅ Baseline done |
+| 32 | Tenant mapping persistence API | ✅ Baseline done |
 
 ---
 
@@ -366,6 +367,8 @@ Beyond the current baseline: a larger synthetic benchmark, reproducible evaluati
 Phase 30 now connects the local HTTP routes to the in-memory service context for job submission, registry-backed status reads, and tenant-scoped cancellation. See [`docs/releases/phase30.md`](docs/releases/phase30.md).
 
 Phase 31 adds bounded tenant job listing and explicit worker execution that synchronizes queue results back into the registry. See [`docs/releases/phase31.md`](docs/releases/phase31.md).
+
+Phase 32 adds tenant-scoped mapping create, read, and optimistic update routes backed by the versioned storage seam. See [`docs/releases/phase32.md`](docs/releases/phase32.md).
 
 ---
 
