@@ -1,7 +1,14 @@
+from datetime import UTC, datetime
+
 from crosswalk_contracts import CreateJobRequest, HealthResponse, JobResponse, JobStatusResponse
-from fastapi import APIRouter
+from crosswalk_service import ServiceContext, enqueue_job
+from fastapi import APIRouter, Request
 
 router = APIRouter()
+
+
+def _context(request: Request) -> ServiceContext:
+    return request.app.state.service_context
 
 
 @router.get("/ready", response_model=HealthResponse)
@@ -15,15 +22,23 @@ def version() -> HealthResponse:
 
 
 @router.get("/jobs/{job_id}", response_model=JobResponse)
-def job_status(job_id: str) -> JobResponse:
-    return JobResponse(id=job_id, status="queued", progress=0)
+def job_status(request: Request, job_id: str) -> JobResponse:
+    job = _context(request).jobs.get(job_id)
+    return JobResponse(
+        id=job_id,
+        status=job.status.value.lower() if job else "queued",
+        progress=job.progress if job else 0,
+    )
 
 
 @router.get("/jobs/{job_id}/state", response_model=JobStatusResponse)
-def job_state(job_id: str) -> JobStatusResponse:
-    return JobStatusResponse(id=job_id, status="QUEUED")
+def job_state(request: Request, job_id: str) -> JobStatusResponse:
+    job = _context(request).jobs.get(job_id)
+    return JobStatusResponse(id=job_id, status=job.status.value if job else "QUEUED")
 
 
 @router.post("/jobs", response_model=JobResponse, status_code=201)
-def create_job(request: CreateJobRequest) -> JobResponse:
-    return JobResponse(id=f"local-{request.kind}", status="queued", progress=0)
+def create_job(request: CreateJobRequest, http_request: Request) -> JobResponse:
+    job = enqueue_job(_context(http_request).queue, request.tenant_id, request.kind, datetime.now(UTC))
+    _context(http_request).jobs.add(job)
+    return JobResponse(id=job.id, status=job.status.value.lower(), progress=job.progress)
