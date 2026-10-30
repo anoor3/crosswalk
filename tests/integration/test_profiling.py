@@ -103,9 +103,7 @@ class TestHardProfiling:
 
 class TestReusabilityAndSafety:
     @pytest.mark.parametrize("difficulty", ["easy", "medium", "hard"])
-    def test_all_fields_profiled_without_error(
-        self, fixtures_dir: Path, difficulty: str
-    ) -> None:
+    def test_all_fields_profiled_without_error(self, fixtures_dir: Path, difficulty: str) -> None:
         # Every discovered leaf field yields a profile with consistent counts —
         # the profiler tolerates every real shape, including fan-out fields.
         profs = _profiles(fixtures_dir, difficulty)

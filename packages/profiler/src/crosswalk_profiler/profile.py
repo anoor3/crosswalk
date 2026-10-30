@@ -80,9 +80,7 @@ class FieldProfile(BaseModel):
     null_count: int = Field(description="Occurrences that were explicitly null.")
     null_rate: float = Field(description="null_count / sample_count (0 if no samples).")
     unique_count: int = Field(description="Distinct non-null values observed.")
-    unique_rate: float = Field(
-        description="unique_count / present_non_null_count (0 if none)."
-    )
+    unique_rate: float = Field(description="unique_count / present_non_null_count (0 if none).")
     observed_types: tuple[ObservedType, ...] = Field(
         description="Distinct runtime types seen (more than one => mixed)."
     )

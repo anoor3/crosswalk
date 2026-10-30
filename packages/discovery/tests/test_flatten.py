@@ -58,9 +58,7 @@ class TestNullable:
         assert fields[0].nullable is True
 
     def test_anyof_string_or_null(self) -> None:
-        fields, unsupported = _flatten(
-            {"anyOf": [{"type": "string"}, {"type": "null"}]}
-        )
+        fields, unsupported = _flatten({"anyOf": [{"type": "string"}, {"type": "null"}]})
         assert unsupported == ()  # string|null is a clean nullable, not unsupported
         assert fields[0].data_type is FieldType.STRING
         assert fields[0].nullable is True
@@ -73,9 +71,7 @@ class TestMultiType:
         assert fields[0].extra_types == (FieldType.INTEGER,)
 
     def test_genuine_union_flagged_but_explored(self) -> None:
-        fields, unsupported = _flatten(
-            {"oneOf": [{"type": "string"}, {"type": "integer"}]}
-        )
+        fields, unsupported = _flatten({"oneOf": [{"type": "string"}, {"type": "integer"}]})
         assert any(u.construct_type == "oneOf" for u in unsupported)
         assert len(fields) == 1  # first branch explored
 
@@ -133,9 +129,7 @@ class TestObjectsAndArrays:
         assert by["$.partyInfo[*].roleCd"].is_array_item is True
 
     def test_additional_properties_flagged(self) -> None:
-        _, unsupported = _flatten(
-            {"type": "object", "additionalProperties": {"type": "string"}}
-        )
+        _, unsupported = _flatten({"type": "object", "additionalProperties": {"type": "string"}})
         assert any("additionalProperties" in u.construct_type for u in unsupported)
 
 

@@ -113,9 +113,7 @@ class TestUnions:
     def test_oneof_union_flagged(self) -> None:
         schema = {
             "type": "object",
-            "properties": {
-                "value": {"oneOf": [{"type": "string"}, {"type": "integer"}]}
-            },
+            "properties": {"value": {"oneOf": [{"type": "string"}, {"type": "integer"}]}},
         }
         cat = analyze_openapi(_spec({"/x": {"get": _json_response(schema)}}))
         assert any(u.construct_type == "oneOf" for u in cat.unsupported)
@@ -200,9 +198,7 @@ class TestPagination:
         assert cat.pagination_hints[0].style is PaginationStyle.OFFSET_LIMIT
 
     def test_cursor_style(self) -> None:
-        cat = self._paginated(
-            [{"name": "cursor", "in": "query", "schema": {"type": "string"}}]
-        )
+        cat = self._paginated([{"name": "cursor", "in": "query", "schema": {"type": "string"}}])
         assert cat.pagination_hints[0].style is PaginationStyle.CURSOR
 
     def test_no_pagination_when_no_query_params(self) -> None:

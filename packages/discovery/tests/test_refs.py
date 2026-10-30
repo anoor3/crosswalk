@@ -116,9 +116,7 @@ class TestFollow:
         with pytest.raises(RefResolutionError, match="circular"):
             r.follow({"$ref": "#/components/schemas/A"})
 
-    def test_self_referential_object_is_not_a_follow_cycle(
-        self, document: dict[str, Any]
-    ) -> None:
+    def test_self_referential_object_is_not_a_follow_cycle(self, document: dict[str, Any]) -> None:
         # Node's ref is nested under properties, so following Node itself
         # resolves to a concrete object without a cycle. (The cycle only
         # appears when a walker recurses into properties, which is the

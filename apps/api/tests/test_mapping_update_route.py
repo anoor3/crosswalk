@@ -1,13 +1,10 @@
-from fastapi.testclient import TestClient
-
 from crosswalk_api import create_app
+from fastapi.testclient import TestClient
 
 
 def test_update_mapping_route_increments_version() -> None:
     client = TestClient(create_app())
-    created = client.post(
-        "/mappings", json={"tenant_id": "tenant-a", "mapping": {"x": "y"}}
-    ).json()
+    created = client.post("/mappings", json={"tenant_id": "tenant-a", "mapping": {"x": "y"}}).json()
 
     response = client.put(
         f"/mappings/{created['id']}",

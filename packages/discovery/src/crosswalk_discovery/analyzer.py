@@ -179,9 +179,7 @@ def _build_endpoint(
     return endpoint, unsupported
 
 
-def _parse_parameters(
-    raw_params: Any, resolver: RefResolver
-) -> tuple[EndpointField, ...]:
+def _parse_parameters(raw_params: Any, resolver: RefResolver) -> tuple[EndpointField, ...]:
     if not isinstance(raw_params, list):
         return ()
     fields: list[EndpointField] = []
@@ -207,9 +205,7 @@ def _parse_parameters(
     return tuple(fields)
 
 
-def _json_schema_of_body(
-    request_body: Any, resolver: RefResolver
-) -> dict[str, Any] | None:
+def _json_schema_of_body(request_body: Any, resolver: RefResolver) -> dict[str, Any] | None:
     if not isinstance(request_body, dict):
         return None
     body = resolver.follow(request_body) if "$ref" in request_body else request_body
@@ -301,6 +297,5 @@ def _prefix(
 ) -> list[UnsupportedConstruct]:
     """Re-scope unsupported-construct locations under an endpoint prefix."""
     return [
-        item.model_copy(update={"location": f"{location_prefix} {item.location}"})
-        for item in items
+        item.model_copy(update={"location": f"{location_prefix} {item.location}"}) for item in items
     ]

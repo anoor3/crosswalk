@@ -2,8 +2,8 @@
 
 from .models import (
     CancelJobRequest,
-    CreateMappingRequest,
     CreateJobRequest,
+    CreateMappingRequest,
     ErrorEnvelope,
     EventResponse,
     HealthResponse,
