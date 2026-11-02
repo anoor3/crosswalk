@@ -21,3 +21,11 @@ def update_mapping(
     """Update a mapping while preserving optimistic version checks."""
 
     return context.store.update(tenant_id, record_id, expected_version, mapping_json)
+
+
+def list_mappings(context: ServiceContext, tenant_id: str) -> tuple[MappingRecord, ...]:
+    return context.store.list(tenant_id)
+
+
+def delete_mapping(context: ServiceContext, tenant_id: str, record_id: str) -> MappingRecord:
+    return context.store.delete(tenant_id, record_id)

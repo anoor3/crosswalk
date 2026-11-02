@@ -4,7 +4,7 @@ from .config import ServiceConfig
 from .context import ServiceContext
 from .job_registry import JobRegistry
 from .jobs import cancel_job, enqueue_job, run_job, run_next_job, submit_job
-from .records import create_mapping, update_mapping
+from .records import create_mapping, delete_mapping, list_mappings, update_mapping
 
 __all__ = [
     "JobRegistry",
@@ -12,9 +12,11 @@ __all__ = [
     "ServiceContext",
     "cancel_job",
     "create_mapping",
+    "delete_mapping",
     "enqueue_job",
     "run_job",
     "run_next_job",
+    "list_mappings",
     "submit_job",
     "update_mapping",
 ]
