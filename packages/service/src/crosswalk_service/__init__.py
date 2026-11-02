@@ -14,9 +14,9 @@ __all__ = [
     "create_mapping",
     "delete_mapping",
     "enqueue_job",
+    "list_mappings",
     "run_job",
     "run_next_job",
-    "list_mappings",
     "submit_job",
     "update_mapping",
 ]
