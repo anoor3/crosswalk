@@ -1,5 +1,6 @@
-from crosswalk_mapping import MappingCandidate, canonical_fields
 from crosswalk_review import ReviewActionType, ReviewRecord, ReviewWorkspace
+
+from crosswalk_mapping import MappingCandidate, canonical_fields
 
 
 class ReviewRegistry:

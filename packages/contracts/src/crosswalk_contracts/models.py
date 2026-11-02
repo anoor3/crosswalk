@@ -79,6 +79,35 @@ class UpdateMappingRequest(BaseModel):
     mapping: dict[str, object]
 
 
+class OpenReviewRequest(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    tenant_id: str = Field(min_length=1)
+    review_id: str = Field(min_length=1)
+    candidate: dict[str, object]
+
+
+class ReviewDecisionRequest(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    tenant_id: str = Field(min_length=1)
+    action: str = Field(min_length=1)
+    reviewer_id: str = Field(min_length=1)
+    expected_version: int = Field(ge=0)
+    rationale: str = Field(min_length=1, max_length=2000)
+    canonical_path: str | None = None
+
+
+class ReviewResponse(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    review_id: str = Field(min_length=1)
+    external_path: str = Field(min_length=1)
+    state: str = Field(min_length=1)
+    canonical_path: str | None = None
+    version: int = Field(ge=0)
+
+
 class ServiceInfoResponse(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 

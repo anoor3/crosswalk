@@ -9,9 +9,9 @@ from .reviews import ReviewRegistry
 
 __all__ = [
     "JobRegistry",
+    "ReviewRegistry",
     "ServiceConfig",
     "ServiceContext",
-    "ReviewRegistry",
     "cancel_job",
     "create_mapping",
     "delete_mapping",

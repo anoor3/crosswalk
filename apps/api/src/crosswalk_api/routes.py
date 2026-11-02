@@ -15,6 +15,7 @@ from crosswalk_contracts import (
     ReviewResponse,
     UpdateMappingRequest,
 )
+from crosswalk_review import ReviewActionType, ReviewNotFoundError, StaleReviewError
 from crosswalk_service import (
     ServiceContext,
     cancel_job,
@@ -25,9 +26,9 @@ from crosswalk_service import (
     update_mapping,
 )
 from crosswalk_storage import ConflictError
-from crosswalk_mapping import MappingCandidate
-from crosswalk_review import ReviewActionType, ReviewNotFoundError, StaleReviewError
 from fastapi import APIRouter, HTTPException, Query, Request
+
+from crosswalk_mapping import MappingCandidate
 
 router = APIRouter()
 
