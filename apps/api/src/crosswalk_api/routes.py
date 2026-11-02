@@ -12,7 +12,15 @@ from crosswalk_contracts import (
     Page,
     UpdateMappingRequest,
 )
-from crosswalk_service import ServiceContext, cancel_job, create_mapping, submit_job, update_mapping
+from crosswalk_service import (
+    ServiceContext,
+    cancel_job,
+    create_mapping,
+    delete_mapping,
+    list_mappings,
+    submit_job,
+    update_mapping,
+)
 from crosswalk_storage import ConflictError
 from fastapi import APIRouter, HTTPException, Query, Request
 
@@ -92,6 +100,22 @@ def create_mapping_route(request: CreateMappingRequest, http_request: Request) -
     )
 
 
+@router.get("/mappings", response_model=Page[MappingResponse])
+def list_mapping_route(tenant_id: str, http_request: Request) -> Page[MappingResponse]:
+    records = list_mappings(_context(http_request), tenant_id)
+    return Page(
+        items=tuple(
+            MappingResponse(
+                id=record.id,
+                tenant_id=record.tenant_id,
+                mapping=record.mapping_json,
+                version=record.version,
+            )
+            for record in records
+        )
+    )
+
+
 @router.get("/mappings/{record_id}", response_model=MappingResponse)
 def get_mapping_route(record_id: str, tenant_id: str, http_request: Request) -> MappingResponse:
     try:
@@ -128,3 +152,11 @@ def update_mapping_route(
         mapping=record.mapping_json,
         version=record.version,
     )
+
+
+@router.delete("/mappings/{record_id}", status_code=204)
+def delete_mapping_route(record_id: str, tenant_id: str, http_request: Request) -> None:
+    try:
+        delete_mapping(_context(http_request), tenant_id, record_id)
+    except KeyError as error:
+        raise HTTPException(status_code=404, detail="mapping not found") from error
