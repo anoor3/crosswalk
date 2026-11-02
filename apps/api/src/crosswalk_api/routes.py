@@ -9,7 +9,10 @@ from crosswalk_contracts import (
     JobResponse,
     JobStatusResponse,
     MappingResponse,
+    OpenReviewRequest,
     Page,
+    ReviewDecisionRequest,
+    ReviewResponse,
     UpdateMappingRequest,
 )
 from crosswalk_service import (
@@ -22,9 +25,21 @@ from crosswalk_service import (
     update_mapping,
 )
 from crosswalk_storage import ConflictError
+from crosswalk_mapping import MappingCandidate
+from crosswalk_review import ReviewActionType, ReviewNotFoundError, StaleReviewError
 from fastapi import APIRouter, HTTPException, Query, Request
 
 router = APIRouter()
+
+
+def _review_response(record) -> ReviewResponse:
+    return ReviewResponse(
+        review_id=record.review_id,
+        external_path=record.external_path,
+        state=record.state.value,
+        canonical_path=record.canonical_path,
+        version=record.version,
+    )
 
 
 def _context(request: Request) -> ServiceContext:
@@ -160,3 +175,47 @@ def delete_mapping_route(record_id: str, tenant_id: str, http_request: Request) 
         delete_mapping(_context(http_request), tenant_id, record_id)
     except KeyError as error:
         raise HTTPException(status_code=404, detail="mapping not found") from error
+
+
+@router.post("/reviews", response_model=ReviewResponse, status_code=201)
+def open_review_route(request: OpenReviewRequest, http_request: Request) -> ReviewResponse:
+    try:
+        record = _context(http_request).reviews.open(
+            request.tenant_id,
+            request.review_id,
+            MappingCandidate.model_validate(request.candidate),
+        )
+    except ValueError as error:
+        raise HTTPException(status_code=422, detail=str(error)) from error
+    return _review_response(record)
+
+
+@router.get("/reviews/{review_id}", response_model=ReviewResponse)
+def get_review_route(review_id: str, tenant_id: str, http_request: Request) -> ReviewResponse:
+    try:
+        record = _context(http_request).reviews.get(tenant_id, review_id)
+    except ReviewNotFoundError as error:
+        raise HTTPException(status_code=404, detail="review not found") from error
+    return _review_response(record)
+
+
+@router.post("/reviews/{review_id}/decision", response_model=ReviewResponse)
+def decide_review_route(
+    review_id: str, request: ReviewDecisionRequest, http_request: Request
+) -> ReviewResponse:
+    try:
+        action = ReviewActionType(request.action)
+        record = _context(http_request).reviews.decide(
+            request.tenant_id,
+            review_id,
+            action=action,
+            reviewer_id=request.reviewer_id,
+            expected_version=request.expected_version,
+            rationale=request.rationale,
+            canonical_path=request.canonical_path,
+        )
+    except StaleReviewError as error:
+        raise HTTPException(status_code=409, detail=str(error)) from error
+    except (ReviewNotFoundError, ValueError) as error:
+        raise HTTPException(status_code=422, detail=str(error)) from error
+    return _review_response(record)
