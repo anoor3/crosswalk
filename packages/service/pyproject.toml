@@ -3,7 +3,13 @@ name = "crosswalk-service"
 version = "0.1.0"
 description = "Application services composing Crosswalk domain boundaries."
 requires-python = ">=3.12"
-dependencies = ["pydantic>=2.8.0", "crosswalk-jobs", "crosswalk-storage"]
+dependencies = [
+    "pydantic>=2.8.0",
+    "crosswalk-jobs",
+    "crosswalk-mapping",
+    "crosswalk-review",
+    "crosswalk-storage",
+]
 
 [build-system]
 requires = ["hatchling"]
@@ -14,4 +20,6 @@ packages = ["src/crosswalk_service"]
 
 [tool.uv.sources]
 crosswalk-jobs = { workspace = true }
+crosswalk-mapping = { workspace = true }
+crosswalk-review = { workspace = true }
 crosswalk-storage = { workspace = true }

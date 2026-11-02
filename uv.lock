@@ -541,6 +541,8 @@ version = "0.1.0"
 source = { editable = "packages/service" }
 dependencies = [
     { name = "crosswalk-jobs" },
+    { name = "crosswalk-mapping" },
+    { name = "crosswalk-review" },
     { name = "crosswalk-storage" },
     { name = "pydantic" },
 ]
@@ -548,6 +550,8 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "crosswalk-jobs", editable = "packages/jobs" },
+    { name = "crosswalk-mapping", editable = "packages/mapping" },
+    { name = "crosswalk-review", editable = "packages/review" },
     { name = "crosswalk-storage", editable = "packages/storage" },
     { name = "pydantic", specifier = ">=2.8.0" },
 ]
