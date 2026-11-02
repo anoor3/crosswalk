@@ -37,6 +37,14 @@ class VersionedStore:
             raise KeyError(record_id)
         return record
 
+    def list(self, tenant_id: str) -> tuple[MappingRecord, ...]:
+        return tuple(record for record in self._records.values() if record.tenant_id == tenant_id)
+
+    def delete(self, tenant_id: str, record_id: str) -> MappingRecord:
+        record = self.get(tenant_id, record_id)
+        del self._records[record_id]
+        return record
+
     def update(
         self, tenant_id: str, record_id: str, expected_version: int, mapping_json: dict[str, object]
     ) -> MappingRecord:
