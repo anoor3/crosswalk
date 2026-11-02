@@ -15,7 +15,7 @@ from crosswalk_contracts import (
     ReviewResponse,
     UpdateMappingRequest,
 )
-from crosswalk_review import ReviewActionType, ReviewNotFoundError, StaleReviewError
+from crosswalk_review import ReviewActionType, ReviewNotFoundError, ReviewRecord, StaleReviewError
 from crosswalk_service import (
     ServiceContext,
     cancel_job,
@@ -33,7 +33,7 @@ from crosswalk_mapping import MappingCandidate
 router = APIRouter()
 
 
-def _review_response(record) -> ReviewResponse:
+def _review_response(record: ReviewRecord) -> ReviewResponse:
     return ReviewResponse(
         review_id=record.review_id,
         external_path=record.external_path,
