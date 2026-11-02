@@ -349,6 +349,7 @@ Crosswalk is built phase-by-phase against [`PLANNER.md`](PLANNER.md), with each 
 | 31 | Tenant job listing and worker synchronization | ✅ Baseline done |
 | 32 | Tenant mapping persistence API | ✅ Baseline done |
 | 33 | Mapping collection operations | ✅ Baseline done |
+| 34 | Tenant human review API | ✅ Baseline done |
 
 ---
 
@@ -372,6 +373,8 @@ Phase 31 adds bounded tenant job listing and explicit worker execution that sync
 Phase 32 adds tenant-scoped mapping create, read, and optimistic update routes backed by the versioned storage seam. See [`docs/releases/phase32.md`](docs/releases/phase32.md).
 
 Phase 33 completes mapping collection operations with tenant-scoped listing and deletion. See [`docs/releases/phase33.md`](docs/releases/phase33.md).
+
+Phase 34 adds tenant-isolated review opening, inspection, and versioned decisions. See [`docs/releases/phase34.md`](docs/releases/phase34.md).
 
 ---
 
