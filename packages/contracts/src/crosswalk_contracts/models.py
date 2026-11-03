@@ -108,6 +108,17 @@ class ReviewResponse(BaseModel):
     version: int = Field(ge=0)
 
 
+class EvaluationExampleResponse(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    external_path: str = Field(min_length=1)
+    canonical_path: str = Field(min_length=1)
+    review_id: str = Field(min_length=1)
+    review_version: int = Field(ge=1)
+    reviewer_id: str = Field(min_length=1)
+    rationale: str = Field(min_length=1, max_length=2000)
+
+
 class ServiceInfoResponse(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 

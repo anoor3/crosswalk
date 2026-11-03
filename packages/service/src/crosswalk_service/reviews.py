@@ -1,4 +1,4 @@
-from crosswalk_review import ReviewActionType, ReviewRecord, ReviewWorkspace
+from crosswalk_review import EvaluationExample, ReviewActionType, ReviewRecord, ReviewWorkspace
 
 from crosswalk_mapping import MappingCandidate, canonical_fields
 
@@ -20,6 +20,9 @@ class ReviewRegistry:
 
     def list_open(self, tenant_id: str) -> tuple[ReviewRecord, ...]:
         return self._workspace(tenant_id).list_open()
+
+    def evaluation_example(self, tenant_id: str, review_id: str) -> EvaluationExample | None:
+        return self._workspace(tenant_id).evaluation_example(review_id)
 
     def decide(
         self,
