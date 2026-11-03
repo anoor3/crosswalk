@@ -1,4 +1,10 @@
-from crosswalk_review import EvaluationExample, ReviewActionType, ReviewRecord, ReviewWorkspace
+from crosswalk_review import (
+    EvaluationExample,
+    ReviewActionType,
+    ReviewRecord,
+    ReviewState,
+    ReviewWorkspace,
+)
 
 from crosswalk_mapping import MappingCandidate, canonical_fields
 
@@ -26,6 +32,9 @@ class ReviewRegistry:
 
     def count(self, tenant_id: str) -> int:
         return len(self.list_all(tenant_id))
+
+    def list_decided(self, tenant_id: str) -> tuple[ReviewRecord, ...]:
+        return tuple(record for record in self.list_all(tenant_id) if record.state is not ReviewState.OPEN)
 
     def evaluation_example(self, tenant_id: str, review_id: str) -> EvaluationExample | None:
         return self._workspace(tenant_id).evaluation_example(review_id)
