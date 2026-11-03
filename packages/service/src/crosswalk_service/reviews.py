@@ -21,6 +21,12 @@ class ReviewRegistry:
     def list_open(self, tenant_id: str) -> tuple[ReviewRecord, ...]:
         return self._workspace(tenant_id).list_open()
 
+    def list_all(self, tenant_id: str) -> tuple[ReviewRecord, ...]:
+        return self._workspace(tenant_id).list_all()
+
+    def count(self, tenant_id: str) -> int:
+        return len(self.list_all(tenant_id))
+
     def evaluation_example(self, tenant_id: str, review_id: str) -> EvaluationExample | None:
         return self._workspace(tenant_id).evaluation_example(review_id)
 
