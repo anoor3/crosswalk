@@ -66,6 +66,10 @@ class ReviewRecord(BaseModel):
     version: int = Field(default=0, ge=0)
     actions: tuple[ReviewAction, ...] = ()
 
+    @property
+    def decision_count(self) -> int:
+        return len(self.actions)
+
     @model_validator(mode="after")
     def _state_consistency(self) -> Self:
         if self.version != len(self.actions):
