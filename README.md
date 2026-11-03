@@ -350,6 +350,7 @@ Crosswalk is built phase-by-phase against [`PLANNER.md`](PLANNER.md), with each 
 | 32 | Tenant mapping persistence API | ✅ Baseline done |
 | 33 | Mapping collection operations | ✅ Baseline done |
 | 34 | Tenant human review API | ✅ Baseline done |
+| 35 | Review collections and evaluation export | ✅ Baseline done |
 
 ---
 
@@ -375,6 +376,8 @@ Phase 32 adds tenant-scoped mapping create, read, and optimistic update routes b
 Phase 33 completes mapping collection operations with tenant-scoped listing and deletion. See [`docs/releases/phase33.md`](docs/releases/phase33.md).
 
 Phase 34 adds tenant-isolated review opening, inspection, and versioned decisions. See [`docs/releases/phase34.md`](docs/releases/phase34.md).
+
+Phase 35 adds open-review listing and evaluation-example export for confirmed or corrected decisions. See [`docs/releases/phase35.md`](docs/releases/phase35.md).
 
 ---
 
