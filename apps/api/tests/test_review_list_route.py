@@ -1,6 +1,5 @@
-from fastapi.testclient import TestClient
-
 from crosswalk_api import create_app
+from fastapi.testclient import TestClient
 
 
 def test_list_reviews_returns_open_reviews_for_tenant() -> None:

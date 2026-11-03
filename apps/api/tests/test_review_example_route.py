@@ -1,6 +1,5 @@
-from fastapi.testclient import TestClient
-
 from crosswalk_api import create_app
+from fastapi.testclient import TestClient
 
 
 def test_confirmed_review_exposes_evaluation_example() -> None:
