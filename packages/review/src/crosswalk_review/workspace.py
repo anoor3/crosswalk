@@ -60,6 +60,9 @@ class ReviewWorkspace:
             record for record in self._records.values() if record.state is ReviewState.OPEN
         )
 
+    def list_all(self) -> tuple[ReviewRecord, ...]:
+        return tuple(self._records.values())
+
     def decide(
         self,
         review_id: str,
