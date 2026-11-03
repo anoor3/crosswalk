@@ -5,6 +5,7 @@ from crosswalk_contracts import (
     CancelJobRequest,
     CreateJobRequest,
     CreateMappingRequest,
+    EvaluationExampleResponse,
     HealthResponse,
     JobResponse,
     JobStatusResponse,
@@ -200,6 +201,12 @@ def get_review_route(review_id: str, tenant_id: str, http_request: Request) -> R
     return _review_response(record)
 
 
+@router.get("/reviews", response_model=Page[ReviewResponse])
+def list_reviews_route(tenant_id: str, http_request: Request) -> Page[ReviewResponse]:
+    records = _context(http_request).reviews.list_open(tenant_id)
+    return Page(items=tuple(_review_response(record) for record in records))
+
+
 @router.post("/reviews/{review_id}/decision", response_model=ReviewResponse)
 def decide_review_route(
     review_id: str, request: ReviewDecisionRequest, http_request: Request
@@ -220,3 +227,16 @@ def decide_review_route(
     except (ReviewNotFoundError, ValueError) as error:
         raise HTTPException(status_code=422, detail=str(error)) from error
     return _review_response(record)
+
+
+@router.get("/reviews/{review_id}/example", response_model=EvaluationExampleResponse)
+def review_example_route(
+    review_id: str, tenant_id: str, http_request: Request
+) -> EvaluationExampleResponse:
+    try:
+        example = _context(http_request).reviews.evaluation_example(tenant_id, review_id)
+    except ReviewNotFoundError as error:
+        raise HTTPException(status_code=404, detail="review not found") from error
+    if example is None:
+        raise HTTPException(status_code=409, detail="review has no evaluation example")
+    return EvaluationExampleResponse.model_validate(example.model_dump())
