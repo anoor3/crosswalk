@@ -16,7 +16,13 @@ from crosswalk_contracts import (
     ReviewResponse,
     UpdateMappingRequest,
 )
-from crosswalk_review import ReviewActionType, ReviewNotFoundError, ReviewRecord, StaleReviewError
+from crosswalk_review import (
+    ReviewActionType,
+    ReviewNotFoundError,
+    ReviewRecord,
+    ReviewState,
+    StaleReviewError,
+)
 from crosswalk_service import (
     ServiceContext,
     cancel_job,
@@ -202,8 +208,12 @@ def get_review_route(review_id: str, tenant_id: str, http_request: Request) -> R
 
 
 @router.get("/reviews", response_model=Page[ReviewResponse])
-def list_reviews_route(tenant_id: str, http_request: Request) -> Page[ReviewResponse]:
-    records = _context(http_request).reviews.list_open(tenant_id)
+def list_reviews_route(
+    tenant_id: str, http_request: Request, state: ReviewState | None = None
+) -> Page[ReviewResponse]:
+    records = _context(http_request).reviews.list_all(tenant_id)
+    if state is not None:
+        records = tuple(record for record in records if record.state is state)
     return Page(items=tuple(_review_response(record) for record in records))
 
 
