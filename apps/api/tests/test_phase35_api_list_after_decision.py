@@ -31,4 +31,8 @@ def test_review_list_open_excludes_decided() -> None:
             "rationale": "No",
         },
     )
-    assert client.get("/reviews", params={"tenant_id": "t1"}).json()["items"] == []
+    assert (
+        client.get("/reviews", params={"tenant_id": "t1", "state": "OPEN"})
+        .json()["items"]
+        == []
+    )
