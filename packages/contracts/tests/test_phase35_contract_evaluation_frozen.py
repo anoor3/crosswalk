@@ -15,4 +15,4 @@ def test_evaluation_response_is_frozen() -> None:
         rationale="x",
     )
     with pytest.raises(ValidationError):
-        value.rationale = "y"
+        value.rationale = "y"  # type: ignore[misc]
