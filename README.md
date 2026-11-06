@@ -379,6 +379,8 @@ Phase 34 adds tenant-isolated review opening, inspection, and versioned decision
 
 Phase 35 adds open-review listing and evaluation-example export for confirmed or corrected decisions. See [`docs/releases/phase35.md`](docs/releases/phase35.md).
 
+Phase 36 adds review filters, immutable decision-history reads, and tenant-scoped state summaries. See [`docs/releases/phase36.md`](docs/releases/phase36.md).
+
 ---
 
 ## Security posture
