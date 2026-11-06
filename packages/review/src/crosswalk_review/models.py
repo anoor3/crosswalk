@@ -70,6 +70,10 @@ class ReviewRecord(BaseModel):
     def decision_count(self) -> int:
         return len(self.actions)
 
+    @property
+    def last_action(self) -> ReviewAction | None:
+        return self.actions[-1] if self.actions else None
+
     @model_validator(mode="after")
     def _state_consistency(self) -> Self:
         if self.version != len(self.actions):
@@ -96,3 +100,25 @@ class EvaluationExample(BaseModel):
     review_version: int = Field(ge=1)
     reviewer_id: str = Field(min_length=1)
     rationale: str = Field(min_length=1, max_length=2000)
+
+
+class ReviewSummary(BaseModel):
+    """Tenant-scoped counts used by review dashboards and operators."""
+
+    model_config = _CONFIG
+
+    total: int = Field(ge=0)
+    open: int = Field(ge=0)
+    confirmed: int = Field(ge=0)
+    corrected: int = Field(ge=0)
+    rejected: int = Field(ge=0)
+    unresolved: int = Field(ge=0)
+
+    @model_validator(mode="after")
+    def _counts_sum_to_total(self) -> Self:
+        if (
+            self.total
+            != self.open + self.confirmed + self.corrected + self.rejected + self.unresolved
+        ):
+            raise ValueError("review state counts must sum to total")
+        return self

@@ -7,7 +7,14 @@ from .errors import (
     ReviewNotFoundError,
     StaleReviewError,
 )
-from .models import EvaluationExample, ReviewAction, ReviewActionType, ReviewRecord, ReviewState
+from .models import (
+    EvaluationExample,
+    ReviewAction,
+    ReviewActionType,
+    ReviewRecord,
+    ReviewState,
+    ReviewSummary,
+)
 from .workspace import ReviewWorkspace
 
 __version__ = "0.1.0"
@@ -22,6 +29,7 @@ __all__ = [
     "ReviewNotFoundError",
     "ReviewRecord",
     "ReviewState",
+    "ReviewSummary",
     "ReviewWorkspace",
     "StaleReviewError",
     "__version__",

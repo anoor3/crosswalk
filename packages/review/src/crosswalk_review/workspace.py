@@ -22,6 +22,7 @@ from .models import (
     ReviewActionType,
     ReviewRecord,
     ReviewState,
+    ReviewSummary,
 )
 
 
@@ -62,6 +63,37 @@ class ReviewWorkspace:
 
     def list_all(self) -> tuple[ReviewRecord, ...]:
         return tuple(self._records.values())
+
+    def list_by_state(self, state: ReviewState) -> tuple[ReviewRecord, ...]:
+        return tuple(record for record in self._records.values() if record.state is state)
+
+    def list_by_reviewer(self, reviewer_id: str) -> tuple[ReviewRecord, ...]:
+        return tuple(
+            record
+            for record in self._records.values()
+            if any(action.reviewer_id == reviewer_id for action in record.actions)
+        )
+
+    def list_by_action(self, action: ReviewActionType) -> tuple[ReviewRecord, ...]:
+        return tuple(
+            record
+            for record in self._records.values()
+            if any(item.action is action for item in record.actions)
+        )
+
+    def history(self, review_id: str) -> tuple[ReviewAction, ...]:
+        return self.get(review_id).actions
+
+    def summary(self) -> ReviewSummary:
+        counts = {state: len(self.list_by_state(state)) for state in ReviewState}
+        return ReviewSummary(
+            total=len(self._records),
+            open=counts[ReviewState.OPEN],
+            confirmed=counts[ReviewState.CONFIRMED],
+            corrected=counts[ReviewState.CORRECTED],
+            rejected=counts[ReviewState.REJECTED],
+            unresolved=counts[ReviewState.UNRESOLVED],
+        )
 
     def decide(
         self,
