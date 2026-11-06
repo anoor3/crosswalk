@@ -108,6 +108,34 @@ class ReviewResponse(BaseModel):
     version: int = Field(ge=0)
 
 
+class ReviewActionResponse(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    version: int = Field(ge=1)
+    action: str = Field(min_length=1)
+    reviewer_id: str = Field(min_length=1)
+    canonical_path: str | None = None
+    rationale: str = Field(min_length=1, max_length=2000)
+
+
+class ReviewHistoryResponse(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    review_id: str = Field(min_length=1)
+    actions: tuple[ReviewActionResponse, ...]
+
+
+class ReviewSummaryResponse(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    total: int = Field(ge=0)
+    open: int = Field(ge=0)
+    confirmed: int = Field(ge=0)
+    corrected: int = Field(ge=0)
+    rejected: int = Field(ge=0)
+    unresolved: int = Field(ge=0)
+
+
 class EvaluationExampleResponse(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
