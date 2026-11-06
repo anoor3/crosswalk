@@ -12,8 +12,11 @@ from crosswalk_contracts import (
     MappingResponse,
     OpenReviewRequest,
     Page,
+    ReviewActionResponse,
     ReviewDecisionRequest,
+    ReviewHistoryResponse,
     ReviewResponse,
+    ReviewSummaryResponse,
     UpdateMappingRequest,
 )
 from crosswalk_review import (
@@ -198,6 +201,13 @@ def open_review_route(request: OpenReviewRequest, http_request: Request) -> Revi
     return _review_response(record)
 
 
+@router.get("/reviews/summary", response_model=ReviewSummaryResponse)
+def review_summary_route(tenant_id: str, http_request: Request) -> ReviewSummaryResponse:
+    return ReviewSummaryResponse.model_validate(
+        _context(http_request).reviews.summary(tenant_id).model_dump()
+    )
+
+
 @router.get("/reviews/{review_id}", response_model=ReviewResponse)
 def get_review_route(review_id: str, tenant_id: str, http_request: Request) -> ReviewResponse:
     try:
@@ -209,12 +219,42 @@ def get_review_route(review_id: str, tenant_id: str, http_request: Request) -> R
 
 @router.get("/reviews", response_model=Page[ReviewResponse])
 def list_reviews_route(
-    tenant_id: str, http_request: Request, state: ReviewState | None = None
+    tenant_id: str,
+    http_request: Request,
+    state: ReviewState | None = None,
+    reviewer_id: str | None = None,
+    action: ReviewActionType | None = None,
 ) -> Page[ReviewResponse]:
     records = _context(http_request).reviews.list_all(tenant_id)
     if state is not None:
         records = tuple(record for record in records if record.state is state)
+    if reviewer_id is not None:
+        records = tuple(
+            record
+            for record in records
+            if any(item.reviewer_id == reviewer_id for item in record.actions)
+        )
+    if action is not None:
+        records = tuple(
+            record for record in records if any(item.action is action for item in record.actions)
+        )
     return Page(items=tuple(_review_response(record) for record in records))
+
+
+@router.get("/reviews/{review_id}/history", response_model=ReviewHistoryResponse)
+def review_history_route(
+    review_id: str, tenant_id: str, http_request: Request
+) -> ReviewHistoryResponse:
+    try:
+        actions = _context(http_request).reviews.history(tenant_id, review_id)
+    except ReviewNotFoundError as error:
+        raise HTTPException(status_code=404, detail="review not found") from error
+    return ReviewHistoryResponse(
+        review_id=review_id,
+        actions=tuple(
+            ReviewActionResponse.model_validate(action.model_dump()) for action in actions
+        ),
+    )
 
 
 @router.post("/reviews/{review_id}/decision", response_model=ReviewResponse)
