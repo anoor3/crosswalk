@@ -381,6 +381,8 @@ Phase 35 adds open-review listing and evaluation-example export for confirmed or
 
 Phase 36 adds review filters, immutable decision-history reads, and tenant-scoped state summaries. See [`docs/releases/phase36.md`](docs/releases/phase36.md).
 
+Phase 37 adds a tenant-scoped review repository seam with snapshot restoration and optimistic persistence checks. See [`docs/releases/phase37.md`](docs/releases/phase37.md).
+
 ---
 
 ## Security posture
