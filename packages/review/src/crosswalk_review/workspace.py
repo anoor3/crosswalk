@@ -50,6 +50,15 @@ class ReviewWorkspace:
         self._records[review_id] = record
         return record
 
+    def restore(self, record: ReviewRecord) -> ReviewRecord:
+        """Load a validated persisted snapshot into this workspace."""
+        if record.review_id in self._records:
+            raise DuplicateReviewError(f"review already exists: {record.review_id}")
+        if record.external_path != record.candidate.external_path:
+            raise ValueError("record path must match its candidate")
+        self._records[record.review_id] = record
+        return record
+
     def get(self, review_id: str) -> ReviewRecord:
         try:
             return self._records[review_id]
