@@ -1,4 +1,5 @@
 from crosswalk_jobs import InMemoryQueue
+from crosswalk_review import ReviewRepository
 from crosswalk_storage import VersionedStore
 
 from .job_registry import JobRegistry
@@ -14,8 +15,9 @@ class ServiceContext:
         queue: InMemoryQueue | None = None,
         jobs: JobRegistry | None = None,
         reviews: ReviewRegistry | None = None,
+        review_repository: ReviewRepository | None = None,
     ) -> None:
         self.store = store or VersionedStore()
         self.queue = queue or InMemoryQueue()
         self.jobs = jobs or JobRegistry()
-        self.reviews = reviews or ReviewRegistry()
+        self.reviews = reviews or ReviewRegistry(review_repository)

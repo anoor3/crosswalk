@@ -1,8 +1,11 @@
 from crosswalk_review import (
     EvaluationExample,
+    InMemoryReviewRepository,
     ReviewAction,
     ReviewActionType,
     ReviewRecord,
+    ReviewRepository,
+    ReviewRepositoryConflict,
     ReviewState,
     ReviewSummary,
     ReviewWorkspace,
@@ -14,14 +17,23 @@ from crosswalk_mapping import MappingCandidate, canonical_fields
 class ReviewRegistry:
     """Tenant-isolated review workspaces for local orchestration."""
 
-    def __init__(self) -> None:
+    def __init__(self, repository: ReviewRepository | None = None) -> None:
         self._workspaces: dict[str, ReviewWorkspace] = {}
+        self.repository = repository or InMemoryReviewRepository()
 
     def _workspace(self, tenant_id: str) -> ReviewWorkspace:
-        return self._workspaces.setdefault(tenant_id, ReviewWorkspace(canonical_fields()))
+        workspace = self._workspaces.get(tenant_id)
+        if workspace is None:
+            workspace = ReviewWorkspace(canonical_fields())
+            for record in self.repository.list(tenant_id):
+                workspace.restore(record)
+            self._workspaces[tenant_id] = workspace
+        return workspace
 
     def open(self, tenant_id: str, review_id: str, candidate: MappingCandidate) -> ReviewRecord:
-        return self._workspace(tenant_id).open(review_id, candidate)
+        record = self._workspace(tenant_id).open(review_id, candidate)
+        self.repository.save(tenant_id, record, expected_version=None)
+        return record
 
     def get(self, tenant_id: str, review_id: str) -> ReviewRecord:
         return self._workspace(tenant_id).get(review_id)
@@ -69,7 +81,8 @@ class ReviewRegistry:
         rationale: str,
         canonical_path: str | None = None,
     ) -> ReviewRecord:
-        return self._workspace(tenant_id).decide(
+        current = self._workspace(tenant_id).get(review_id)
+        record = self._workspace(tenant_id).decide(
             review_id,
             action=action,
             reviewer_id=reviewer_id,
@@ -77,3 +90,8 @@ class ReviewRegistry:
             rationale=rationale,
             canonical_path=canonical_path,
         )
+        try:
+            return self.repository.save(tenant_id, record, expected_version=current.version)
+        except ReviewRepositoryConflict:
+            self._workspaces.pop(tenant_id, None)
+            raise
