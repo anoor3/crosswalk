@@ -11,7 +11,7 @@
 
 # Crosswalk
 
-**Connect an unfamiliar external API to your company's canonical data model — with evidence, not guesswork.**
+**Review and test conversions from partner JSON into the format your system needs.**
 
 Discover · Profile · Map · Review · Generate · Test · Monitor · Repair
 
@@ -22,6 +22,22 @@ Discover · Profile · Map · Review · Generate · Test · Monitor · Repair
 ---
 
 ## The problem
+
+### Try the current workbench
+
+Run `.venv/bin/uvicorn crosswalk_api.app:create_app --factory --host 127.0.0.1 --port 8001`
+and open [the local workbench](http://127.0.0.1:8001/workspace/).
+Choose **Try a claims example**, review the five mappings, and **Run conversion**.
+Inspect input and output side by side, then download converted JSON or a runnable
+Python adapter. You can also provide your own source records and target example,
+edit conversions, and save/reopen mapping files. No OpenAPI upload is needed.
+
+This is a local conversion tool. It does not connect to live customer APIs or
+provide hosted accounts. The broader lifecycle below describes the project’s
+backend packages and intended scope, not a fully connected customer workflow.
+See [workbench instructions and supported conversions](apps/web/README.md).
+
+### Integration work
 
 Enterprise APIs do not speak the same language. One system calls a claim identifier `claim_id`, another `lossNo`, another `caseRef`, another `incident.claimReference` — all the same business concept. Beyond naming, APIs differ in nesting, endpoint structure, enum codes, date formats, cross-endpoint relationships, pagination, authentication, null semantics, deprecated fields, undocumented behavior, incorrect documentation, and schema evolution over time.
 
