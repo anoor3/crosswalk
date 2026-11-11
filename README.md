@@ -385,6 +385,8 @@ Phase 37 adds a tenant-scoped review repository seam with snapshot restoration a
 
 Phase 38 adds the SQLite review repository with idempotent migrations, parameterized tenant queries, durable decision history, and transactional version guards. See [`docs/releases/phase38.md`](docs/releases/phase38.md).
 
+Phase 39 wires SQLite persistence into the API through `CROSSWALK_REVIEW_DATABASE`, keeps a safe in-memory default for local development, and closes database resources through the application lifespan. See [`docs/releases/phase39.md`](docs/releases/phase39.md).
+
 ---
 
 ## Security posture
