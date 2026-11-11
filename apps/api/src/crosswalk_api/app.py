@@ -4,6 +4,7 @@ from collections.abc import Awaitable, Callable
 
 from crosswalk_contracts import EventResponse, HealthResponse, ServiceInfoResponse
 from crosswalk_service import ServiceConfig, ServiceContext
+from crosswalk_storage import SQLiteReviewRepository
 from fastapi import FastAPI, Request, Response
 
 from .errors import ApiInputError, input_error_handler
@@ -12,6 +13,7 @@ from .metrics import Metrics
 from .request_limits import enforce_request_limit
 from .routes import router
 from .security_headers import add_security_headers
+from .settings import ApiSettings
 from .trace import add_trace_header
 
 
@@ -21,12 +23,20 @@ def create_app(
     metrics: Metrics | None = None,
     events: EventLog | None = None,
     context: ServiceContext | None = None,
+    settings: ApiSettings | None = None,
 ) -> FastAPI:
-    config = ServiceConfig(version=version, environment=environment)
+    api_settings = settings or ApiSettings(version=version, environment=environment)
+    config = ServiceConfig(version=api_settings.version, environment=api_settings.environment)
     registry = metrics or Metrics()
     event_log = events or EventLog()
     app = FastAPI(title="Crosswalk API", version=config.version)
-    app.state.service_context = context or ServiceContext()
+    repository = (
+        SQLiteReviewRepository(api_settings.review_database)
+        if context is None and api_settings.review_database
+        else None
+    )
+    app.state.review_repository = repository
+    app.state.service_context = context or ServiceContext(review_repository=repository)
     app.middleware("http")(add_trace_header)
     app.middleware("http")(enforce_request_limit)
 
@@ -41,6 +51,11 @@ def create_app(
     app.middleware("http")(add_security_headers)
     app.add_exception_handler(ApiInputError, input_error_handler)
     app.include_router(router)
+
+    @app.on_event("shutdown")
+    def close_review_repository() -> None:
+        if repository is not None:
+            repository.close()
 
     @app.get("/health", response_model=HealthResponse)
     def health() -> HealthResponse:
