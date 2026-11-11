@@ -1,19 +1,21 @@
-# Crosswalk web workspace
+# Local review workspace
 
-The web app will implement the structure in [`../../docs/ui-structure.md`](../../docs/ui-structure.md).
+Run from the repository root:
 
-Initial route map:
+```sh
+.venv/bin/uvicorn crosswalk_api.app:create_app --factory --host 127.0.0.1 --port 8001
+```
 
-| Route | Purpose |
-| --- | --- |
-| `/projects` | Choose or create an integration project |
-| `/projects/:id` | Project home and current work summary |
-| `/projects/:id/discover` | Import and inspect an API |
-| `/projects/:id/review` | Resolve mapping candidates |
-| `/projects/:id/mappings/:mappingId` | Inspect an approved mapping |
-| `/projects/:id/runs` | Inspect executions, drift, and repair proposals |
+Open http://127.0.0.1:8001/workspace/ and choose **Discovery → Load example source**.
+Upload your own OpenAPI JSON and optional array of sanitized response objects,
+select an endpoint, then inspect and decide mappings in Field review. Decisions
+are submitted to the review API and can be exported as JSON.
 
-The first implementation target is the project shell, discovery inspection,
-and review queue. It should use real API contracts from `apps/api`; fixture
-data may be used only to make the loading and empty states visible while the
-HTTP client is wired.
+This first slice uses the built-in Claim model and one integration per browser
+session. Reloading clears the browser workspace; importing another endpoint
+clears its current decisions from the view. Export before switching sources.
+The exported file is a decision record, not executable adapter code.
+
+No frontend build, CDN, font service, or model provider is needed. The Python
+API serves the HTML, CSS, and JavaScript on the same origin. This is a local
+preview, without customer authentication or project persistence.
