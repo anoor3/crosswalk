@@ -1,0 +1,20 @@
+from pathlib import Path
+
+from crosswalk_storage import SQLiteReviewRepository
+
+from crosswalk_mapping import MappingCandidate, MappingStatus
+
+
+def candidate() -> MappingCandidate:
+    return MappingCandidate(
+        external_path="$.id",
+        canonical_path=None,
+        score=0,
+        status=MappingStatus.UNRESOLVED,
+        evidence=None,
+    )
+
+
+def test_foreign_keys_enabled(tmp_path: Path) -> None:
+    with SQLiteReviewRepository(tmp_path / "reviews.db") as repo:
+        assert repo._connection.execute("PRAGMA foreign_keys").fetchone()[0] == 1
