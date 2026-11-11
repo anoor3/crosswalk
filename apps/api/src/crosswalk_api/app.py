@@ -11,6 +11,7 @@ from fastapi import FastAPI, Request, Response
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 
+from .conversion import router as conversion_router
 from .errors import ApiInputError, input_error_handler
 from .logging import EventLog
 from .metrics import Metrics
@@ -64,6 +65,7 @@ def create_app(
     app.add_exception_handler(ApiInputError, input_error_handler)
     app.include_router(router)
     app.include_router(workbench_router)
+    app.include_router(conversion_router)
     web_root = Path(__file__).resolve().parents[4] / "apps/web/public"
     if web_root.is_dir():
         app.mount("/workspace", StaticFiles(directory=web_root, html=True), name="workspace")
