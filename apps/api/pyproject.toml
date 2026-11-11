@@ -3,7 +3,12 @@ name = "crosswalk-api"
 version = "0.1.0"
 description = "Local HTTP service boundary for Crosswalk foundations."
 requires-python = ">=3.12"
-dependencies = ["fastapi>=0.115.0", "crosswalk-contracts", "crosswalk-jobs"]
+dependencies = [
+    "fastapi>=0.115.0",
+    "crosswalk-contracts",
+    "crosswalk-jobs",
+    "crosswalk-storage",
+]
 
 [build-system]
 requires = ["hatchling"]
@@ -15,3 +20,4 @@ packages = ["src/crosswalk_api"]
 [tool.uv.sources]
 crosswalk-contracts = { workspace = true }
 crosswalk-jobs = { workspace = true }
+crosswalk-storage = { workspace = true }
