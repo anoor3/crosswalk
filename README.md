@@ -383,6 +383,8 @@ Phase 36 adds review filters, immutable decision-history reads, and tenant-scope
 
 Phase 37 adds a tenant-scoped review repository seam with snapshot restoration and optimistic persistence checks. See [`docs/releases/phase37.md`](docs/releases/phase37.md).
 
+Phase 38 adds the SQLite review repository with idempotent migrations, parameterized tenant queries, durable decision history, and transactional version guards. See [`docs/releases/phase38.md`](docs/releases/phase38.md).
+
 ---
 
 ## Security posture
