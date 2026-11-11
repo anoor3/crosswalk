@@ -1,0 +1,28 @@
+from pathlib import Path
+
+from crosswalk_storage import SQLiteReviewRepository
+
+from crosswalk_mapping import MappingCandidate, MappingStatus
+
+
+def candidate() -> MappingCandidate:
+    return MappingCandidate(
+        external_path="$.id",
+        canonical_path=None,
+        score=0,
+        status=MappingStatus.UNRESOLVED,
+        evidence=None,
+    )
+
+
+def test_same_id_tenants(tmp_path: Path) -> None:
+    from crosswalk_review import ReviewRecord
+
+    with SQLiteReviewRepository(tmp_path / "reviews.db") as repo:
+        for tenant in ("a", "b"):
+            repo.save(
+                tenant,
+                ReviewRecord(review_id="r", external_path="$.id", candidate=candidate()),
+                expected_version=None,
+            )
+        assert len(repo.list("a")) == len(repo.list("b")) == 1
