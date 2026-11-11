@@ -2,11 +2,14 @@ from __future__ import annotations
 
 from collections.abc import AsyncIterator, Awaitable, Callable
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from crosswalk_contracts import EventResponse, HealthResponse, ServiceInfoResponse
 from crosswalk_service import ServiceConfig, ServiceContext
 from crosswalk_storage import SQLiteReviewRepository
 from fastapi import FastAPI, Request, Response
+from fastapi.responses import RedirectResponse
+from fastapi.staticfiles import StaticFiles
 
 from .errors import ApiInputError, input_error_handler
 from .logging import EventLog
@@ -16,6 +19,7 @@ from .routes import router
 from .security_headers import add_security_headers
 from .settings import ApiSettings
 from .trace import add_trace_header
+from .workbench import router as workbench_router
 
 
 def create_app(
@@ -59,6 +63,14 @@ def create_app(
     app.middleware("http")(add_security_headers)
     app.add_exception_handler(ApiInputError, input_error_handler)
     app.include_router(router)
+    app.include_router(workbench_router)
+    web_root = Path(__file__).resolve().parents[4] / "apps/web/public"
+    if web_root.is_dir():
+        app.mount("/workspace", StaticFiles(directory=web_root, html=True), name="workspace")
+
+    @app.get("/", include_in_schema=False)
+    def workspace_redirect() -> RedirectResponse:
+        return RedirectResponse("/workspace/")
 
     @app.get("/health", response_model=HealthResponse)
     def health() -> HealthResponse:
