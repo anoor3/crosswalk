@@ -27,7 +27,7 @@ class SQLiteReviewRepository:
     """A durable adapter implementing the review repository contract."""
 
     def __init__(self, database: str | Path = ":memory:") -> None:
-        self._connection = sqlite3.connect(str(database))
+        self._connection = sqlite3.connect(str(database), check_same_thread=False)
         self._connection.row_factory = sqlite3.Row
         self._connection.execute("PRAGMA foreign_keys = ON")
         self._migrate()

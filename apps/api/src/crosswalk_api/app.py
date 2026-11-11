@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from collections.abc import Awaitable, Callable
+from collections.abc import AsyncIterator, Awaitable, Callable
+from contextlib import asynccontextmanager
 
 from crosswalk_contracts import EventResponse, HealthResponse, ServiceInfoResponse
 from crosswalk_service import ServiceConfig, ServiceContext
@@ -29,7 +30,14 @@ def create_app(
     config = ServiceConfig(version=api_settings.version, environment=api_settings.environment)
     registry = metrics or Metrics()
     event_log = events or EventLog()
-    app = FastAPI(title="Crosswalk API", version=config.version)
+
+    @asynccontextmanager
+    async def lifespan(_: FastAPI) -> AsyncIterator[None]:
+        yield
+        if repository is not None:
+            repository.close()
+
+    app = FastAPI(title="Crosswalk API", version=config.version, lifespan=lifespan)
     repository = (
         SQLiteReviewRepository(api_settings.review_database)
         if context is None and api_settings.review_database
@@ -51,11 +59,6 @@ def create_app(
     app.middleware("http")(add_security_headers)
     app.add_exception_handler(ApiInputError, input_error_handler)
     app.include_router(router)
-
-    @app.on_event("shutdown")
-    def close_review_repository() -> None:
-        if repository is not None:
-            repository.close()
 
     @app.get("/health", response_model=HealthResponse)
     def health() -> HealthResponse:
