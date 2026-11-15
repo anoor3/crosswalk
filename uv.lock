@@ -280,6 +280,7 @@ source = { editable = "apps/api" }
 dependencies = [
     { name = "crosswalk-contracts" },
     { name = "crosswalk-jobs" },
+    { name = "crosswalk-security" },
     { name = "crosswalk-storage" },
     { name = "fastapi" },
 ]
@@ -288,6 +289,7 @@ dependencies = [
 requires-dist = [
     { name = "crosswalk-contracts", editable = "packages/contracts" },
     { name = "crosswalk-jobs", editable = "packages/jobs" },
+    { name = "crosswalk-security", editable = "packages/security" },
     { name = "crosswalk-storage", editable = "packages/storage" },
     { name = "fastapi", specifier = ">=0.115.0" },
 ]

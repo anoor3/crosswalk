@@ -1,3 +1,4 @@
+import pytest
 from crosswalk_api import create_app
 from fastapi.testclient import TestClient
 
@@ -46,3 +47,19 @@ def test_workbench_assets_are_served() -> None:
         assert client.get("/").url.path == "/workspace/"
         for file in ("index.html", "app.js", "style.css"):
             assert client.get("/workspace/" + file).status_code == 200
+
+
+def test_remote_openapi_returns_a_clear_fetch_error(monkeypatch: pytest.MonkeyPatch) -> None:
+    from crosswalk_api import workbench
+    from crosswalk_api.remote_import import RemoteImportError
+
+    def reject(_url: str) -> None:
+        raise RemoteImportError("redirects are blocked")
+
+    monkeypatch.setattr(workbench, "fetch_openapi", reject)
+    with TestClient(create_app()) as client:
+        response = client.post(
+            "/workbench/remote-openapi", json={"url": "https://example.com/openapi.json"}
+        )
+    assert response.status_code == 422
+    assert response.json()["detail"] == "redirects are blocked"

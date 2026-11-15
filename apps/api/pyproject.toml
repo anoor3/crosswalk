@@ -8,6 +8,7 @@ dependencies = [
     "crosswalk-contracts",
     "crosswalk-jobs",
     "crosswalk-storage",
+    "crosswalk-security",
 ]
 
 [build-system]
@@ -21,3 +22,4 @@ packages = ["src/crosswalk_api"]
 crosswalk-contracts = { workspace = true }
 crosswalk-jobs = { workspace = true }
 crosswalk-storage = { workspace = true }
+crosswalk-security = { workspace = true }

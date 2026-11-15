@@ -9,6 +9,8 @@ from crosswalk_discovery import DiscoveryError, analyze_openapi
 from crosswalk_mapping import canonical_fields, map_fields
 from crosswalk_profiler import profile_fields
 
+from .remote_import import RemoteImportError, fetch_openapi
+
 router = APIRouter(prefix="/workbench")
 
 
@@ -17,6 +19,24 @@ class AnalyzeRequest(BaseModel):
     samples: list[dict[str, object]] = Field(default_factory=list, max_length=200)
     method: str = "GET"
     path: str | None = None
+
+
+class RemoteImportRequest(BaseModel):
+    url: str = Field(min_length=1, max_length=2048)
+
+
+@router.post("/remote-openapi")
+def remote_openapi(request: RemoteImportRequest) -> dict[str, object]:
+    try:
+        document = fetch_openapi(request.url)
+    except RemoteImportError as error:
+        raise HTTPException(422, str(error)) from error
+    return {
+        "url": document.url,
+        "bytes": document.bytes_read,
+        "content_type": document.content_type,
+        "spec": document.document,
+    }
 
 
 @router.post("/analyze")
