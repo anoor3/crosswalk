@@ -7,7 +7,14 @@ def test_public_https_url_is_allowed() -> None:
 
 
 @pytest.mark.parametrize(
-    "value", ["file:///etc/passwd", "http://localhost:8080", "http://127.0.0.1"]
+    "value",
+    [
+        "file:///etc/passwd",
+        "http://localhost:8080",
+        "http://127.0.0.1",
+        "https://user:password@example.com/schema",
+        "https://example.com/schema#fragment",
+    ],
 )
 def test_local_or_non_http_urls_are_blocked(value: str) -> None:
     with pytest.raises(UnsafeUrlError):
