@@ -11,6 +11,8 @@
   background:#f7f7f2;
   font-size:14px
 }
+
+.remote-box{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:end;border-top:1px solid var(--line);padding:24px 0;margin-top:18px}.remote-box h2{margin-bottom:6px}.remote-box p{font-size:12px}.remote-controls{display:flex;gap:10px}.remote-controls input{width:100%;border:1px solid var(--line);border-radius:5px;padding:11px 12px;background:#fff;font-size:12px}.schema-status{grid-column:1/-1;margin:0!important;color:var(--accent)!important}@media(max-width:850px){.remote-box{grid-template-columns:1fr}.remote-controls{flex-direction:column}}
 * {
   box-sizing:border-box
 }

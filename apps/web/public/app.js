@@ -23,6 +23,17 @@ async function api(path, body) {
   if (!response.ok) throw new Error(typeof data.detail==='string' ? data.detail : data.detail?.map(e=>e.msg).join('; ') || 'The request failed. Check your inputs.');
   return data;
 }
+$('#fetchSchema').onclick=async()=>{
+  const url=$('#schemaUrl').value.trim();
+  if(!url){$('#schemaStatus').textContent='Enter a public OpenAPI URL first.';return;}
+  $('#fetchSchema').disabled=true;$('#schemaStatus').textContent='Fetching and checking the schema…';
+  try{
+    const response=await api('../remote-openapi',{url});
+    const paths=Object.keys(response.spec.paths||{}).length;
+    $('#schemaStatus').textContent=`Schema loaded: ${paths} documented path${paths===1?'':'s'} · ${response.bytes} bytes. You still need sample records to build a conversion.`;
+  }catch(error){$('#schemaStatus').textContent=error.message;}
+  finally{$('#fetchSchema').disabled=false;}
+};
 function parseInputs() {
   if (new TextEncoder().encode($('#sourceInput').value+$('#targetInput').value).length>800000) throw new Error('Use at most 800 KB of sample data.');
   let records, target;
