@@ -35,6 +35,13 @@ and block both downloads until fixed. Editing any mapping clears its review
 and invalidates the preview. The exported adapter shares the preview runtime
 and exits unsuccessfully without writing output if a record fails.
 
+The API also exposes `POST /workbench/remote-openapi` for retrieving a public
+OpenAPI JSON document before discovery. It accepts `{ "url": "https://..." }`.
+The fetch is read-only, follows no redirects, blocks private and local network
+addresses, accepts at most 800 KB, waits at most eight seconds, and rejects
+embedded URL credentials. YAML is identified but not parsed yet. This endpoint
+retrieves only the schema document; it does not call a customer endpoint.
+
 **Save mapping** downloads target examples and rules, without source records.
 Use **Open saved mapping**, add source records, and set up the mapping to restore
 the rules. Review them against the new data before running. Reloading clears
@@ -42,7 +49,8 @@ the tab. No data is stored in localStorage or sent to a model provider.
 
 No frontend build, CDN, font service, or model provider is needed. The Python
 API serves the HTML, CSS, and JavaScript on the same origin. This is a local
-tool, without customer authentication, hosted project storage, or live API connections.
+tool, without customer authentication, hosted project storage, or live API
+record retrieval.
 
 The existing `/workbench/analyze` OpenAPI and `/reviews` APIs remain available;
 the conversion screen uses `/workbench/conversion/suggest`, `/preview`, and `/export`.
