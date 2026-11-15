@@ -1,10 +1,11 @@
+/* UI craft pass informed by unslop by Damir Sokolovsky, CC BY 4.0: https://github.com/heydamir/unslop */
 :root {
   color-scheme:light;
   --ink:#24312c;
   --muted:#6a756e;
   --line:#dce0d6;
   --accent:#284d3f;
-  --orange:#bd6439;
+  --orange:var(--accent);
   --mono:ui-monospace,SFMono-Regular,Consolas,monospace;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   color:var(--ink);
@@ -94,14 +95,17 @@ main {
 }
 .eyebrow {
   font-size:10px;
-  font-weight:700;
-  letter-spacing:1.7px;
+  font-weight:500;
+  letter-spacing:.02em;
+  text-transform:lowercase;
   color:var(--muted);
   margin:0 0 12px
 }
 h1 {
   font-family:Georgia,"Times New Roman",serif;
-  font-size:46px;
+  font-size:56px;
+  line-height:1.08;
+  max-width:640px;
   letter-spacing:-1.5px;
   font-weight:400;
   margin:0 0 12px
@@ -133,7 +137,7 @@ h3 {
   gap:20px;
   min-height:42px;
   border:1px solid #c7cec1;
-  border-radius:5px;
+  border-radius:8px;
   padding:10px 16px;
   background:#fff;
   color:var(--ink);
@@ -210,7 +214,7 @@ h3 {
 .input-panel {
   border:1px solid var(--line);
   background:#fff;
-  border-radius:7px;
+  border-radius:12px;
   overflow:hidden
 }
 .panel-heading {
@@ -321,7 +325,7 @@ h3 {
   font-size:10px;
   letter-spacing:.6px;
   font-weight:600;
-  text-transform:uppercase;
+  text-transform:lowercase;
   color:var(--muted);
   padding:13px 18px
 }

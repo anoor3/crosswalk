@@ -18,7 +18,8 @@ const exampleRecords = [
 const exampleTarget = {claim_id:'CL-1042',policy_number:'POL-8801',loss_date:'2026-10-04',paid_amount:1250.5,status:'open'};
 function notice(message='') { $('#notice').textContent = message; }
 async function api(path, body) {
-  const response = await fetch('/workbench/conversion/'+path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  const endpoint=path.startsWith('/')?path:'/workbench/conversion/'+path;
+  const response = await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
   const data = await response.json();
   if (!response.ok) throw new Error(typeof data.detail==='string' ? data.detail : data.detail?.map(e=>e.msg).join('; ') || 'The request failed. Check your inputs.');
   return data;
@@ -28,7 +29,7 @@ $('#fetchSchema').onclick=async()=>{
   if(!url){$('#schemaStatus').textContent='Enter a public OpenAPI URL first.';return;}
   $('#fetchSchema').disabled=true;$('#schemaStatus').textContent='Fetching and checking the schema…';
   try{
-    const response=await api('../remote-openapi',{url});
+    const response=await api('/workbench/remote-openapi',{url});
     const paths=Object.keys(response.spec.paths||{}).length;
     $('#schemaStatus').textContent=`Schema loaded: ${paths} documented path${paths===1?'':'s'} · ${response.bytes} bytes. You still need sample records to build a conversion.`;
   }catch(error){$('#schemaStatus').textContent=error.message;}
