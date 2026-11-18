@@ -2,11 +2,14 @@
 
 import inspect
 import json
-import re
 from typing import Any, Literal
 
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, ConfigDict, Field, model_validator
+
+from crosswalk_discovery import ExternalField, FieldType
+from crosswalk_mapping import CanonicalField, MappingStatus, map_fields
+from crosswalk_profiler import profile_fields
 
 from . import conversion_runtime
 
@@ -37,6 +40,53 @@ def fields(record: dict[str, Any], prefix: str = "", depth: int = 0) -> dict[str
         if len(result) > 100:
             raise ValueError("Use at most 100 fields per record")
     return result
+
+
+def _json_path(pointer: str) -> str:
+    tokens = pointer.split("/")[1:]
+    return "$." + ".".join(token.replace("~1", "/").replace("~0", "~") for token in tokens)
+
+
+def _field_type(value: Any) -> FieldType:
+    return {
+        "null": FieldType.NULL,
+        "boolean": FieldType.BOOLEAN,
+        "number": FieldType.NUMBER,
+        "string": FieldType.STRING,
+        "array": FieldType.ARRAY,
+        "object": FieldType.OBJECT,
+    }[conversion_runtime.value_type(value)]
+
+
+def _source_fields(records: list[dict[str, Any]]) -> tuple[ExternalField, ...]:
+    values: dict[str, Any] = {}
+    presence: dict[str, int] = {}
+    for record in records:
+        flattened = fields(record)
+        for path, value in flattened.items():
+            if path not in values or values[path] is None:
+                values[path] = value
+            presence[path] = presence.get(path, 0) + 1
+    return tuple(
+        ExternalField(
+            json_path=_json_path(path),
+            name=path.rsplit("/", 1)[-1].replace("~1", "/").replace("~0", "~"),
+            data_type=_field_type(value),
+            required=presence[path] == len(records),
+        )
+        for path, value in values.items()
+    )
+
+
+def _target_fields(target: dict[str, Any]) -> tuple[CanonicalField, ...]:
+    return tuple(
+        CanonicalField(
+            path=path,
+            name=path.rsplit("/", 1)[-1].replace("~1", "/").replace("~0", "~"),
+            data_type=_field_type(value),
+        )
+        for path, value in fields(target).items()
+    )
 
 
 class Samples(BaseModel):
@@ -106,23 +156,26 @@ class Plan(Samples):
 
 @router.post("/suggest")
 def suggest(request: Samples) -> dict[str, Any]:
-    source_fields: dict[str, Any] = {}
-    for record in request.records:
-        source_fields.update(fields(record))
+    source_fields = _source_fields(request.records)
     if len(source_fields) > 100:
         raise HTTPException(422, "Use at most 100 distinct source fields")
-
-    def normalized(path: str) -> str:
-        return re.sub(r"[^a-z0-9]", "", path.rsplit("/", 1)[-1].lower())
-
+    profiles = profile_fields(request.records, (field.json_path for field in source_fields))
+    candidates = map_fields(source_fields, profiles, _target_fields(request.target))
+    source_by_json_path = {
+        field.json_path: path
+        for field, path in zip(source_fields, _source_paths(request.records), strict=True)
+    }
+    by_target: dict[str, list[Any]] = {}
+    for candidate in candidates:
+        if candidate.canonical_path is not None:
+            by_target.setdefault(candidate.canonical_path, []).append(candidate)
     rules = []
     for target in fields(request.target):
-        matches = [
-            path
-            for path in source_fields
-            if normalized(target) and normalized(path) == normalized(target)
-        ]
-        source = target if target in source_fields else matches[0] if len(matches) == 1 else ""
+        options = sorted(by_target.get(target, []), key=lambda candidate: -candidate.score)
+        chosen = (
+            options[0] if options and options[0].status is MappingStatus.HIGH_CONFIDENCE else None
+        )
+        source = source_by_json_path.get(chosen.external_path, "") if chosen else ""
         rules.append(
             {
                 "source": source,
@@ -130,10 +183,27 @@ def suggest(request: Samples) -> dict[str, Any]:
                 "operation": "copy",
                 "required": True,
                 "reviewed": False,
-                "reason": "Same field name" if source else "Choose a source",
+                "reason": "; ".join(chosen.reasons)
+                if chosen and chosen.reasons
+                else "Evidence-backed field match"
+                if chosen
+                else "No safe evidence-backed source suggestion",
+                "score": chosen.score if chosen else 0,
+                "status": chosen.status if chosen else MappingStatus.UNRESOLVED,
+                "evidence": chosen.evidence.model_dump(mode="json")
+                if chosen and chosen.evidence
+                else None,
             }
         )
-    return {"sources": list(source_fields), "rules": rules}
+    return {"sources": _source_paths(request.records), "rules": rules}
+
+
+def _source_paths(records: list[dict[str, Any]]) -> tuple[str, ...]:
+    paths: dict[str, None] = {}
+    for record in records:
+        for path in fields(record):
+            paths.setdefault(path, None)
+    return tuple(paths)
 
 
 @router.post("/preview")

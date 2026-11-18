@@ -122,7 +122,9 @@ def test_suggestions_do_not_guess_ambiguous_leaf_names() -> None:
         )
         rules = response.json()["rules"]
         assert rules[0]["source"] == ""
-        assert rules[1]["source"] == "/claimId"
+        assert rules[1]["source"] == ""
+        assert rules[1]["status"] == "UNRESOLVED"
+        assert "evidence-backed" in rules[1]["reason"]
         assert not any(rule["reviewed"] for rule in rules)
 
 
