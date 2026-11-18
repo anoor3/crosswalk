@@ -22,7 +22,10 @@ or allowed enum values. All fields start as required; unchecking Required allows
 missing fields to be omitted and nulls to pass through. Explicitly omit any
 target you do not want in the output.
 
-Name matches are suggestions that must be reviewed. Conversion choices include
+Suggestions now use the same deterministic value profiler and mapping engine as
+OpenAPI discovery. Name, type, and observed-value evidence are considered, and
+only high-confidence matches are preselected; ambiguous fields remain blank
+with their reason and status. Every suggestion must still be reviewed. Conversion choices include
 copy, text, number, integer without rounding, cents to dollars, and explicit
 ISO, US, or day-first date formats. Nested object paths use JSON Pointer escaping.
 Arrays copy as a whole; array item transformations are not supported.

@@ -312,7 +312,7 @@ uv run mypy packages apps tests conftest.py      # strict type checking
 uv run pytest                                    # full test suite
 ```
 
-The suite currently contains **398 tests** across unit, integration, contract,
+The suite currently contains **1,047 tests** across unit, integration, contract,
 evaluation, mapping, review, enum, and relationship layers:
 
 - **Canonical model** — construction, validation (blank IDs, unknown fields, bad enum, negative money), `Decimal`/date handling, immutability, JSON round-trip.

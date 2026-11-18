@@ -81,7 +81,7 @@ async function build(example=false) {
 }
 function renderRules() {
   $('#mappingCount').textContent=state.rules.length;
-  $('#rules').innerHTML=state.rules.map((r,i)=>`<tr class="${r.reviewed?'reviewed':''}"><td><code>${esc(r.target)}</code><small>${esc(r.reason||'')}</small></td><td><select data-index="${i}" data-field="source" aria-label="Source for ${esc(r.target)}" ${r.operation==='omit'?'disabled':''}><option value="">Choose a source field</option>${state.sources.map(s=>`<option value="${esc(s)}" ${s===r.source?'selected':''}>${esc(s)}</option>`).join('')}</select></td><td><select data-index="${i}" data-field="operation" aria-label="Conversion for ${esc(r.target)}">${Object.entries(operations).map(([value,label])=>`<option value="${value}" ${r.operation===value?'selected':''}>${label}</option>`).join('')}</select></td><td><input type="checkbox" data-index="${i}" data-field="required" aria-label="Required ${esc(r.target)}" ${r.required?'checked':''} ${r.operation==='omit'?'disabled':''}></td><td><input type="checkbox" data-index="${i}" data-field="reviewed" aria-label="Reviewed ${esc(r.target)}" ${r.reviewed?'checked':''}></td></tr>`).join('');
+  $('#rules').innerHTML=state.rules.map((r,i)=>`<tr class="${r.reviewed?'reviewed':''}"><td><code>${esc(r.target)}</code><small>${esc(r.reason||'')} ${r.status?`· ${esc(r.status.toLowerCase().replaceAll('_',' '))}`:''}</small></td><td><select data-index="${i}" data-field="source" aria-label="Source for ${esc(r.target)}" ${r.operation==='omit'?'disabled':''}><option value="">Choose a source field</option>${state.sources.map(s=>`<option value="${esc(s)}" ${s===r.source?'selected':''}>${esc(s)}</option>`).join('')}</select></td><td><select data-index="${i}" data-field="operation" aria-label="Conversion for ${esc(r.target)}">${Object.entries(operations).map(([value,label])=>`<option value="${value}" ${r.operation===value?'selected':''}>${label}</option>`).join('')}</select></td><td><input type="checkbox" data-index="${i}" data-field="required" aria-label="Required ${esc(r.target)}" ${r.required?'checked':''} ${r.operation==='omit'?'disabled':''}></td><td><input type="checkbox" data-index="${i}" data-field="reviewed" aria-label="Reviewed ${esc(r.target)}" ${r.reviewed?'checked':''}></td></tr>`).join('');
   updateReviewCount();
 }
 function updateReviewCount() {
@@ -107,7 +107,7 @@ function renderRecord() {
   $('#recordStatus').textContent=row?(row.errors.length?`${row.errors.length} field errors`:'Passed'):'Awaiting conversion';
   $('#errors').innerHTML=row?.errors.map(e=>`<p><strong>${esc(e.target)}</strong> — ${esc(e.message)}</p>`).join('')||'';
 }
-function payload() { return {records:state.records,target:state.target,rules:state.rules.map(({reason,...rule})=>rule)}; }
+function payload() { return {records:state.records,target:state.target,rules:state.rules.map(({source,target,operation,required,reviewed})=>({source,target,operation,required,reviewed}))}; }
 $('#run').onclick=async()=>{
   if(busy)return;busy=true;const current=revision;updateReviewCount();notice('Converting sample records…');
   try {
